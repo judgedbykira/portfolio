@@ -1,0 +1,226 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #000000 30%, #ff4f81 100%);
+    color: #fff;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* MAIN */
+.logo {
+  width: 250px;        
+  height: 250px;       
+  border-radius: 50%;  
+  object-fit: cover;   
+  border: 3px solid #4b4545; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+}
+
+
+.main {
+  display: flex;                 
+  justify-content: space-between;
+  align-items: center;
+  width: 900px;           
+  height: 300px;                 
+  padding: 50px;
+  color: #fff;
+  background-color: rgba(75, 69, 69, 0.5);;
+  margin: 0 auto;
+  border-radius: 12px;                   
+}
+
+a{
+    text-decoration: none;
+    color: #ff4f81; 
+}
+
+.info {
+  flex: 1;
+  max-width: 60%;               
+}
+
+.nombre {
+  font-size: 30px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff4f81, #ffc1d6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 10px;
+}
+
+.puestos {
+  font-size: 20px;
+  color: #ffc1d6;
+  margin-bottom: 20px;
+}
+
+.certificaciones {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.cositos {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  backdrop-filter: blur(5px);
+  color: #ff4f81;
+}
+
+.extra-info p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.extra-info hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 10px 0;
+}
+
+.img-container {
+  flex: 0 0 35%;              
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+/* FIN MAIN */
+
+/* Certifications */
+
+.certifications {
+  display: flex;                 
+  width: 900px;           
+  height: 300px;                 
+  padding: 50px;
+  color: #fff;
+  background-color: rgba(75, 69, 69, 0.5);;
+  margin: 0 auto;
+  border-radius: 12px;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-direction: column;              
+}
+
+.certs{
+    font-size: 30px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff4f81, #ffc1d6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 10px;
+}
+
+.certification-list {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.certification-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 16px 24px;
+  border-radius: 20px;
+  font-size: 1rem;
+  color: #ff4f81;
+  min-width: 120px;
+}
+
+.certification-logo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #4b4545;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+/* FIN Certifications */
+
+/* SKILLS */
+
+.skills {
+    display: flex;                 
+    width: 900px;           
+    height: 1750px;                 
+    padding: 50px;
+    color: #fff;
+    background-color: rgba(75, 69, 69, 0.5);;
+    margin: 0 auto;
+    border-radius: 12px;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-direction: column; 
+}
+
+.skills-title {
+    font-size: 30px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff4f81, #ffc1d6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 10px;
+}
+
+.skills-description {
+    font-size: 20px;
+    color: #ffc1d6;
+    margin-bottom: 20px;
+}
+
+.skills-list {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 16px 24px;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: #ff4f81;
+    min-width: 120px;
+}
+
+.skill-item-soc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 16px 24px;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: #0a9292;
+    min-width: 120px;
+}
+
+.skill-item-sys{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 16px 24px;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: #f0b81f;
+    min-width: 120px;
+}
+/* FIN SKILLS */
