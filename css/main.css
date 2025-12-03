@@ -1,24 +1,56 @@
+/* =========================================
+   HACKER THEME - CYBERPUNK
+   ========================================= */
+
 body{
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #000000 30%, #ff4f81 100%);
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #0a0a0a 30%, #1a0336 100%);
     color: #fff;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow-x: hidden;
 }
 
-/* MAIN */
+/* Scanlines effect */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* =========================================
+   MAIN SECTION
+   ========================================= */
+
 .logo {
   width: 250px;        
   height: 250px;       
   border-radius: 50%;  
   object-fit: cover;   
-  border: 3px solid #4b4545; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+  border: 3px solid #ff4f81; 
+  box-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
+  transition: all 0.5s ease;
 }
 
+.logo:hover {
+  box-shadow: 0 0 40px rgba(255, 79, 129, 0.8);
+  transform: scale(1.05);
+}
 
 .main {
   display: flex;                 
@@ -28,14 +60,25 @@ body{
   height: 300px;                 
   padding: 50px;
   color: #fff;
-  background-color: rgba(75, 69, 69, 0.5);;
+  background: rgba(75, 69, 69, 0.3);
   margin: 0 auto;
-  border-radius: 12px;                   
+  border-radius: 12px;
+  border: 1px solid rgba(255, 79, 129, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 79, 129, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 2;
 }
 
-a{
+a {
     text-decoration: none;
-    color: #ff4f81; 
+    color: #ff4f81;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 79, 129, 0.8);
 }
 
 .info {
@@ -46,16 +89,18 @@ a{
 .nombre {
   font-size: 30px;
   font-weight: bold;
-  background: linear-gradient(90deg, #ff4f81, #ffc1d6);
+  background: linear-gradient(90deg, #ff4f81, #ff006e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 10px;
+  text-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
 }
 
 .puestos {
   font-size: 20px;
-  color: #ffc1d6;
+  color: #ff4f81;
   margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .certificaciones {
@@ -65,12 +110,19 @@ a{
 }
 
 .cositos {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 79, 129, 0.1);
   padding: 8px 15px;
   border-radius: 20px;
   font-size: 0.9rem;
   backdrop-filter: blur(5px);
   color: #ff4f81;
+  border: 1px solid rgba(255, 79, 129, 0.3);
+  transition: all 0.3s ease;
+}
+
+.cositos:hover {
+    background: rgba(255, 79, 129, 0.3);
+    box-shadow: 0 0 15px rgba(255, 79, 129, 0.4);
 }
 
 .extra-info p {
@@ -81,7 +133,7 @@ a{
 .extra-info hr {
   border: 0;
   height: 1px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 79, 129, 0.3);
   margin: 10px 0;
 }
 
@@ -92,9 +144,10 @@ a{
   align-items: center;
   height: 100%;
 }
-/* FIN MAIN */
 
-/* Certifications */
+/* =========================================
+   CERTIFICATIONS
+   ========================================= */
 
 .certifications {
   display: flex;                 
@@ -102,21 +155,25 @@ a{
   height: 300px;                 
   padding: 50px;
   color: #fff;
-  background-color: rgba(75, 69, 69, 0.5);;
+  background: rgba(75, 69, 69, 0.3);
   margin: 0 auto;
   border-radius: 12px;
   gap: 15px;
   margin-bottom: 30px;
-  flex-direction: column;              
+  flex-direction: column;   
+  border: 1px solid rgba(255, 79, 129, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 79, 129, 0.2);
+  backdrop-filter: blur(10px);            
 }
 
 .certs{
     font-size: 30px;
     font-weight: bold;
-    background: linear-gradient(90deg, #ff4f81, #ffc1d6);
+    background: linear-gradient(90deg, #ff4f81, #ff006e);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0 0 10px;
+    text-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
 }
 
 .certification-list {
@@ -130,12 +187,20 @@ a{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 79, 129, 0.1);
   padding: 16px 24px;
   border-radius: 20px;
   font-size: 1rem;
   color: #ff4f81;
   min-width: 120px;
+  border: 1px solid rgba(255, 79, 129, 0.3);
+  transition: all 0.4s ease;
+}
+
+.certification-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 79, 129, 0.3);
+    background: rgba(255, 79, 129, 0.2);
 }
 
 .certification-logo {
@@ -144,83 +209,570 @@ a{
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 10px;
-  border: 2px solid #4b4545;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  border: 2px solid #ff4f81;
+  box-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
+  transition: all 0.4s ease;
 }
-/* FIN Certifications */
 
-/* SKILLS */
+.certification-logo:hover {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 79, 129, 0.8);
+}
+
+/* =========================================
+   SKILLS - COMPACT MODE
+   ========================================= */
 
 .skills {
     display: flex;                 
     width: 900px;           
-    height: 1750px;                 
+    min-height: auto;               
     padding: 50px;
     color: #fff;
-    background-color: rgba(75, 69, 69, 0.5);;
+    background: rgba(75, 69, 69, 0.3);
     margin: 0 auto;
     border-radius: 12px;
-    gap: 15px;
+    gap: 30px;
     margin-bottom: 30px;
     flex-direction: column; 
+    border: 1px solid rgba(255, 79, 129, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 79, 129, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .skills-title {
     font-size: 30px;
     font-weight: bold;
-    background: linear-gradient(90deg, #ff4f81, #ffc1d6);
+    background: linear-gradient(90deg, #ff4f81, #ff006e);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0 0 10px;
+    text-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
 }
 
 .skills-description {
     font-size: 20px;
-    color: #ffc1d6;
-    margin-bottom: 20px;
+    color: #ff4f81;
+    margin-bottom: 25px;
+    margin-top: 15px;
+    font-weight: 600;
 }
 
 .skills-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    width: 100%;
+}
+
+/* SKILLS COMPACTOS - Estilo solicitado por el usuario */
+.skill-item,
+.skill-item-soc,
+.skill-item-sys {
     display: flex;
-    gap: 30px;
+    align-items: center;
     justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    text-align: center;
+    padding: 30px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    min-width: 200px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+    height: 50px;
 }
 
 .skill-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 16px 24px;
-    border-radius: 20px;
-    font-size: 1rem;
-    color: #ff4f81;
-    min-width: 120px;
+    background: rgba(255, 79, 129, 0.1);
+    color: #ff95e8;
 }
 
-.skill-item-soc{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 16px 24px;
-    border-radius: 20px;
-    font-size: 1rem;
-    color: #0a9292;
-    min-width: 120px;
+.skill-item-soc {
+    background: rgba(10, 146, 146, 0.1);
+    color: #18fdfd;
 }
 
-.skill-item-sys{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 16px 24px;
-    border-radius: 20px;
-    font-size: 1rem;
-    color: #f0b81f;
-    min-width: 120px;
+.skill-item-sys {
+    background: rgba(240, 184, 31, 0.1);
+    color: #ffc831;
+}
+
+/* Efecto hover neón */
+.skill-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: #ff4f81;
+    box-shadow: 0 0 25px rgba(255, 79, 129, 0.5);
+    background: rgba(255, 79, 129, 0.2);
+    text-shadow: 0 0 10px rgba(255, 79, 129, 0.8);
+}
+
+.skill-item-soc:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: #0a9292;
+    box-shadow: 0 0 25px rgba(10, 146, 146, 0.5);
+    background: rgba(10, 146, 146, 0.2);
+    text-shadow: 0 0 10px rgba(10, 146, 146, 0.8);
+}
+
+.skill-item-sys:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: #f0b81f;
+    box-shadow: 0 0 25px rgba(240, 184, 31, 0.5);
+    background: rgba(240, 184, 31, 0.2);
+    text-shadow: 0 0 10px rgba(240, 184, 31, 0.8);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .skills-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .skills {
+        width: 95%;
+        padding: 30px 15px;
+    }
+    
+    .skills-list {
+        grid-template-columns: 1fr;
+    }
 }
 /* FIN SKILLS */
+
+/* =========================================
+   PROYECTOS - AVANZADO
+   ========================================= */
+
+.projects {
+    display: flex;                 
+    width: 1500px;           
+    min-height: auto;               
+    padding: 50px;
+    color: #fff;
+    background: rgba(75, 69, 69, 0.3);
+    margin: 0 auto;
+    border-radius: 12px;
+    gap: 30px;
+    margin-bottom: 50px;
+    flex-direction: column; 
+    border: 1px solid rgba(255, 79, 129, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 79, 129, 0.2);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 2;
+}
+
+.projects-title {
+    font-size: 30px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff4f81, #ff006e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 10px;
+    text-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
+}
+
+.projects-subtitle {
+    font-size: 18px;
+    color: #ff4f81;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+/* Buscador HACKER */
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid rgba(255, 79, 129, 0.3);
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Courier New', monospace;
+    outline: none;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 79, 129, 0.5);
+}
+
+.search-input:focus {
+    border-color: #ff4f81;
+    box-shadow: 0 0 20px rgba(255, 79, 129, 0.4);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff4f81;
+    pointer-events: none;
+    font-size: 1.2rem;
+}
+
+/* BOTONES DE FILTRO - ESTILOS AÑADIDOS */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border: 2px solid rgba(255, 79, 129, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    color: #ff4f81;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.filter-btn:hover {
+    background: rgba(255, 79, 129, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 79, 129, 0.3);
+}
+
+.filter-btn.active {
+    background: linear-gradient(90deg, #ff4f81, #ff006e);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
+}
+
+/* Grid de Máquinas - 3-4 por fila en pantallas grandes */
+.machines-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas en pantallas grandes */
+    gap: 25px;
+    width: 100%;
+}
+
+.machine-card {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 79, 129, 0.3);
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Responsivo para 3-4 por fila */
+@media (min-width: 1200px) {
+    .machines-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columnas en pantallas muy grandes */
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+    .machines-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas medianas */
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efecto neón en hover */
+.machine-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #ff4f81;
+    box-shadow: 0 0 40px rgba(255, 79, 129, 0.6);
+}
+
+.machine-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff4f81, #ff006e, #00f5ff);
+    border-radius: 15px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.machine-card:hover::before {
+    opacity: 0.3;
+}
+
+.machine-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Icono de plataforma */
+.machine-platform {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: contain;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.machine-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 1px solid rgba(255, 79, 129, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.machine-header-info {
+    flex: 1;
+}
+
+.machine-categories {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+}
+
+.machine-category {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.machine-category.AD { background: #ff006e; color: white; box-shadow: 0 0 10px rgba(255, 0, 110, 0.5); }
+.machine-category.WEB { background: #00f5ff; color: black; box-shadow: 0 0 10px rgba(0, 245, 255, 0.5); }
+.machine-category.LINUX { background: #00ff9d; color: black; box-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
+.machine-category.WINDOWS { background: #4b7bec; color: white; box-shadow: 0 0 10px rgba(75, 123, 236, 0.5); }
+.machine-category.BINARY { background: #ffaa00; color: black; box-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
+
+.machine-difficulty {
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.machine-difficulty.easy { background: #00b894; color: white; }
+.machine-difficulty.medium { background: #fdcb6e; color: #000; }
+.machine-difficulty.hard { background: #e17055; color: white; }
+
+.machine-title {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+}
+
+.machine-description {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-size: 0.9rem;
+    font-family: 'Courier New', monospace;
+}
+
+.machine-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.machine-date {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+}
+
+.machine-link {
+    color: #ff4f81;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.machine-link:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 79, 129, 0.8);
+    transform: translateX(5px);
+}
+
+/* ESTADO ACTIVE - Mensaje rojo */
+.machine-unavailable {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff3333;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: help;
+    position: relative;
+}
+
+.machine-unavailable i {
+    font-size: 1rem;
+}
+
+.machine-unavailable:hover::after {
+    content: "Prohibido writeup de máquinas activas.";
+    position: absolute;
+    bottom: 100%;
+    left: -20%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    border: 1px solid #ff3333;
+    z-index: 10;
+}
+
+/* Botón CTA */
+.projects-cta {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 35px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff4f81, #ff006e);
+    color: white;
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 20px rgba(255, 79, 129, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(255, 79, 129, 0.8);
+    filter: brightness(1.2);
+    border-color: #fff;
+}
+
+/* Mensajes */
+.no-machines, .error {
+    text-align: center;
+    color: #ff4f81;
+    padding: 40px;
+    grid-column: 1 / -1;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .projects {
+        width: 95%;
+    }
+    
+    .machines-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    }
+    
+    .skill-item,
+    .skill-item-soc,
+    .skill-item-sys {
+        min-width: 150px; /* Reducir en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .machines-grid {
+        grid-template-columns: 1fr; /* 1 columna en móviles */
+    }
+    
+    .filter-buttons {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+    }
+    
+    .filter-btn {
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills {
+        width: 95%;
+        padding: 30px 15px;
+    }
+    
+    .skill-item,
+    .skill-item-soc,
+    .skill-item-sys {
+        min-width: 100px; /* Ajustar para móviles */
+        padding: 20px 8px;
+        font-size: 0.75rem;
+    }
+}
+/* =========================================
+   FIN ESTILOS HACKER
+   ========================================= */

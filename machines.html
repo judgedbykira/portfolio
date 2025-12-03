@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquinas - Yeray Medina Piñero</title>
+    
+    <!-- CSS -->
+    <link href="css/main.css" rel="stylesheet">
+    
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="main" style="margin-bottom: 0; border-radius: 0 0 12px 12px;">
+        <div class="info">
+            <p class="nombre">Yeray 'JBKira' Medina Piñero</p>
+            <p class="puestos">Cybersecurity Specialist || Penetration Tester</p>
+        </div>
+        <div class="img-container">
+            <img class="logo" src="assets/logo.jpg" alt="Foto Yeray">
+        </div>
+    </div>
+
+    <!-- Machines Section -->
+    <div class="projects" style="margin-top: 30px;">
+        <p class="projects-title">Todas las Máquinas</p>
+        <p class="projects-subtitle">Colección completa de laboratorios y entornos de práctica</p>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="Buscar por nombre, categoría, técnica (ej: SSTI, XSS, AD)...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Todas</button>
+            <button class="filter-btn" data-filter="AD">Active Directory</button>
+            <button class="filter-btn" data-filter="WEB">Web</button>
+            <button class="filter-btn" data-filter="LINUX">Linux</button>
+            <button class="filter-btn" data-filter="WINDOWS">Windows</button>
+            <button class="filter-btn" data-filter="BINARY">Binary Exploitation</button>
+        </div>
+        
+        <!-- All Machines Container -->
+        <div id="all-machines-container" class="machines-grid">
+            <!-- Dynamic load -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="width: 900px; margin: 0 auto; text-align: center; padding: 30px 0;">
+        <p style="color: #ff4f81; font-size: 0.9rem; font-family: 'Courier New', monospace;">
+            © 2024 Yeray Medina Piñero. Todos los derechos reservados.
+        </p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+</body>
+</html>

@@ -5,53 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yeray Medina Piñero - Portfolio</title>
     
-    <!-- CSS related -->
+    <!-- CSS -->
     <link href="css/main.css" rel="stylesheet">
     
-    <!-- favicon related -->
+    <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="manifest" href="assets/site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Main portfolio part -->
     <div class="main">
-        <!-- Main portfolio part -->
         <div class="info">
             <p class="nombre">Yeray 'JBKira' Medina Piñero</p>
             <p class="puestos">Cybersecurity Specialist || Penetration Tester</p>
 
             <div class="certificaciones">
-            <div class="cositos">eJPTv2</div>
-            <div class="cositos">CPTS</div>
-            <div class="cositos">CRTO (Actualmente)</div>
-        </div>
+                <div class="cositos">eJPTv2</div>
+                <div class="cositos">CPTS</div>
+                <div class="cositos">CRTO (Actualmente)</div>
+            </div>
 
-        <div class="extra-info">
-            <a><p>📍 Arona, Santa Cruz de Tenerife</p></a>
-            <a href="mailto:yeraymedinapinero@gmail.com"><p>✉️ Contact Me</p></a>
-            <a href="https://github.com/judgedbykira" target="_blank"><p>🌠 GitHub</p></a>
-            <a href="https://www.linkedin.com/in/yeray-medina" target="_blank"><p>☁  LinkedIn</p></a>
+            <div class="extra-info">
+                <a><p>📍 Arona, Santa Cruz de Tenerife</p></a>
+                <a href="mailto:yeraymedinapinero@gmail.com"><p>✉️ Contact Me</p></a>
+                <a href="https://github.com/judgedbykira" target="_blank"><p>🌠 GitHub</p></a>
+                <a href="https://www.linkedin.com/in/yeray-medina" target="_blank"><p>☁  LinkedIn</p></a>
+            </div>
+        </div>
+        <div class="img-container">
+            <img class="logo" src="assets/logo.jpg" alt="Foto Yeray">
         </div>
     </div>
-    <div class="img-container">
-        <img class="logo" src="assets/logo.jpg" alt="Foto Yeray">
-    </div>
-</div>
-<br>
+    <br>
+
     <!-- Certifications part -->
-
     <div class="certifications">
         <p class="certs">Certifications</p>
         <div class="certification-list">
-            <a href="assets/ejpt_cert.jpeg" target="_blank"><div class="certification-item">
-                <img src="assets/ejpt.png" alt="eJPTv2 logo" class="certification-logo">
-                eJPTv2
-            </div></a>
-            <a href="assets/cpts_cert.png" target="_blank"><div class="certification-item">
-                <img src="assets/cpts.png" alt="CPTS logo" class="certification-logo">
-                CPTS
-            </div></a>
+            <a href="assets/ejpt_cert.jpeg" target="_blank">
+                <div class="certification-item">
+                    <img src="assets/ejpt.png" alt="eJPTv2 logo" class="certification-logo">
+                    eJPTv2
+                </div>
+            </a>
+            <a href="assets/cpts_cert.png" target="_blank">
+                <div class="certification-item">
+                    <img src="assets/cpts.png" alt="CPTS logo" class="certification-logo">
+                    CPTS
+                </div>
+            </a>
             <div class="certification-item">
                 <img src="assets/CRTO.png" alt="CRTO logo" class="certification-logo">    
                 CRTO (En Progreso)
@@ -62,6 +69,7 @@
     <!-- Skills part -->
     <div class="skills">
         <p class="skills-title">Skills</p>
+        
         <p class="skills-description">Penetration Testing: </p>
         <div class="skills-list">
             <div class="skill-item">Active Directory Attacks</div>
@@ -128,5 +136,25 @@
             <div class="skill-item-sys">RADIUS</div>
             <div class="skill-item-sys">VPN</div>
         </div>
+    </div>
+
+    <!-- Projects part -->
+    <div class="projects">
+        <p class="projects-title">Proyectos</p>
+        <p class="projects-subtitle">Últimas máquinas CTF Realizadas</p>
+        
+        <div id="machines-container" class="machines-grid">
+            <!-- Dynamic load from JSON -->
+        </div>
+        
+        <div class="projects-cta">
+            <a href="machines.html" class="btn-primary">
+                Ver todas las máquinas <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
 </body>
 </html>
