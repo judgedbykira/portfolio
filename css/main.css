@@ -776,3 +776,46 @@ a:hover {
 /* =========================================
    FIN ESTILOS HACKER
    ========================================= */
+
+/* =========================================
+   INSANE DIFFICULTY - NEON CRIMSON
+   ========================================= */
+.machine-difficulty.insane {
+    background: #ff0040;
+    color: #fff;
+    box-shadow: 0 0 10px #ff0040, 0 0 20px #ff0040;
+}
+
+/* Altura fija + scroll interno para descripción */
+.machine-card {
+    height: 380px;               /* Altura uniforme */
+    display: flex;
+    flex-direction: column;
+}
+.machine-description {
+    flex: 1 1 auto;
+    overflow-y: auto;            /* Scroll solo en texto */
+    padding-right: 6px;          /* Evita que el scrollbar tape texto */
+    margin-bottom: 10px;
+}
+/* Scroll finito y estético */
+.machine-description::-webkit-scrollbar {
+    width: 4px;
+}
+.machine-description::-webkit-scrollbar-thumb {
+    background: rgba(255, 79, 129, 0.6);
+    border-radius: 2px;
+}
+.machine-description::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Animación suave al filtrar */
+.machine-card {
+    transition: transform 0.3s, opacity 0.3s;
+}
+.machine-card.hidden {
+    transform: scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+}

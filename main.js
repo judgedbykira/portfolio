@@ -1,184 +1,162 @@
-// Cargar últimas 4 máquinas desde JSON
-async function loadLatestMachines() {
-    try {
-        const response = await fetch('data/machines.json');
-        if (!response.ok) throw new Error('Error al cargar máquinas');
-        
-        const machines = await response.json();
-        
-        // Ordenar por fecha (más recientes primero) y tomar 4
-        const latestMachines = machines
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 4);
-        
-        const container = document.getElementById('machines-container');
-        
-        if (latestMachines.length === 0) {
-            container.innerHTML = '<p class="no-machines">No hay máquinas disponibles</p>';
-            return;
-        }
-        
-        container.innerHTML = latestMachines.map(machine => `
-            <div class="machine-card" data-categories="${machine.categories.join(' ')}" 
-                 data-description="${machine.description.toLowerCase()}">
-                <img src="${machine.platformIcon}" alt="${machine.platform}" class="machine-platform">
-                <div class="machine-header">
-                    <img src="${machine.icon}" alt="${machine.name}" class="machine-icon">
-                    <div class="machine-header-info">
-                        <div class="machine-categories">
-                            ${machine.categories.map(cat => `<span class="machine-category ${cat}">${cat}</span>`).join('')}
-                        </div>
-                        <span class="machine-difficulty ${machine.difficulty.toLowerCase()}">${machine.difficulty}</span>
-                    </div>
-                </div>
-                <h3 class="machine-title">${machine.name}</h3>
-                <p class="machine-description">${machine.description}</p>
-                <div class="machine-meta">
-                    <span class="machine-date">${formatDate(machine.date)}</span>
-                    ${machine.status === 'Active' 
-                        ? '<div class="machine-unavailable"><i class="fas fa-question-circle"></i> Unavailable</div>' 
-                        : `<a href="${machine.url}" class="machine-link" target="_blank">
-                                Writeup <i class="fas fa-external-link-alt"></i>
-                           </a>`
-                    }
-                </div>
-            </div>
-        `).join('');
-        
-    } catch (error) {
-        console.error('Error cargando máquinas:', error);
-        document.getElementById('machines-container').innerHTML = 
-            '<p class="error">Error al cargar las máquinas</p>';
-    }
-}
+/* ---------- CONFIG ---------- */
+const MACHINES_JSON = 'data/machines.json';
+const CARDS_PER_BATCH = 60;   // Renderizado por lotes para evitar bloqueo
+let   allMachines = [];
+let   filtered    = [];
 
-// Formatear fecha al español
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', { 
-        day: '2-digit', 
-        month: 'short', 
-        year: 'numeric' 
-    });
-}
+/* ---------- UTILS ---------- */
+const qs    = (s, c = document) => c.querySelector(s);
+const qsa   = (s, c = document) => c.querySelectorAll(s);
+const delay = ms => new Promise(r => setTimeout(r, ms));
 
-// Buscador y filtros combinados para machines.html
-let allMachinesData = []; // Almacena todas las máquinas
-
-async function loadAllMachines() {
-    try {
-        const response = await fetch('data/machines.json');
-        allMachinesData = await response.json();
-        
-        const container = document.getElementById('all-machines-container');
-        
-        // Inicializar buscador
-        initializeSearch();
-        
-        // Mostrar todas las máquinas inicialmente
-        renderMachines(allMachinesData);
-        
-    } catch (error) {
-        console.error('Error cargando máquinas:', error);
-        document.getElementById('all-machines-container').innerHTML = 
-            '<p class="error">Error al cargar las máquinas</p>';
-    }
-}
-
-function renderMachines(machines) {
-    const container = document.getElementById('all-machines-container');
-    
-    if (machines.length === 0) {
-        container.innerHTML = '<p class="no-machines">No se encontraron máquinas</p>';
+/* ---------- RENDERIZADO POR LOTES (ANTI-LAG) ---------- */
+async function renderMachines(machines) {
+    const grid = qs('#all-machines-container');
+    grid.innerHTML = '';                       // Limpia anterior
+    if (!machines.length) {
+        grid.innerHTML = '<p class="no-machines">No se encontraron máquinas</p>';
         return;
     }
-    
-    container.innerHTML = machines.map(machine => `
-        <div class="machine-card" data-categories="${machine.categories.join(' ')}" 
-             data-description="${machine.description.toLowerCase()}">
-            <img src="${machine.platformIcon}" alt="${machine.platform}" class="machine-platform">
-            <div class="machine-header">
-                <img src="${machine.icon}" alt="${machine.name}" class="machine-icon">
-                <div class="machine-header-info">
-                    <div class="machine-categories">
-                        ${machine.categories.map(cat => `<span class="machine-category ${cat}">${cat}</span>`).join('')}
-                    </div>
-                    <span class="machine-difficulty ${machine.difficulty.toLowerCase()}">${machine.difficulty}</span>
-                </div>
-            </div>
-            <h3 class="machine-title">${machine.name}</h3>
-            <p class="machine-description">${machine.description}</p>
-            <div class="machine-meta">
-                <span class="machine-date">${formatDate(machine.date)}</span>
-                ${machine.status === 'Active' 
-                    ? '<div class="machine-unavailable"><i class="fas fa-question-circle"></i> Unavailable</div>' 
-                    : `<a href="${machine.url}" class="machine-link" target="_blank">
-                            Writeup <i class="fas fa-external-link-alt"></i>
-                       </a>`
-                }
-            </div>
+
+    const template = m => `
+    <div class="machine-card"
+         data-categories="${m.categories.join(' ').toLowerCase()}"
+         data-difficulty="${m.difficulty.toLowerCase()}"
+         data-keywords="${(m.name + ' ' + m.description + ' ' + m.platform + ' ' + m.categories.join(' ')).toLowerCase()}">
+      <img src="${m.platformIcon}" alt="${m.platform}" class="machine-platform">
+      <div class="machine-header">
+        <img src="${m.icon}" alt="${m.name}" class="machine-icon">
+        <div class="machine-header-info">
+          <div class="machine-categories">
+            ${m.categories.map(c => `<span class="machine-category ${c}">${c}</span>`).join('')}
+          </div>
+          <span class="machine-difficulty ${m.difficulty.toLowerCase()}">${m.difficulty}</span>
         </div>
-    `).join('');
-    
-    // Re-inicializar filtros después de renderizar
-    initializeFilters();
+      </div>
+      <h3 class="machine-title">${m.name}</h3>
+      <p class="machine-description">${m.description}</p>
+      <div class="machine-meta">
+        <span class="machine-date">${formatDate(m.date)}</span>
+        ${m.status === 'Active'
+            ? '<div class="machine-unavailable"><i class="fas fa-question-circle"></i> Unavailable</div>'
+            : `<a href="${m.url}" class="machine-link" target="_blank">Writeup <i class="fas fa-external-link-alt"></i></a>`}
+      </div>
+    </div>`;
+
+    let idx = 0;
+    while (idx < machines.length) {
+        const chunk = machines.slice(idx, idx + CARDS_PER_BATCH).map(template).join('');
+        grid.insertAdjacentHTML('beforeend', chunk);
+        idx += CARDS_PER_BATCH;
+        await delay(16);          // Libera el hilo
+    }
 }
 
-function initializeSearch() {
-    const searchInput = document.getElementById('search-input');
-    if (!searchInput) return;
-    
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        filterMachines(searchTerm);
+/* ---------- FILTRADO (CASE-INSENSITIVE) ---------- */
+function filterNow() {
+    const searchTerm = (qs('#search-input')?.value.trim().toLowerCase() || '');
+    const activeCat  = qs('.filter-btn.active')?.dataset.filter || 'all';
+
+    filtered = allMachines.filter(m => {
+        const matchesSearch = !searchTerm ||
+            m.name.toLowerCase().includes(searchTerm) ||
+            m.description.toLowerCase().includes(searchTerm) ||
+            m.platform.toLowerCase().includes(searchTerm) ||
+            m.categories.some(c => c.toLowerCase().includes(searchTerm)) ||
+            m.difficulty.toLowerCase().includes(searchTerm);   // <-- nuevo
+        const matchesCat = (activeCat === 'all') ||
+            m.categories.map(c => c.toLowerCase()).includes(activeCat.toLowerCase());
+        return matchesSearch && matchesCat;
     });
+
+    renderMachines(filtered);
 }
 
-function filterMachines(searchTerm = '') {
-    let filteredMachines = allMachinesData;
-    
-    // Aplicar filtro de búsqueda
-    if (searchTerm) {
-        filteredMachines = filteredMachines.filter(machine => 
-            machine.name.toLowerCase().includes(searchTerm) ||
-            machine.description.toLowerCase().includes(searchTerm) ||
-            machine.categories.some(cat => cat.toLowerCase().includes(searchTerm)) ||
-            machine.platform.toLowerCase().includes(searchTerm)
-        );
+/* ---------- INICIALIZACIÓN ---------- */
+async function loadAllMachines() {
+    try {
+        const res = await fetch(MACHINES_JSON);
+        allMachines = await res.json();
+        filtered    = allMachines;
+        renderMachines(filtered);
+        initListeners();
+    } catch (e) {
+        qs('#all-machines-container').innerHTML =
+            '<p class="error">Error al cargar las máquinas</p>';
     }
-    
-    // Aplicar filtro de categoría
-    const activeCategory = document.querySelector('.filter-btn.active')?.dataset.filter;
-    if (activeCategory && activeCategory !== 'all') {
-        filteredMachines = filteredMachines.filter(machine => 
-            machine.categories.includes(activeCategory)
-        );
-    }
-    
-    renderMachines(filteredMachines);
 }
 
-function initializeFilters() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            const searchTerm = document.getElementById('search-input')?.value.toLowerCase() || '';
-            filterMachines(searchTerm);
+function initListeners() {
+    // Buscador
+    const searchInput = qs('#search-input');
+    if (searchInput) {
+        let t;                                      // debounce
+        searchInput.addEventListener('input', () => {
+            clearTimeout(t);
+            t = setTimeout(filterNow, 200);
         });
-    });
+    }
+    // Botones de categoría
+    qsa('.filter-btn').forEach(btn =>
+        btn.addEventListener('click', e => {
+            qsa('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            filterNow();
+        })
+    );
 }
 
-// Inicializar cuando el DOM esté listo
+/* ---------- INDEX (últimas 4) ---------- */
+async function loadLatestMachines() {
+    try {
+        const res = await fetch(MACHINES_JSON);
+        const machines = await res.json();
+        const latest = machines
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 4);
+        renderLatest(latest);
+    } catch (e) {
+        qs('#machines-container').innerHTML =
+            '<p class="error">Error al cargar máquinas</p>';
+    }
+}
+
+function renderLatest(machines) {
+    const container = qs('#machines-container');
+    container.innerHTML = machines.map(m => `
+    <div class="machine-card">
+      <img src="${m.platformIcon}" alt="${m.platform}" class="machine-platform">
+      <div class="machine-header">
+        <img src="${m.icon}" alt="${m.name}" class="machine-icon">
+        <div class="machine-header-info">
+          <div class="machine-categories">
+            ${m.categories.map(c => `<span class="machine-category ${c}">${c}</span>`).join('')}
+          </div>
+          <span class="machine-difficulty ${m.difficulty.toLowerCase()}">${m.difficulty}</span>
+        </div>
+      </div>
+      <h3 class="machine-title">${m.name}</h3>
+      <p class="machine-description">${m.description}</p>
+      <div class="machine-meta">
+        <span class="machine-date">${formatDate(m.date)}</span>
+        ${m.status === 'Active'
+            ? '<div class="machine-unavailable"><i class="fas fa-question-circle"></i> Unavailable</div>'
+            : `<a href="${m.url}" class="machine-link" target="_blank">Writeup <i class="fas fa-external-link-alt"></i></a>`}
+      </div>
+    </div>`).join('');
+}
+
+/* ---------- UTILIDADES ---------- */
+function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString('es-ES',
+        { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+/* ---------- ARRANQUE ---------- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Cargar últimas 4 en index.html
-    if (!window.location.pathname.includes('machines.html')) {
-        loadLatestMachines();
-    } else {
-        // Cargar todas en machines.html
+    if (window.location.pathname.includes('machines.html')) {
         loadAllMachines();
+    } else {
+        loadLatestMachines();
     }
 });

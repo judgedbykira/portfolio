@@ -4,17 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Máquinas - Yeray Medina Piñero</title>
-    
-    <!-- CSS -->
     <link href="css/main.css" rel="stylesheet">
-    
-    <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="manifest" href="assets/site.webmanifest">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -33,27 +27,26 @@
     <div class="projects" style="margin-top: 30px;">
         <p class="projects-title">Todas las Máquinas</p>
         <p class="projects-subtitle">Colección completa de laboratorios y entornos de práctica</p>
-        
+
         <!-- Search Bar -->
         <div class="search-container">
-            <input type="text" id="search-input" class="search-input" placeholder="Buscar por nombre, categoría, técnica (ej: SSTI, XSS, AD)...">
+            <input type="text" id="search-input" class="search-input"
+                   placeholder="Buscar por nombre, categoría, técnica o dificultad">
             <i class="fas fa-search search-icon"></i>
         </div>
-        
+
         <!-- Filter Buttons -->
         <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all">Todas</button>
-            <button class="filter-btn" data-filter="AD">Active Directory</button>
-            <button class="filter-btn" data-filter="WEB">Web</button>
-            <button class="filter-btn" data-filter="LINUX">Linux</button>
-            <button class="filter-btn" data-filter="WINDOWS">Windows</button>
-            <button class="filter-btn" data-filter="BINARY">Binary Exploitation</button>
+            <button class="filter-btn" data-filter="ad">Active Directory</button>
+            <button class="filter-btn" data-filter="web">Web</button>
+            <button class="filter-btn" data-filter="linux">Linux</button>
+            <button class="filter-btn" data-filter="windows">Windows</button>
+            <button class="filter-btn" data-filter="binary">Binary Exploitation</button>
         </div>
-        
+
         <!-- All Machines Container -->
-        <div id="all-machines-container" class="machines-grid">
-            <!-- Dynamic load -->
-        </div>
+        <div id="all-machines-container" class="machines-grid"></div>
     </div>
 
     <!-- Footer -->
@@ -63,7 +56,6 @@
         </p>
     </div>
 
-    <!-- Scripts -->
     <script src="main.js"></script>
 </body>
 </html>

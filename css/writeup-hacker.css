@@ -1,0 +1,100 @@
+:root{
+  --bg:#0a0a0a;
+  --fg:#fff;
+  --accent:#ff4f81;
+  --gray-dark:#777;
+  --radius:12px;
+  --font:'Courier New',monospace;
+  --paper:rgba(75, 69, 69, 0.25);
+}
+
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.6;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-shadow:0 0 10px var(--accent);}
+
+.back-button{display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;color:var(--accent);}
+.back-button:hover{text-shadow:0 0 10px var(--accent);}
+
+.writeup-main{
+  max-width:900px;
+  margin:2rem auto;
+  padding:2.5rem 2rem;
+  background:var(--paper);
+  border:1px solid rgba(255,79,129,.3);
+  border-radius:var(--radius);
+  box-shadow:0 8px 32px rgba(255,79,129,.2);
+  backdrop-filter:blur(10px);
+}
+
+.writeup-head{margin-bottom:2rem;text-align:center;}
+.writeup-head h1{
+  color:var(--accent);
+  text-shadow:0 0 20px rgba(255,79,129,.5);
+  margin:0;
+}
+/* IMAGEN de la máquina */
+.machine-banner{
+  display:block;
+  width:120px;
+  height:120px;
+  margin:0 auto 1.5rem;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  box-shadow:0 0 20px rgba(255,79,129,.5);
+  object-fit:cover;
+}
+.writeup-meta .tag{
+  background:rgba(255,79,129,.15);
+  border:1px solid rgba(255,79,129,.3);
+  padding:.3rem .6rem;
+  border-radius:var(--radius);
+  font-size:.8rem;
+  margin-right:.5rem;
+}
+
+.markdown-body{line-height:1.6;}
+.markdown-body h1,.markdown-body h2,.markdown-body h3{color:var(--accent);}
+.markdown-body p{margin:1em 0;}
+.markdown-body code{
+  background:rgba(255,79,129,.15);
+  padding:.2rem .4rem;
+  border-radius:4px;
+  color:#ff95e8;
+}
+/* separación extra entre blockquote y bloques de código */
+.markdown-body blockquote{
+  border-left:4px solid var(--accent);
+  padding-left:1rem;
+  margin:2em 0;          /* ← más separación vertical */
+  color:var(--gray-dark);
+}
+.markdown-body pre{
+  background:#1a0336;
+  border-left:3px solid var(--accent);
+  padding:1rem;
+  overflow-x:auto;
+  margin:2em 0;          /* ← igual separación */
+}
+.markdown-body pre code{background:none;padding:0;color:#fff;}
+
+/* IMAGENES centradas y con estilo */
+.markdown-body img{
+  display:block;
+  max-width:90%;
+  margin:2em auto;
+  border:1px solid rgba(255,79,129,.3);
+  border-radius:var(--radius);
+  box-shadow:0 0 20px rgba(255,79,129,.3);
+}
+
+/* Quitar scanlines a las imágenes del writeup */
+.markdown-body img{
+  position:relative;         /* necesario para que z-index funcione */
+  z-index:2;                 /* por encima del pseudo-elemento */
+  display:block;
+  max-width:90%;
+  margin:2em auto;
+  border:1px solid rgba(255,79,129,.3);
+  border-radius:var(--radius);
+  box-shadow:0 0 20px rgba(255,79,129,.3);
+}
