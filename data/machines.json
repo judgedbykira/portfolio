@@ -945,7 +945,7 @@
     "description": "EXE Binary Analysis with Immunity Debugger in Win 7 (Buffer Overflow x32 Stack Based)",
     "status": "Retired",
     "date": "2025-12-01",
-    "url": "writeups/brainpan1/index.html",
+    "url": "writeups/brainpan 1/index.html",
     "icon": "assets/icons/brainpan1.png"
   },
   {
@@ -997,7 +997,7 @@
     "description": "Decoding hidden brainfuck string, Abusing Sudo Permissions Bettercap (Privilege Escalation)",
     "status": "Retired",
     "date": "2025-12-01",
-    "url": "writeups/agua/index.html",
+    "url": "writeups/aguademayo/index.html",
     "icon": "assets/icons/dockerlabs.png"
   },
   {
