@@ -371,7 +371,7 @@
     "categories": ["WEB", "LINUX"],
     "difficulty": "Medium",
     "description": "NextJS 15.2.2 Authentication Bypass (CVE-2025-29927), LFI, Credentials Harvesting, SUDO Permissions on Terraform Binary [Privilege Escalation]",
-    "status": "Active",
+    "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/previous/index.html",
     "icon": "assets/icons/previous.png"
@@ -501,7 +501,7 @@
     "categories": ["LINUX", "WEB"],
     "difficulty": "Insane",
     "description": "Web Fuzzing, Information Leakage, Creating a Custom Proxy Script to Produce SHA256 Signature of each HTTP Request Sent by sqlmap, SQLi, Credentials Harvesting, Restic Enumeration, Cracking 7z Password, Sudo Permissions on Restic [Docker Breakout], Reverse Engineering a Binary to find how it Creates Passwords, Creating a Custom Wordlist with All Possible Combinations the Binary could Make when it was first created (time-based pseudo-random number generator), SSH Brute Force Using Custom Wordlist [Privilege Escalation]",
-    "status": "Active",
+    "status": "Retired",
     "date": "2025-12-02",
     "url": "writeups/whiterabbit/index.html",
     "icon": "assets/icons/whiterabbit.png"
