@@ -112,7 +112,7 @@ a:hover{text-shadow:0 0 10px var(--accent);}
   image-rendering:-webkit-optimize-contrast; /* texto nítido */
 }
 
-/* Zoom al hacer clic (opcional) */
+/* Zoom al hacer clic */
 .markdown-body img:active{
   transform:scale(1.8);
   transition:transform .3s ease;
