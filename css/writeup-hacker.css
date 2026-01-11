@@ -98,3 +98,23 @@ a:hover{text-shadow:0 0 10px var(--accent);}
   border-radius:var(--radius);
   box-shadow:0 0 20px rgba(255,79,129,.3);
 }
+
+/* Imágenes grandes: responsive + sin deformar */
+.markdown-body img{
+  display:block;
+  max-width:min(90%, 800px);   /* nunca más ancha que 800px ni que el 90 % */
+  height:auto;                  /* mantiene proporción */
+  margin:2em auto;
+  border:1px solid rgba(255,79,129,.3);
+  border-radius:var(--radius);
+  box-shadow:0 0 20px rgba(255,79,129,.3);
+  cursor:zoom-in;              /* indica que se puede ampliar */
+  image-rendering:-webkit-optimize-contrast; /* texto nítido */
+}
+
+/* Zoom al hacer clic (opcional) */
+.markdown-body img:active{
+  transform:scale(1.8);
+  transition:transform .3s ease;
+  cursor:zoom-out;
+}
