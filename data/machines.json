@@ -906,7 +906,7 @@
     "description": "Exploiting Samba 2.2.1a RCE Vulnerability",
     "status": "Retired",
     "date": "2025-12-01",
-    "url": "writeups/kioptrix Level 1/index.html",
+    "url": "writeups/Kioptrix Level 1/index.html",
     "icon": "assets/icons/vulnhub.png"
   },
   {
