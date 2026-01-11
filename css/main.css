@@ -145,6 +145,20 @@ a:hover {
   height: 100%;
 }
 
+.extra-info-item {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	gap: 8px;
+}
+
+.extra-info-icon {
+	width: 21.98px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 /* =========================================
    CERTIFICATIONS
    ========================================= */
