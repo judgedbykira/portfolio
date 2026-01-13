@@ -1205,7 +1205,7 @@
     "difficulty": "Insane",
     "description": "Leaking IPv6 Address via MSRPC, Bypassing Firewall Rules Scanning Via IPv6, SMB Share Enumeration with Null Session, Enumerating Valid Users from a NTDS.dit backup, Adapting pyKerbrute to operate with IPv6, Using pyKerbrute to Bypass NTLM Anti-Bruteforce Blocks, Registry Hives Enumeration with Impacket to Retrieve a Password, Bypassing Windows Defender to Run Seatbelt.exe, NTLMv1 Enabled Abuse (Getting Machine Account NTLM Hash), DCSync [Privilege Escalation]",
     "status": "Retired",
-    "date": "2026-01-08",
+    "date": "2026-01-09",
     "url": "writeups/apt/index.html",
     "icon": "assets/icons/apt.png"
   },
@@ -1231,8 +1231,34 @@
     "difficulty": "Insane",
     "description": "Command Injection, Creating a SSL Client Certificate to Access HTTPS Web Service, Use of Authpf Key to bypass Firewall, Mounting a NFS Share, Using the NFS Share to Add us to SSH Authorized Keys, Decrypting an AES Hash with Python Script [Privilege Escalation]",
     "status": "Retired",
-    "date": "2026-01-08",
+    "date": "2026-01-09",
     "url": "writeups/fortune/index.html",
     "icon": "assets/icons/fortune.png"
+  },
+  {
+    "id": 97,
+    "name": "Browsed",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["WEB", "LINUX"],
+    "difficulty": "Medium",
+    "description": "VirtualHost Discovery on Log Output, Gitea Enumeration, Chrome Extension Command Injection to Abuse a Local Script Running in Background, Custom Binary with Sudo Permissions pyc injection [Privilege Escalation]",
+    "status": "Active",
+    "date": "2026-01-13",
+    "url": "writeups/browsed/index.html",
+    "icon": "assets/icons/browsed.png"
+  },
+  {
+    "id": 98,
+    "name": "BabyTwo",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["AD", "WINDOWS"],
+    "difficulty": "Medium",
+    "description": "Guest Session RID Brute-Force, Password Spray, SMB Shares Enumeration, Updating a VBS Script on SYSVOL to get Reverse Shell, Abusing WriteDacl ACE Over a User, Abusing GenericAll ACE Over a GPO [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-01-13",
+    "url": "writeups/babytwo/index.html",
+    "icon": "assets/icons/babytwo.png"
   }
 ]
