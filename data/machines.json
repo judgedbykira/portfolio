@@ -1260,5 +1260,18 @@
     "date": "2026-01-13",
     "url": "writeups/babytwo/index.html",
     "icon": "assets/icons/babytwo.png"
+  },
+  {
+    "id": 99,
+    "name": "RetroTwo",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["AD", "WINDOWS"],
+    "difficulty": "Easy",
+    "description": "SMB Shares Enumeration with Guest Login, Cracking a Password Protected Access Database, Credentials Harvesting, Pre-Windows 2000 Compatible Access Default Machine Account Credentials Abuse, ForceChangePassword ACE Abuse, AddMember ACE Abuse, Abusing Windows Server 2008 Perfusion Exploit [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-01-14",
+    "url": "writeups/retrotwo/index.html",
+    "icon": "assets/icons/retrotwo.png"
   }
 ]
