@@ -39,7 +39,7 @@ async function renderMachines(machines) {
         <span class="machine-date">${formatDate(m.date)}</span>
         ${m.status === 'Active'
             ? '<div class="machine-unavailable"><i class="fas fa-question-circle"></i> Unavailable</div>'
-            : `<a href="${m.url}" class="machine-link" target="_blank">Writeup <i class="fas fa-external-link-alt"></i></a>`}
+            : `<a href="${m.url}" class="machine-link">Writeup <i class="fas fa-external-link-alt"></i></a>`}
       </div>
     </div>`;
 
@@ -141,7 +141,7 @@ function renderLatest(machines) {
         <span class="machine-date">${formatDate(m.date)}</span>
         ${m.status === 'Active'
             ? '<div class="machine-unavailable"><i class="fas fa-question-circle"></i> Unavailable</div>'
-            : `<a href="${m.url}" class="machine-link" target="_blank">Writeup <i class="fas fa-external-link-alt"></i></a>`}
+            : `<a href="${m.url}" class="machine-link">Writeup <i class="fas fa-external-link-alt"></i></a>`}
       </div>
     </div>`).join('');
 }
