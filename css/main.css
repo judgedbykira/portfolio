@@ -833,3 +833,464 @@ a:hover {
     opacity: 0;
     pointer-events: none;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN - MOBILE FIRST
+   ========================================= */
+
+/* TABLETAS Y PANTALLAS MEDIANAS (768px - 1024px) */
+@media (max-width: 1024px) {
+    /* Main section */
+    .main {
+        width: 95%;
+        height: auto;
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 30px;
+    }
+
+    .info {
+        max-width: 100%;
+    }
+
+    .img-container {
+        flex: 0 0 auto;
+        height: auto;
+    }
+
+    .logo {
+        width: 200px;
+        height: 200px;
+    }
+
+    .nombre {
+        font-size: 24px;
+    }
+
+    .puestos {
+        font-size: 16px;
+    }
+
+    /* Certifications */
+    .certifications {
+        width: 95%;
+        padding: 30px 20px;
+        height: auto;
+    }
+
+    .certification-list {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .certification-logo {
+        width: 150px;
+        height: 150px;
+    }
+
+    /* Skills */
+    .skills {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    .skills-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .skill-item,
+    .skill-item-soc,
+    .skill-item-sys {
+        min-width: 120px;
+        padding: 20px 8px;
+        font-size: 0.75rem;
+        height: 45px;
+    }
+
+    /* Projects */
+    .projects {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    .machines-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Search */
+    .search-container {
+        max-width: 100%;
+    }
+}
+
+/* MÓVILES MEDIANOS (600px - 767px) */
+@media (max-width: 767px) {
+    body {
+        font-size: 14px;
+    }
+
+    /* Main section */
+    .main {
+        width: 95%;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .nombre {
+        font-size: 20px;
+    }
+
+    .puestos {
+        font-size: 14px;
+    }
+
+    .certificaciones {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .cositos {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .extra-info p {
+        font-size: 0.9rem;
+    }
+
+    /* Certifications */
+    .certifications {
+        width: 95%;
+        padding: 20px 15px;
+        height: auto;
+    }
+
+    .certs {
+        font-size: 24px;
+    }
+
+    .certification-list {
+        gap: 15px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .certification-item {
+        min-width: 140px;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .certification-logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Skills */
+    .skills {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    .skills-title {
+        font-size: 24px;
+    }
+
+    .skills-description {
+        font-size: 16px;
+    }
+
+    .skills-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .skill-item,
+    .skill-item-soc,
+    .skill-item-sys {
+        min-width: 90px;
+        padding: 15px 6px;
+        font-size: 0.7rem;
+        height: 40px;
+    }
+
+    /* Projects */
+    .projects {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    .projects-title {
+        font-size: 24px;
+    }
+
+    .projects-subtitle {
+        font-size: 14px;
+    }
+
+    .machines-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .machine-card {
+        height: auto;
+        min-height: 350px;
+    }
+
+    .machine-name {
+        font-size: 1rem;
+    }
+
+    /* Search */
+    .search-input {
+        font-size: 0.9rem;
+        padding: 12px 15px;
+    }
+
+    /* Filter buttons */
+    .filter-buttons {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+    }
+
+    .filter-btn {
+        flex-shrink: 0;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+
+    /* Icon in header */
+    .logo {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* MÓVILES PEQUEÑOS (hasta 599px) */
+@media (max-width: 599px) {
+    body {
+        font-size: 13px;
+    }
+
+    /* Scanlines - reduce effect on small screens */
+    body::before {
+        background: repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,0.08),
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 2px
+        );
+    }
+
+    /* Main section */
+    .main {
+        width: 95%;
+        padding: 15px;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .nombre {
+        font-size: 18px;
+        margin: 0 0 8px;
+    }
+
+    .puestos {
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    .certificaciones {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .cositos {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+    }
+
+    .extra-info p {
+        font-size: 0.85rem;
+        margin: 8px 0;
+    }
+
+    .extra-info-item {
+        gap: 6px;
+    }
+
+    /* Certifications */
+    .certifications {
+        width: 95%;
+        padding: 15px;
+        margin-bottom: 20px;
+        gap: 15px;
+    }
+
+    .certs {
+        font-size: 20px;
+    }
+
+    .certification-list {
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .certification-item {
+        width: 100%;
+        max-width: 160px;
+        min-width: auto;
+        padding: 12px 16px;
+    }
+
+    .certification-logo {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 8px;
+    }
+
+    /* Skills */
+    .skills {
+        width: 95%;
+        padding: 15px;
+        margin-bottom: 20px;
+        gap: 20px;
+    }
+
+    .skills-title {
+        font-size: 20px;
+    }
+
+    .skills-description {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .skills-list {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .skill-item,
+    .skill-item-soc,
+    .skill-item-sys {
+        min-width: auto;
+        width: 100%;
+        padding: 12px;
+        font-size: 0.65rem;
+        height: 38px;
+    }
+
+    /* Projects */
+    .projects {
+        width: 95%;
+        padding: 15px;
+        margin-bottom: 30px;
+    }
+
+    .projects-title {
+        font-size: 20px;
+    }
+
+    .projects-subtitle {
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+
+    .machines-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .machine-card {
+        height: auto;
+        min-height: 320px;
+        padding: 15px;
+    }
+
+    .machine-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+    }
+
+    .machine-name {
+        font-size: 0.9rem;
+    }
+
+    .machine-difficulty,
+    .machine-status {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+
+    .machine-platform {
+        width: 25px;
+        height: 25px;
+    }
+
+    /* Search */
+    .search-container {
+        max-width: 100%;
+        margin: 0 auto 25px;
+    }
+
+    .search-input {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+    }
+
+    .search-icon {
+        font-size: 1rem;
+    }
+
+    /* Filter buttons */
+    .filter-buttons {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+    }
+
+    .filter-btn {
+        flex-shrink: 0;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        gap: 6px;
+    }
+
+    .projects-cta {
+        margin-top: 25px;
+    }
+
+    /* Logo */
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Messages */
+    .no-machines, .error {
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+}

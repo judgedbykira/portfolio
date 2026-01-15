@@ -120,3 +120,228 @@ a:hover{text-shadow:0 0 10px var(--accent);}
   transition:transform .3s ease;
   cursor:zoom-out;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN - WRITEUP HACKER
+   ========================================= */
+
+@media (max-width: 1024px) {
+    .writeup-main {
+        max-width: 95%;
+        margin: 1.5rem auto;
+        padding: 2rem 1.5rem;
+    }
+
+    .machine-banner {
+        width: 100px;
+        height: 100px;
+    }
+
+    .writeup-head h1 {
+        font-size: 1.8em;
+    }
+
+    .markdown-body h1 {
+        font-size: 1.6em;
+    }
+
+    .markdown-body h2 {
+        font-size: 1.3em;
+    }
+
+    .markdown-body img {
+        max-width: min(95%, 700px);
+        margin: 1.5em auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .writeup-main {
+        max-width: 95%;
+        margin: 1rem auto;
+        padding: 1.5rem 1rem;
+        border-radius: 8px;
+    }
+
+    .back-button {
+        font-size: 0.9em;
+        margin-bottom: 1.2rem;
+    }
+
+    .writeup-head {
+        margin-bottom: 1.5rem;
+    }
+
+    .machine-banner {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 1rem;
+    }
+
+    .writeup-head h1 {
+        font-size: 1.4em;
+        margin: 0;
+    }
+
+    .writeup-meta .tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.4rem;
+    }
+
+    .markdown-body {
+        font-size: 0.95em;
+        line-height: 1.5;
+    }
+
+    .markdown-body h1 {
+        font-size: 1.3em;
+        margin: 1.2em 0 0.6em;
+    }
+
+    .markdown-body h2 {
+        font-size: 1.1em;
+    }
+
+    .markdown-body h3 {
+        font-size: 1em;
+    }
+
+    .markdown-body p {
+        margin: 0.8em 0;
+    }
+
+    .markdown-body code {
+        font-size: 0.9em;
+    }
+
+    .markdown-body blockquote {
+        padding-left: 0.8rem;
+        margin: 1.5em 0;
+        font-size: 0.95em;
+    }
+
+    .markdown-body pre {
+        padding: 0.8rem;
+        font-size: 0.85em;
+        margin: 1.5em 0;
+    }
+
+    .markdown-body img {
+        max-width: min(95%, 600px);
+        margin: 1.2em auto;
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 599px) {
+    .writeup-main {
+        max-width: 95%;
+        margin: 0.8rem auto;
+        padding: 1rem 0.8rem;
+        border-radius: 6px;
+    }
+
+    .back-button {
+        font-size: 0.8em;
+        gap: 0.4rem;
+        margin-bottom: 1rem;
+        padding: 6px 10px;
+    }
+
+    .writeup-head {
+        margin-bottom: 1.2rem;
+        text-align: center;
+    }
+
+    .machine-banner {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1rem;
+    }
+
+    .writeup-head h1 {
+        font-size: 1.2em;
+        margin: 0;
+    }
+
+    .writeup-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.4rem;
+    }
+
+    .writeup-meta .tag {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.4rem;
+    }
+
+    .markdown-body {
+        font-size: 0.9em;
+        line-height: 1.5;
+    }
+
+    .markdown-body h1 {
+        font-size: 1.1em;
+        margin: 1em 0 0.5em;
+    }
+
+    .markdown-body h2 {
+        font-size: 1em;
+    }
+
+    .markdown-body h3 {
+        font-size: 0.95em;
+    }
+
+    .markdown-body p {
+        margin: 0.6em 0;
+    }
+
+    .markdown-body code {
+        font-size: 0.85em;
+        padding: 1px 3px;
+    }
+
+    .markdown-body blockquote {
+        border-left: 3px solid var(--accent);
+        padding-left: 0.6rem;
+        margin: 1em 0;
+        font-size: 0.9em;
+    }
+
+    .markdown-body pre {
+        padding: 0.6rem;
+        font-size: 0.8em;
+        margin: 1em 0;
+        border-radius: 4px;
+    }
+
+    .markdown-body pre code {
+        font-size: 0.85em;
+    }
+
+    .markdown-body img {
+        max-width: min(100%, 500px);
+        margin: 1em auto 0.8em;
+        border-radius: 4px;
+    }
+
+    .markdown-body table {
+        font-size: 0.8em;
+        margin: 1em 0;
+    }
+
+    .markdown-body table td,
+    .markdown-body table th {
+        padding: 0.4em;
+    }
+
+    /* Make scrollable on small screens */
+    .markdown-body table {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+    }
+}
