@@ -1273,5 +1273,18 @@
     "date": "2026-01-14",
     "url": "writeups/retrotwo/index.html",
     "icon": "assets/icons/retrotwo.png"
+  },
+  {
+    "id": 100,
+    "name": "Wifinetic",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX"],
+    "difficulty": "Easy",
+    "description": "FTP Anonymous Login Enabled Abuse, Password Spray Using Credentials Harvested from Backup File, WPS PIN Brute-Force Attack, Password Reuse [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-01-17",
+    "url": "writeups/wifinetic/index.html",
+    "icon": "assets/icons/wifinetic.png"
   }
 ]
