@@ -1286,5 +1286,18 @@
     "date": "2026-01-17",
     "url": "writeups/wifinetic/index.html",
     "icon": "assets/icons/wifinetic.png"
+  },
+  {
+    "id": 101,
+    "name": "Sweep",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["AD", "WINDOWS"],
+    "difficulty": "Medium",
+    "description": "RID Brute-Force with Guest Session, Password Spray, Creating a SSH HoneyPot to Capture Lansweeper SSH Credentials, GenericAll ACE over a Group Abuse, Creating a Deployment on Lansweeper to get a Reverse Shell as SYSTEM [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-01-17",
+    "url": "writeups/sweep/index.html",
+    "icon": "assets/icons/sweep.png"
   }
 ]
