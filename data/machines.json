@@ -1299,5 +1299,18 @@
     "date": "2026-01-17",
     "url": "writeups/sweep/index.html",
     "icon": "assets/icons/sweep.png"
+  },
+  {
+    "id": 102,
+    "name": "Overwatch",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["AD", "WINDOWS"],
+    "difficulty": "Medium",
+    "description": "SMB Share Enumeration with Guest Session, Reversing a .NET Binary using dnSpy to get Hardcoded Credentials, Abusing Linked-Servers on Microsoft SQL Server, Adding Malicious DNS Registers to Capture NTLMv2 Hash of MSSQL Service Account Abusing the Linked-Server, Port Forwarding with chisel, Abusing Command Injection on Internal Service's SOAP Endpoint [Privilege Escalation]",
+    "status": "Active",
+    "date": "2026-01-26",
+    "url": "#",
+    "icon": "assets/icons/overwatch.png"
   }
 ]
