@@ -1231,7 +1231,7 @@
     "difficulty": "Insane",
     "description": "Command Injection, Creating a SSL Client Certificate to Access HTTPS Web Service, Use of Authpf Key to bypass Firewall, Mounting a NFS Share, Using the NFS Share to Add us to SSH Authorized Keys, Decrypting an AES Hash with Python Script [Privilege Escalation]",
     "status": "Retired",
-    "date": "2026-01-09",
+    "date": "2026-02-09",
     "url": "writeups/fortune/index.html",
     "icon": "assets/icons/fortune.png"
   },
@@ -1312,5 +1312,44 @@
     "date": "2026-01-26",
     "url": "#",
     "icon": "assets/icons/overwatch.png"
+  },
+  {
+    "id": 103,
+    "name": "Facts",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX", "WEB"],
+    "difficulty": "Easy",
+    "description": "Camaleon CMS Mass Assignment Attack (CVE-2025-2304), Camaleon CMS LFI (CVE-2024-46987) [Unintended Foothold], AWS S3 Bucket Enumeration [Intended Foothold], Sudo Privileges on Facter Binary [Privilege Escalation]",
+    "status": "Active",
+    "date": "2026-02-09",
+    "url": "#",
+    "icon": "assets/icons/facts.png"
+  },
+  {
+    "id": 104,
+    "name": "Slonik",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX"],
+    "difficulty": "Medium",
+    "description": "Mounting NFS Shares, Bypassing Filesystem ACLs with NFS v3, Tunneling PostgreSQL Socket, Command Execution in PostgreSQL, Abusing a Cron Job to create a root SUID Bash [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-01-09",
+    "url": "writeups/slonik/index.html",
+    "icon": "assets/icons/slonik.png"
+  },
+  {
+    "id": 105,
+    "name": "Pterodactyl",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX", "WEB"],
+    "difficulty": "Medium",
+    "description": "Abusing Pterodactyl Panel v1.11.10 CVE-2025-49132, Credentials Harvesting, Abusing CVE-2025-6018 to enable 'allow_active' and CVE-2025-6019 to Mount a Malicious XFS Image to get a Root Bash with SUID [Privilege Escalation]",
+    "status": "Active",
+    "date": "2026-02-09",
+    "url": "#",
+    "icon": "assets/icons/pterodactyl.png"
   }
 ]

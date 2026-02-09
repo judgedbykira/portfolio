@@ -282,7 +282,8 @@ a:hover {
 /* SKILLS COMPACTOS - Estilo solicitado por el usuario */
 .skill-item,
 .skill-item-soc,
-.skill-item-sys {
+.skill-item-sys,
+.skill-item-dev {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -314,6 +315,11 @@ a:hover {
     color: #ffc831;
 }
 
+.skill-item-dev {
+    background: rgba(233, 122, 48, 0.1);
+    color: #f86300;
+}
+
 /* Efecto hover neón */
 .skill-item:hover {
     transform: translateY(-5px) scale(1.02);
@@ -337,6 +343,14 @@ a:hover {
     box-shadow: 0 0 25px rgba(240, 184, 31, 0.5);
     background: rgba(240, 184, 31, 0.2);
     text-shadow: 0 0 10px rgba(240, 184, 31, 0.8);
+}
+
+.skill-item-dev:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: #e97a30;
+    box-shadow: 0 0 25px rgba(233, 122, 48, 0.5);
+    background: rgba(233, 122, 48, 0.2);
+    text-shadow: 0 0 10px rgba(233, 122, 48, 0.8);
 }
 
 /* RESPONSIVE */
@@ -751,7 +765,8 @@ a:hover {
     
     .skill-item,
     .skill-item-soc,
-    .skill-item-sys {
+    .skill-item-sys,
+    .skill-item-dev {
         min-width: 150px; /* Reducir en tablets */
     }
 }
@@ -781,7 +796,8 @@ a:hover {
     
     .skill-item,
     .skill-item-soc,
-    .skill-item-sys {
+    .skill-item-sys,
+    .skill-item-dev {
         min-width: 100px; /* Ajustar para móviles */
         padding: 20px 8px;
         font-size: 0.75rem;
@@ -900,7 +916,8 @@ a:hover {
 
     .skill-item,
     .skill-item-soc,
-    .skill-item-sys {
+    .skill-item-sys,
+    .skill-item-dev {
         min-width: 120px;
         padding: 20px 8px;
         font-size: 0.75rem;
@@ -1185,7 +1202,8 @@ a:hover {
 
     .skill-item,
     .skill-item-soc,
-    .skill-item-sys {
+    .skill-item-sys,
+    .skill-item-dev {
         min-width: auto;
         width: 100%;
         padding: 12px;
