@@ -1322,7 +1322,7 @@
     "difficulty": "Easy",
     "description": "Camaleon CMS Mass Assignment Attack (CVE-2025-2304), Camaleon CMS LFI (CVE-2024-46987) [Unintended Foothold], AWS S3 Bucket Enumeration [Intended Foothold], Sudo Privileges on Facter Binary [Privilege Escalation]",
     "status": "Active",
-    "date": "2026-02-09",
+    "date": "2026-02-08",
     "url": "#",
     "icon": "assets/icons/facts.png"
   },
@@ -1351,5 +1351,31 @@
     "date": "2026-02-09",
     "url": "#",
     "icon": "assets/icons/pterodactyl.png"
+  },
+  {
+    "id": 106,
+    "name": "Explore",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["ANDROID", "MOBILE"],
+    "difficulty": "Easy",
+    "description": "ES File Explorer httpd Abuse to retrieve Android TV Images, Abusing Credentials on a Image to connect over SSH, Port Forwarding, Abusing Android Debug Bridge to obtain a Root Shell [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-02-14",
+    "url": "writeups/explore/index.html",
+    "icon": "assets/icons/explore.png"
+  },
+  {
+    "id": 107,
+    "name": "Manager",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["AD", "WINDOWS"],
+    "difficulty": "Medium",
+    "description": "Guest Session RID Bruteforce, Password Spray, Abusing MSSQL xp_dirtree to get a Backup File on Webserver, Credentials Harvesting, ADCS ESC7 Attack [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-02-14",
+    "url": "writeups/manager/index.html",
+    "icon": "assets/icons/manager.png"
   }
 ]

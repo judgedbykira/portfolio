@@ -623,6 +623,10 @@ a:hover {
 .machine-category.LINUX { background: #00ff9d; color: black; box-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
 .machine-category.WINDOWS { background: #4b7bec; color: white; box-shadow: 0 0 10px rgba(75, 123, 236, 0.5); }
 .machine-category.BINARY { background: #ffaa00; color: black; box-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
+.machine-category.MOBILE { background: #ee3bee; color: rgb(255, 255, 255); box-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
+.machine-category.ANDROID { background: #167551; color: rgb(255, 255, 255); box-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
+
+
 
 .machine-difficulty {
     padding: 3px 8px;
