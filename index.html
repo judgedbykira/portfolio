@@ -5,20 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yeray Medina Piñero - Portfolio</title>
     
-    <!-- CSS -->
     <link href="css/main.css" rel="stylesheet">
-    
-    <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="manifest" href="assets/site.webmanifest">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    
+    <style>
+        .skills-network-container {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px solid rgba(255, 79, 129, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(255, 79, 129, 0.2), inset 0 0 20px rgba(255, 79, 129, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        #skills-network {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        #skills-network:active {
+            cursor: grabbing;
+        }
+
+        .network-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .network-btn {
+            background: rgba(255, 79, 129, 0.1);
+            border: 1px solid rgba(255, 79, 129, 0.4);
+            color: #ff4f81;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .network-btn:hover {
+            background: rgba(255, 79, 129, 0.3);
+            box-shadow: 0 0 20px rgba(255, 79, 129, 0.5);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .network-legend {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 79, 129, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .legend-title {
+            color: #ff4f81;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .legend-item:hover {
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 8px currentColor;
+            flex-shrink: 0;
+        }
+
+        .network-stats {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 79, 129, 0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            z-index: 10;
+        }
+
+        .network-stats span {
+            color: #ff4f81;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .skills-network-container {
+                height: 600px;
+            }
+            .network-legend {
+                top: 10px;
+                left: 10px;
+                padding: 10px;
+                font-size: 0.7rem;
+                max-width: 150px;
+            }
+            .network-controls {
+                bottom: 10px;
+                right: 10px;
+                flex-wrap: wrap;
+                max-width: 200px;
+                justify-content: flex-end;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Main portfolio part -->
     <div class="main">
         <div class="info">
             <p class="nombre">Yeray 'JBKira' Medina Piñero</p>
@@ -33,23 +170,23 @@
             <div class="extra-info">
                 <a class="extra-info-item">
                     <span class="extra-info-icon">📍</span>
-                            <p>Arona, Santa Cruz de Tenerife</p>
+                    <p>Arona, Santa Cruz de Tenerife</p>
                 </a>
                 <a class="extra-info-item" href="mailto:yeraymedinapinero@gmail.com">
                     <span class="extra-info-icon">✉️</span>
-                            <p>yeraymedinapinero@gmail.com | Contact Me!</p>
+                    <p>yeraymedinapinero@gmail.com | Contact Me!</p>
                 </a>
                 <a class="extra-info-item" href="https://github.com/judgedbykira" target="_blank">
                     <span class="extra-info-icon">🌠</span>
-                            <p>GitHub</p>
+                    <p>GitHub</p>
                 </a>
                 <a class="extra-info-item" href="https://www.linkedin.com/in/yeray-medina" target="_blank">
                     <span class="extra-info-icon">☁</span>
-                            <p>LinkedIn</p>
+                    <p>LinkedIn</p>
                 </a>
                 <a class="extra-info-item" href="https://app.hackthebox.com/public/users/1917008" target="_blank">
                     <span class="extra-info-icon">💚</span>
-                            <p>HackTheBox Profile</p>
+                    <p>HackTheBox Profile</p>
                 </a>
             </div>
         </div>
@@ -59,7 +196,6 @@
     </div>
     <br>
 
-    <!-- Certifications part -->
     <div class="certifications">
         <p class="certs">Certifications</p>
         <div class="certification-list">
@@ -82,100 +218,61 @@
         </div>
     </div>
 
-    <!-- Skills part -->
+    <!-- Skills Network Graph -->
     <div class="skills">
-        <p class="skills-title">Skills</p>
+        <p class="skills-title">Skills IT</p>
+        <p class="skills-description">Diagrama gráfico de las habilidades técnicas que poseo en el ámbito de la informática</p>
         
-        <p class="skills-description">Penetration Testing: </p>
-        <div class="skills-list">
-            <div class="skill-item">Active Directory Attacks</div>
-            <div class="skill-item">Active Directory Enumeration</div>
-            <div class="skill-item">AD CS Attacks</div>
-            <div class="skill-item">AD Delegation Attacks</div>
-            <div class="skill-item">AD Relay Attacks</div>
-            <div class="skill-item">Vulnerability Assessment</div>
-            <div class="skill-item">Password Attacks</div>
-            <div class="skill-item">Information Gathering</div>
-            <div class="skill-item">Fingerprinting</div>
-            <div class="skill-item">Footprinting</div>
-            <div class="skill-item">Metasploit</div>
-            <div class="skill-item">Pivoting</div>
-            <div class="skill-item">Attacking Services</div>
-            <div class="skill-item">Attacking Common Web Apps</div>
-            <div class="skill-item">SQL Injection</div>
-            <div class="skill-item">XSS</div>
-            <div class="skill-item">LFI/RFI</div>
-            <div class="skill-item">Arbitrary File Uploads</div>
-            <div class="skill-item">Command Injections</div>
-            <div class="skill-item">CSRF/SSRF</div>
-            <div class="skill-item">Windows Privilege Escalation</div>
-            <div class="skill-item">Linux Privilege Escalation</div>
-            <div class="skill-item">AD Privilege Escalation</div>
-            <div class="skill-item">Documentation & Reporting</div>
-            <div class="skill-item">Web Attacks</div>
-            <div class="skill-item">Cobalt Strike C2</div>
-            <div class="skill-item">Mythic C2</div>
-            <div class="skill-item">Reverse Engineering</div>
-            <div class="skill-item">Defense Evasion (Learning)</div>
-            <div class="skill-item">Binary Exploitation (Learning)</div>
-            <div class="skill-item">Python (Learning)</div>
-        </div>
+        <div class="skills-network-container">
+            <div class="network-legend">
+                <div class="legend-title">Dominios</div>
+                <div class="legend-item" onclick="focusNode('redes')">
+                    <div class="legend-dot" style="background: #00f5ff; color: #00f5ff;"></div>
+                    <span>Redes (Networking)</span>
+                </div>
+                <div class="legend-item" onclick="focusNode('sistemas')">
+                    <div class="legend-dot" style="background: #ff006e; color: #ff006e;"></div>
+                    <span>Sistemas</span>
+                </div>
+                <div class="legend-item" onclick="focusNode('cybersec')">
+                    <div class="legend-dot" style="background: #00ff9d; color: #00ff9d;"></div>
+                    <span>Ciberseguridad</span>
+                </div>
+                <div class="legend-item" onclick="focusNode('programacion')">
+                    <div class="legend-dot" style="background: #ffaa00; color: #ffaa00;"></div>
+                    <span>Programación</span>
+                </div>
+                <div class="legend-item" onclick="focusNode('bbdd')">
+                    <div class="legend-dot" style="background: #c084fc; color: #c084fc;"></div>
+                    <span>Bases de Datos</span>
+                </div>
+            </div>
 
-        <p class="skills-description">Security and Monitoring: </p>
-        <div class="skills-list">
-            <div class="skill-item-soc">PFSense</div>
-            <div class="skill-item-soc">iptables & ufw</div>
-            <div class="skill-item-soc">High Availability</div>
-            <div class="skill-item-soc">Proxies</div>
-            <div class="skill-item-soc">DMZ</div>
-            <div class="skill-item-soc">Caine</div>
-            <div class="skill-item-soc">ELK</div>
-        </div>
+            <div class="network-stats">
+                Nodos: <span id="nodeCount">0</span> | Links: <span id="edgeCount">0</span>
+            </div>
 
-        <p class="skills-description">System Administration & Networking: </p>
-        <div class="skills-list">
-            <div class="skill-item-sys">Active Directory</div>
-            <div class="skill-item-sys">Windows & Linux</div>
-            <div class="skill-item-sys">DHCP</div>
-            <div class="skill-item-sys">DNS</div>
-            <div class="skill-item-sys">HTTP / HTTPS</div>
-            <div class="skill-item-sys">VLAN</div>
-            <div class="skill-item-sys">SSH</div>
-            <div class="skill-item-sys">Routing</div>
-            <div class="skill-item-sys">Switching</div>
-            <div class="skill-item-sys">Subnetting</div>
-            <div class="skill-item-sys">LDAP</div>
-            <div class="skill-item-sys">Docker</div>
-            <div class="skill-item-sys">RADIUS</div>
-            <div class="skill-item-sys">VPN</div>
-        </div>
+            <div class="network-controls">
+                <button class="network-btn" onclick="stabilizeNetwork()">
+                    <i class="fas fa-crosshairs"></i> Centrar
+                </button>
+                <button class="network-btn" onclick="togglePhysics()">
+                    <i class="fas fa-atom"></i> Física
+                </button>
+                <button class="network-btn" onclick="expandAll()">
+                    <i class="fas fa-expand"></i> Expandir
+                </button>
+            </div>
 
-        <p class="skills-description">Programming: </p>
-        <div class="skills-list">
-            <div class="skill-item-dev">HTML</div>
-            <div class="skill-item-dev">CSS</div>
-            <div class="skill-item-dev">TailwindCSS</div>
-            <div class="skill-item-dev">PHP</div>
-            <div class="skill-item-dev">Laravel</div>
-            <div class="skill-item-dev">JavaScript</div>
-            <div class="skill-item-dev">React</div>
-            <div class="skill-item-dev">NextJS 16</div>
-            <div class="skill-item-dev">TypeScript</div>
-            <div class="skill-item-dev">PowerShell Scripting</div>
-            <div class="skill-item-dev">Python</div>
-            <div class="skill-item-dev">Bash Scripting</div>
-            <div class="skill-item-dev">Wordpress</div>
+            <div id="skills-network"></div>
         </div>
     </div>
 
-    <!-- Projects part -->
     <div class="projects">
         <p class="projects-title">Proyectos</p>
         <p class="projects-subtitle">Últimas máquinas CTF Realizadas</p>
         
-        <div id="machines-container" class="machines-grid">
-            <!-- Dynamic load from JSON -->
-        </div>
+        <div id="machines-container" class="machines-grid"></div>
         
         <div class="projects-cta">
             <a href="machines.html" class="btn-primary">
@@ -184,8 +281,429 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="main.js"></script>
     <script src="js/scrollToTop.js"></script>
+    
+    <script>
+        // Paleta de colores
+        const colors = {
+            redes: { main: '#00f5ff', bg: 'rgba(0, 245, 255, 0.8)', border: '#00c8cf', highlight: '#b3fdff' },
+            sistemas: { main: '#ff006e', bg: 'rgba(255, 0, 110, 0.8)', border: '#ff4f81', highlight: '#ff95e8' },
+            cybersec: { main: '#00ff9d', bg: 'rgba(0, 255, 157, 0.8)', border: '#00cc7d', highlight: '#b3ffe0' },
+            programacion: { main: '#ffaa00', bg: 'rgba(255, 170, 0, 0.8)', border: '#cc8800', highlight: '#ffe0b3' },
+            bbdd: { main: '#c084fc', bg: 'rgba(192, 132, 252, 0.8)', border: '#a855f7', highlight: '#e9d5ff' }
+        };
+
+        // NODOS PADRE PRINCIPALES
+        const parentNodes = [
+            { id: 'redes', label: 'REDES', group: 'redes', value: 60, mass: 8, x: -300, y: -200 },
+            { id: 'sistemas', label: 'SISTEMAS', group: 'sistemas', value: 60, mass: 8, x: 0, y: -200 },
+            { id: 'cybersec', label: 'CIBER-\nSEGURIDAD', group: 'cybersec', value: 65, mass: 10, x: 300, y: 0 },
+            { id: 'programacion', label: 'PROGRAMACIÓN', group: 'programacion', value: 50, mass: 6, x: -200, y: 200 },
+            { id: 'bbdd', label: 'BASES DE\nDATOS', group: 'bbdd', value: 45, mass: 5, x: 200, y: 200 }
+        ];
+
+        // SUB-CATEGORÍAS SISTEMAS
+        const subParents = [
+            { id: 'linux', label: 'Linux', group: 'sistemas', value: 40, mass: 4 },
+            { id: 'windows', label: 'Windows', group: 'sistemas', value: 40, mass: 4 },
+            { id: 'virtualizacion', label: 'Virtualización', group: 'sistemas', value: 35, mass: 3 },
+            { id: 'pentesting', label: 'Pentesting', group: 'cybersec', value: 45, mass: 5 },
+            { id: 'defensivo', label: 'Defensivo', group: 'cybersec', value: 40, mass: 4 }
+        ];
+
+        // REDES - Nodos hijos
+        const redesNodes = [
+            { id: 'vlan', label: 'VLAN', group: 'redes', value: 20 },
+            { id: 'dns_net', label: 'DNS', group: 'redes', value: 22 },
+            { id: 'dhcp_net', label: 'DHCP', group: 'redes', value: 20 },
+            { id: 'ipv6', label: 'IPv6', group: 'redes', value: 18 },
+            { id: 'slaac', label: 'SLAAC', group: 'redes', value: 15 },
+            { id: 'dhcpv6', label: 'DHCPv6', group: 'redes', value: 16 },
+            { id: 'rstp', label: 'RSTP', group: 'redes', value: 17 },
+            { id: 'stp', label: 'STP', group: 'redes', value: 17 },
+            { id: 'igmp', label: 'IGMP', group: 'redes', value: 15 },
+            { id: 'igmp_snoop', label: 'IGMP\nSnooping', group: 'redes', value: 14 },
+            { id: 'rip', label: 'RIP', group: 'redes', value: 16 },
+            { id: 'ospf', label: 'OSPF', group: 'redes', value: 18 },
+            { id: 'http_net', label: 'HTTP/\nHTTPS', group: 'redes', value: 25 },
+            { id: 'ftp_net', label: 'FTP', group: 'redes', value: 18 },
+            { id: 'imap_pop3', label: 'IMAP/\nPOP3', group: 'redes', value: 16 },
+            { id: 'ssh_net', label: 'SSH', group: 'redes', value: 22 },
+            { id: 'osi', label: 'OSI Model', group: 'redes', value: 20 },
+            { id: 'tcp_ip', label: 'TCP/IP', group: 'redes', value: 24 },
+            { id: 'tls_ssl', label: 'TLS/\nSSL', group: 'redes', value: 20 },
+            { id: 'mikrotik', label: 'MikroTik', group: 'redes', value: 22 },
+            { id: 'cisco', label: 'Cisco', group: 'redes', value: 24 },
+            { id: 'router_cfg', label: 'Router/\nSwitch Config', group: 'redes', value: 20 }
+        ];
+
+        // LINUX - Nodos hijos
+        const linuxNodes = [
+            { id: 'alta_disp', label: 'Alta\nDisponibilidad', group: 'sistemas', value: 18 },
+            { id: 'apache', label: 'Apache', group: 'sistemas', value: 22 },
+            { id: 'nginx', label: 'Nginx', group: 'sistemas', value: 22 },
+            { id: 'openssh', label: 'OpenSSH', group: 'sistemas', value: 20 },
+            { id: 'vpn_sys', label: 'VPN', group: 'sistemas', value: 20 },
+            { id: 'docker', label: 'Docker', group: 'sistemas', value: 28 },
+            { id: 'kubernetes', label: 'Kubernetes', group: 'sistemas', value: 25 },
+            { id: 'openldap', label: 'OpenLDAP', group: 'sistemas', value: 20 },
+            { id: 'ftp_sys', label: 'FTP', group: 'sistemas', value: 18 },
+            { id: 'cron', label: 'Cron Jobs', group: 'sistemas', value: 19 },
+            { id: 'bash', label: 'Bash\nScripting', group: 'sistemas', value: 26 },
+            { id: 'linux_hard', label: 'Linux\nHardening', group: 'sistemas', value: 22 },
+            { id: 'ubuntu', label: 'Ubuntu\nServer/Desktop', group: 'sistemas', value: 24 },
+            { id: 'bind9', label: 'BIND9', group: 'sistemas', value: 18 },
+            { id: 'openssl', label: 'OpenSSL', group: 'sistemas', value: 20 },
+            { id: 'service_impl', label: 'Service\nImplantation', group: 'sistemas', value: 19 },
+            { id: 'auto_linux', label: 'Automatización\nProcesos', group: 'sistemas', value: 20 }
+        ];
+
+        // WINDOWS - Nodos hijos (con AD desglosado)
+        const windowsNodes = [
+            { id: 'ad_principal', label: 'Active\nDirectory', group: 'sistemas', value: 35, mass: 5 },
+            { id: 'win_server', label: 'Windows\nServer', group: 'sistemas', value: 28 },
+            { id: 'implantacion_svc', label: 'Implantación\nServicios', group: 'sistemas', value: 25 },
+            { id: 'powershell', label: 'PowerShell\nScripting', group: 'sistemas', value: 30 },
+            { id: 'auto_win', label: 'Automatización\nProcesos', group: 'sistemas', value: 20 },
+            { id: 'xampp', label: 'XAMPP', group: 'sistemas', value: 18 },
+            { id: 'resolucion_inc', label: 'Resolución\nIncidencias', group: 'sistemas', value: 22 },
+            { id: 'win_hard', label: 'Windows\nHardening', group: 'sistemas', value: 24 },
+            // Sub-nodos AD
+            { id: 'ad_seguridad', label: 'Buenas Prácticas\nSeguridad AD', group: 'sistemas', value: 20 },
+            { id: 'ad_hardening', label: 'Hardening AD', group: 'sistemas', value: 20 },
+            { id: 'ad_cert', label: 'AD Certificate\nServices', group: 'sistemas', value: 22 },
+            { id: 'ad_users', label: 'Usuarios/\nGrupos/Permisos', group: 'sistemas', value: 24 },
+            // Sub-nodos Implantación servicios
+            { id: 'dns_win', label: 'DNS', group: 'sistemas', value: 18 },
+            { id: 'dhcp_win', label: 'DHCP', group: 'sistemas', value: 18 },
+            { id: 'iis', label: 'IIS', group: 'sistemas', value: 20 },
+            { id: 'nfs', label: 'NFS', group: 'sistemas', value: 17 },
+            { id: 'smb', label: 'SMB', group: 'sistemas', value: 20 }
+        ];
+
+        // VIRTUALIZACIÓN
+        const virtNodes = [
+            { id: 'vmware', label: 'VMWare\nWorkstation', group: 'sistemas', value: 22 },
+            { id: 'virtualbox', label: 'VirtualBox', group: 'sistemas', value: 20 },
+            { id: 'hyperv', label: 'Hyper-V', group: 'sistemas', value: 20 }
+        ];
+
+        // PENTESTING (tu especialidad - más nodos pero distribuidos)
+        const pentestNodes = [
+            { id: 'ad_pentest', label: 'AD Attacks', group: 'cybersec', value: 30 },
+            { id: 'ad_enum', label: 'AD\nEnumeration', group: 'cybersec', value: 28 },
+            { id: 'ad_cs', label: 'AD CS\nAttacks', group: 'cybersec', value: 26 },
+            { id: 'ad_delegation', label: 'AD\nDelegation', group: 'cybersec', value: 24 },
+            { id: 'ad_relay', label: 'AD Relay', group: 'cybersec', value: 24 },
+            { id: 'vuln_assess', label: 'Vulnerability\nAssessment', group: 'cybersec', value: 26 },
+            { id: 'password_attacks', label: 'Password\nAttacks', group: 'cybersec', value: 26 },
+            { id: 'info_gathering', label: 'Information\nGathering', group: 'cybersec', value: 24 },
+            { id: 'metasploit', label: 'Metasploit', group: 'cybersec', value: 30 },
+            { id: 'pivoting', label: 'Pivoting', group: 'cybersec', value: 26 },
+            { id: 'service_attacks', label: 'Attacking\nServices', group: 'cybersec', value: 24 },
+            { id: 'web_apps', label: 'Web App\nAttacks', group: 'cybersec', value: 28 },
+            { id: 'sql_inj', label: 'SQL\nInjection', group: 'cybersec', value: 26 },
+            { id: 'xss', label: 'XSS', group: 'cybersec', value: 24 },
+            { id: 'lfi_rfi', label: 'LFI/RFI', group: 'cybersec', value: 22 },
+            { id: 'file_upload', label: 'Arbitrary\nFile Upload', group: 'cybersec', value: 22 },
+            { id: 'command_inj', label: 'Command\nInjection', group: 'cybersec', value: 24 },
+            { id: 'csrf_ssrf', label: 'CSRF/\nSSRF', group: 'cybersec', value: 22 },
+            { id: 'win_privesc', label: 'Windows\nPrivEsc', group: 'cybersec', value: 28 },
+            { id: 'linux_privesc', label: 'Linux\nPrivEsc', group: 'cybersec', value: 28 },
+            { id: 'ad_privesc', label: 'AD\nPrivEsc', group: 'cybersec', value: 28 },
+            { id: 'reporting', label: 'Documentation\nand Reporting', group: 'cybersec', value: 24 },
+            { id: 'cobalt', label: 'Cobalt\nStrike', group: 'cybersec', value: 30 },
+            { id: 'mythic', label: 'Mythic C2', group: 'cybersec', value: 26 },
+            { id: 'rev_eng', label: 'Reverse\nEngineering', group: 'cybersec', value: 24 },
+            { id: 'def_evasion', label: 'Defense\nEvasion', group: 'cybersec', value: 22 },
+            { id: 'bin_exp', label: 'Binary\nExploitation', group: 'cybersec', value: 22 }
+        ];
+
+        // DEFENSIVO
+        const defNodes = [
+            { id: 'pfsense', label: 'PFSense', group: 'cybersec', value: 24 },
+            { id: 'iptables', label: 'iptables &\nufw', group: 'cybersec', value: 22 },
+            { id: 'ha_sec', label: 'High\nAvailability', group: 'cybersec', value: 20 },
+            { id: 'proxies', label: 'Proxies', group: 'cybersec', value: 22 },
+            { id: 'dmz', label: 'DMZ', group: 'cybersec', value: 20 },
+            { id: 'caine', label: 'Caine\nForensics', group: 'cybersec', value: 18 },
+            { id: 'elk', label: 'ELK Stack\n(SIEM)', group: 'cybersec', value: 26 }
+        ];
+
+        // PROGRAMACIÓN
+        const devNodes = [
+            { id: 'html', label: 'HTML5', group: 'programacion', value: 20 },
+            { id: 'css', label: 'CSS3', group: 'programacion', value: 20 },
+            { id: 'tailwind', label: 'TailwindCSS', group: 'programacion', value: 22 },
+            { id: 'php', label: 'PHP', group: 'programacion', value: 26 },
+            { id: 'laravel', label: 'Laravel', group: 'programacion', value: 24 },
+            { id: 'js', label: 'JavaScript', group: 'programacion', value: 26 },
+            { id: 'react', label: 'React', group: 'programacion', value: 24 },
+            { id: 'nextjs', label: 'NextJS 16', group: 'programacion', value: 22 },
+            { id: 'ts', label: 'TypeScript', group: 'programacion', value: 20 },
+            { id: 'powershell_dev', label: 'PowerShell', group: 'programacion', value: 24 },
+            { id: 'python', label: 'Python', group: 'programacion', value: 28 },
+            { id: 'bash_dev', label: 'Bash', group: 'programacion', value: 22 },
+            { id: 'wordpress', label: 'WordPress', group: 'programacion', value: 20 }
+        ];
+
+        // BASES DE DATOS
+        const dbNodes = [
+            { id: 'mysql', label: 'MySQL', group: 'bbdd', value: 24 },
+            { id: 'mssql', label: 'Microsoft\nSQL Server', group: 'bbdd', value: 22 },
+            { id: 'mariadb', label: 'MariaDB', group: 'bbdd', value: 20 },
+            { id: 'sqlite', label: 'SQLite3', group: 'bbdd', value: 18 },
+            { id: 'db_conn', label: 'Conexión Apps\ncon BBDD', group: 'bbdd', value: 20 }
+        ];
+
+        // Combinar todos los nodos
+        const allNodesRaw = [
+            ...parentNodes,
+            ...subParents,
+            ...redesNodes,
+            ...linuxNodes,
+            ...windowsNodes,
+            ...virtNodes,
+            ...pentestNodes,
+            ...defNodes,
+            ...devNodes,
+            ...dbNodes
+        ];
+
+        // Procesar nodos con colores y estilos
+        const allNodes = allNodesRaw.map(node => {
+            const isParent = parentNodes.find(p => p.id === node.id);
+            const isSubParent = subParents.find(p => p.id === node.id);
+            const colorSet = colors[node.group];
+            
+            return {
+                ...node,
+                color: {
+                    background: colorSet.bg,
+                    border: colorSet.border,
+                    highlight: { background: colorSet.highlight, border: '#ffffff' },
+                    hover: { background: colorSet.highlight, border: '#ffffff' }
+                },
+                font: {
+                    color: '#ffffff',
+                    size: isParent ? 18 : (isSubParent ? 16 : 13),
+                    face: 'Courier New',
+                    strokeWidth: isParent ? 4 : (isSubParent ? 3 : 2),
+                    strokeColor: '#0a0a0a',
+                    bold: isParent || isSubParent,
+                    multi: true,
+                    align: 'center'
+                },
+                borderWidth: isParent ? 5 : (isSubParent ? 3 : 2),
+                shadow: {
+                    enabled: true,
+                    color: colorSet.main,
+                    size: isParent ? 30 : (isSubParent ? 20 : 12),
+                    x: 0,
+                    y: 0
+                },
+                shape: 'dot',
+                title: node.title || node.label.replace('\n', ' '),
+                scaling: {
+                    min: isParent ? 30 : (isSubParent ? 25 : 15),
+                    max: isParent ? 60 : (isSubParent ? 45 : 30),
+                    label: { enabled: true, min: 12, max: isParent ? 20 : 16 }
+                }
+            };
+        });
+
+        // Definir conexiones (edges)
+        const edgesData = [
+            // Conexiones Padre -> SubPadre
+            { from: 'sistemas', to: 'linux', length: 120, width: 3 },
+            { from: 'sistemas', to: 'windows', length: 120, width: 3 },
+            { from: 'sistemas', to: 'virtualizacion', length: 120, width: 3 },
+            { from: 'cybersec', to: 'pentesting', length: 100, width: 3 },
+            { from: 'cybersec', to: 'defensivo', length: 100, width: 3 },
+            
+            // Redes -> Padre
+            ...redesNodes.map(n => ({ from: 'redes', to: n.id, length: 150 })),
+            
+            // Linux -> Sistemas
+            ...linuxNodes.map(n => ({ from: 'linux', to: n.id, length: 130 })),
+            
+            // Windows -> Sistemas (con jerarquía especial)
+            { from: 'windows', to: 'ad_principal', length: 100 },
+            { from: 'windows', to: 'win_server', length: 120 },
+            { from: 'windows', to: 'implantacion_svc', length: 120 },
+            { from: 'windows', to: 'powershell', length: 110 },
+            { from: 'windows', to: 'auto_win', length: 140 },
+            { from: 'windows', to: 'xampp', length: 150 },
+            { from: 'windows', to: 'resolucion_inc', length: 130 },
+            { from: 'windows', to: 'win_hard', length: 120 },
+            
+            // AD Sub-nodos
+            { from: 'ad_principal', to: 'ad_seguridad', length: 80 },
+            { from: 'ad_principal', to: 'ad_hardening', length: 80 },
+            { from: 'ad_principal', to: 'ad_cert', length: 80 },
+            { from: 'ad_principal', to: 'ad_users', length: 80 },
+            
+            // Implantación servicios sub-nodos
+            { from: 'implantacion_svc', to: 'dns_win', length: 80 },
+            { from: 'implantacion_svc', to: 'dhcp_win', length: 80 },
+            { from: 'implantacion_svc', to: 'iis', length: 80 },
+            { from: 'implantacion_svc', to: 'nfs', length: 80 },
+            { from: 'implantacion_svc', to: 'smb', length: 80 },
+            
+            // Virtualización
+            ...virtNodes.map(n => ({ from: 'virtualizacion', to: n.id, length: 100 })),
+            
+            // Pentesting (distribuido desde subpadre)
+            ...pentestNodes.map(n => ({ from: 'pentesting', to: n.id, length: 140 })),
+            
+            // Defensivo
+            ...defNodes.map(n => ({ from: 'defensivo', to: n.id, length: 130 })),
+            
+            // Programación
+            ...devNodes.map(n => ({ from: 'programacion', to: n.id, length: 140 })),
+            
+            // Bases de datos
+            ...dbNodes.map(n => ({ from: 'bbdd', to: n.id, length: 120 })),
+            
+            // Conexiones cruzadas lógicas (interdisciplinarias)
+            { from: 'docker', to: 'virtualizacion', color: { color: 'rgba(255,255,255,0.15)' }, dashes: true, width: 1 },
+            { from: 'python', to: 'pentesting', color: { color: 'rgba(255,255,255,0.15)' }, dashes: true, width: 1 },
+            { from: 'powershell', to: 'pentesting', color: { color: 'rgba(255,255,255,0.15)' }, dashes: true, width: 1 },
+            { from: 'bash', to: 'linux', color: { color: 'rgba(255,255,255,0.15)' }, dashes: true, width: 1 },
+            { from: 'sql_inj', to: 'mysql', color: { color: 'rgba(255,255,255,0.15)' }, dashes: true, width: 1 },
+            { from: 'ad_principal', to: 'ad_pentest', color: { color: 'rgba(255,255,255,0.2)' }, dashes: true, width: 2 },
+            { from: 'dns_net', to: 'dns_win', color: { color: 'rgba(255,255,255,0.1)' }, dashes: true, width: 1 },
+            { from: 'dhcp_net', to: 'dhcp_win', color: { color: 'rgba(255,255,255,0.1)' }, dashes: true, width: 1 },
+            { from: 'elk', to: 'linux', color: { color: 'rgba(255,255,255,0.1)' }, dashes: true, width: 1 },
+            { from: 'iptables', to: 'linux', color: { color: 'rgba(255,255,255,0.15)' }, dashes: true, width: 1 },
+            { from: 'pfsense', to: 'redes', color: { color: 'rgba(255,255,255,0.1)' }, dashes: true, width: 1 },
+            { from: 'php', to: 'web_apps', color: { color: 'rgba(255,255,255,0.1)' }, dashes: true, width: 1 }
+        ].map(edge => ({
+            ...edge,
+            smooth: { type: 'continuous', roundness: 0.5 },
+            color: edge.color || { color: 'rgba(255, 79, 129, 0.3)', highlight: '#ff4f81', hover: '#ff4f81' }
+        }));
+
+        // Inicializar Vis.js
+        const container = document.getElementById('skills-network');
+        const data = {
+            nodes: new vis.DataSet(allNodes),
+            edges: new vis.DataSet(edgesData)
+        };
+
+        const options = {
+            nodes: {
+                borderWidth: 2,
+                shadow: true,
+                font: {
+                    multi: 'html',
+                    strokeWidth: 2,
+                    strokeColor: '#000000'
+                }
+            },
+            edges: {
+                smooth: {
+                    type: 'continuous',
+                    roundness: 0.5
+                },
+                selectionWidth: 3,
+                hoverWidth: 3
+            },
+            physics: {
+                enabled: true,
+                barnesHut: {
+                    gravitationalConstant: -8000,  // Más repulsión para evitar solapamiento
+                    centralGravity: 0.5,
+                    springLength: 200,
+                    springConstant: 0.04,
+                    damping: 0.09,
+                    avoidOverlap: 0.85  // Alto overlap avoidance
+                },
+                stabilization: {
+                    iterations: 300,
+                    updateInterval: 25,
+                    onlyDynamicEdges: false,
+                    fit: true
+                },
+                minVelocity: 0.75
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 200,
+                hideEdgesOnDrag: true,
+                navigationButtons: false,
+                keyboard: true,
+                zoomView: true
+            },
+            layout: {
+                randomSeed: 2,
+                improvedLayout: true
+            }
+        };
+
+        let network = new vis.Network(container, data, options);
+        let physicsEnabled = true;
+
+        // Actualizar stats
+        document.getElementById('nodeCount').textContent = allNodes.length;
+        document.getElementById('edgeCount').textContent = edgesData.length;
+
+        // Eventos
+        network.on("stabilizationIterationsDone", function() {
+            network.fit({
+                animation: {
+                    duration: 1000,
+                    easingFunction: 'easeInOutQuad'
+                }
+            });
+        });
+
+        // Prevenir scroll de página al hacer zoom en el grafo
+        container.addEventListener('wheel', function(e) {
+            e.stopPropagation();
+        });
+
+        // Funciones de control
+        function stabilizeNetwork() {
+            network.fit({
+                animation: {
+                    duration: 1000,
+                    easingFunction: 'easeInOutQuad'
+                }
+            });
+        }
+
+        function togglePhysics() {
+            physicsEnabled = !physicsEnabled;
+            network.setOptions({ physics: { enabled: physicsEnabled } });
+        }
+
+        function expandAll() {
+            network.fit({
+                nodes: data.nodes.getIds(),
+                animation: {
+                    duration: 1500,
+                    easingFunction: 'easeInOutQuad'
+                }
+            });
+        }
+
+        function focusNode(nodeId) {
+            network.focus(nodeId, {
+                scale: 1.2,
+                animation: {
+                    duration: 1000,
+                    easingFunction: 'easeInOutQuad'
+                }
+            });
+            network.selectNodes([nodeId], true);
+        }
+
+        // Animación de entrada
+        network.once("afterDrawing", function() {
+            network.fit();
+        });
+    </script>
 </body>
 </html>
