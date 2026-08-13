@@ -3,9 +3,9 @@
 
 # AguaDeMayo - Write-Up
 
-## Enumeración
+## Enumeration
 
->Para empezar, deberemos realizarle un ping a la máquina para verificar si se encuentra encendida y para posiblemente deducir su SO mediante el TTL recibido, en este caso la máquina víctima es Linux debido a su TTL similar a 64:
+>To begin with, we must ping the machine to verify if it is powered on and to possibly deduce its OS using the TTL received, in this case the victim machine is Linux due to its TTL similar to 64:
 
 ```bash
 ping -c 3 172.17.0.2
@@ -16,7 +16,7 @@ ping -c 3 172.17.0.2
 
 ![Pasted image 20240807151802](https://github.com/user-attachments/assets/da5393ad-d932-4746-8ccb-784e54860410)
 
->Una vez hecho esto, es hora de realizar un escaneo de puertos haciendo uso de la utilidad nmap. Para ello, comenzaremos analizando los puertos TCP de la máquina víctima:
+>Once this is done, it is time to perform a port scan using the nmap utility. To do this, we will start by analyzing the TCP ports of the victim machine:
 
 ```bash
 nmap -p- --open -sS -vvv -Pn -n --min-rate 5000 172.17.0.2
@@ -32,12 +32,12 @@ nmap -p- --open -sS -vvv -Pn -n --min-rate 5000 172.17.0.2
 -Pn | Dejamos de usar el protocolo de resolución de direcciones ARP para el escaneo. (Agiliza el escaneo)
 -n | Dejamos de usar el servicio DNS para resolver la dirección. (Agiliza el escaneo)
 
->Aquí podemos ver dos puertos interesantes que pueden servirnos como vector entrada en la máquina víctima, el 22 correspondiente al servicio SSH y el 80 correspondiente al servicio HTTP.
+>Here we can see two interesting ports that can serve as an input vector in the victim machine, the 22 corresponding to the SSH service and the 80 corresponding to the HTTP service.
 
 ![Pasted image 20240807151856](https://github.com/user-attachments/assets/5cd135d2-f199-4fba-84d2-0b51c0797e3b)
 
 
->Ahora podríamos realizar un escaneo de versión y con scripts de reconocimiento para obtener información interesante acerca de los servicios que corren en ambos puertos abiertos:
+>Now we could perform a version scan and with recognition scripts to get interesting information about the services running on both open ports:
 
 ```bash
 nmap -p22,80 -sCV -Pn -n -vvv 172.17.0.2
@@ -51,9 +51,9 @@ nmap -p22,80 -sCV -Pn -n -vvv 172.17.0.2
 ![Pasted image 20240807152154](https://github.com/user-attachments/assets/b6fd27b7-47c5-41f4-9645-9cbe9d1085b5)
 
 
->Mediante la versión del servicio SSH podríamos obtener información acerca del SO de la máquina víctima. La máquina esta empleando una distribución de Linux llamada Debian.
+>Through the SSH service version we could obtain information about the OS of the victim machine. The machine is using a Linux distribution called Debian.
 
->Por otra parte, ya que existe un servicio HTTP vamos a tratar de realizar fuzzing para detectar posibles directorios existentes dentro de la máquina víctima realizando fuerza bruta mediante un diccionario con ayuda de la herramienta gobuster:
+>On the other hand, since there is an HTTP service, we will try to fuzz to detect possible directories within the victim machine by brute force using a dictionary with the help of the gobuster tool:
 
 ```bash
 gobuster dir -u http://172.17.0.2 -t 40 -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-big.txt
@@ -69,38 +69,38 @@ gobuster dir -u http://172.17.0.2 -t 40 -w /usr/share/seclists/Discovery/Web-Con
 ![Pasted image 20240807152658](https://github.com/user-attachments/assets/04e07eaa-02c5-4810-b1b8-52a5090182e6)
 
 
->Aquí podemos destacar que existe un directorio llamado images pero previamente a ello vamos a acceder a la página principal:
+>Here we can highlight that there is a directory called images but before that we will access the main page:
 
 ![Pasted image 20240807152751](https://github.com/user-attachments/assets/97496a1b-983b-421a-b1d7-6f0ecc16c6e2)
 
 
->Aquí podremos ver que emplea el index.html por defecto de apache2 pero si revisamos su código fuente podremos encontrar un comentario oculto que contiene una cadena codificada en Brainfuck:
+>Here we can see that it uses the index.html by default of apache2 but if we review its source code we can find a hidden comment that contains a string encoded in Brainfuck:
 
 ![Pasted image 20240807152917](https://github.com/user-attachments/assets/2f13e31b-ffd2-457d-92ab-f07d7dc9e392)
 
 
->Si tratamos de decodificarla mediante una herramienta web podremos obtener el siguiente mensaje:
+>If we try to decode it using a web tool we can get the following message:
 
 ![Pasted image 20240807152957](https://github.com/user-attachments/assets/96fd71c0-a2ef-4b4f-ae74-052a5e1c7f7c)
 
 
->Esta cadena podría corresponder a una credencial o usuario del otro servicio corriendo, que recordemos que era el SSH.
+>This string could correspond to a credential or user of the other running service, which we remember was the SSH.
 
->Ahora trataremos de ver qué contenido hay en el directorio images:
+>Now let's try to see what content is in the images directory:
 
 ![Pasted image 20240807153118](https://github.com/user-attachments/assets/403bc567-e607-47ee-9222-2d2ca4be6a94)
 
 
->Aquí podemos ver una imagen llamada **agua_ssh** la cual puede contrastar nuestra suposición acerca del mensaje decodificado anteriormente, por lo que, probaremos a entrar mediante SSH a la máquina empleando como usuario **agua** y contraseña **bebeaguaqueessano**.
+>Here we can see an image called **agua_ssh** which can contrast our assumption about the previously decoded message, so we will try to enter the machine through SSH using **agua** and password **bebeaguaqueessano** as user.
 
 ![Pasted image 20240807153347](https://github.com/user-attachments/assets/cfd1dc0b-ba07-4fbd-a519-48b33a5a5a8e)
 
 
->Y así de sencillo ya nos encontraríamos dentro de la máquina víctima. Ahora habría que realizar una escalada de privilegios para convertirnos en el usuario root del sistema.
+>And as simple as that, we would already be inside the victim machine. Now we would have to escalate privileges to become the root user of the system.
 
 ## Escalada de privilegios
 
->Probaremos a ver qué permisos de sudo tenemos como usuario agua:
+>Let's try to see what sudo permissions we have as 'agua' user:
 
 ```bash
 sudo -l
@@ -110,12 +110,12 @@ sudo -l
 | ------------ | -------------------------------------------------- |
 | -l           | Permite ver los permisos de sudo que tiene el usuario que lo lanza.  |
 
->Como podemos ver podemos emplear el comando bettercap sin proporcionar contraseña:
+>As we can see, we can use the bettercap command without providing a password:
 
 ![Pasted image 20240807153659](https://github.com/user-attachments/assets/b8720bef-c4ed-4693-bd10-c76b5931bd80)
 
 
->Mediante el binario bettercap podemos ejecutar comandos al empezarlos con una "!", esto teniendo en cuenta que el binario está siendo ejecutado como root, nos permitirá ejecutar código como si fuéramos root:
+>Using the bettercap binary we can execute commands by starting them with a "!", this taking into account that the binary is being executed as root, will allow us to execute code as if we were root:
 
 ```bash
 sudo /usr/bin/bettercap
@@ -125,7 +125,7 @@ sudo /usr/bin/bettercap
 ![Pasted image 20240807154216](https://github.com/user-attachments/assets/0434dcb7-ddbf-4026-9c30-be7e2cb1b435)
 
 
->Podemos ver que al emplear el comando whoami el programa nos devuelve root, así que cambiaremos los permisos de la bash para que sean SUID y poder darnos una bash privilegiada:
+>We can see that when using the whoami command the program returns root, so we will change the bash permissions to be SUID and be able to give us a privileged bash:
 
 ```bash
 !chmod +s /bin/bash
@@ -135,7 +135,7 @@ sudo /usr/bin/bettercap
 | ------------ | -------------------------------------------------- |
 | +s           | Permite agregar el permiso SUID al binario. (4000)  |
 
->Una vez hecho esto, bastará con spawnear una bash privilegiada mediante el siguiente comando y ya habremos comprometido por completo la máquina convirtiéndonos en el usuario root gracias al permiso SUID que le hemos agregado a la bash:
+>Once this is done, it will be enough to spawn a privileged bash through the following command and we will have completely committed the machine becoming the root user thanks to the SUID permission that we have added to the bash:
 
 ```bash
 bash -p

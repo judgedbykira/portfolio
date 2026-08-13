@@ -1316,3 +1316,626 @@ a:hover {
         font-size: 0.9rem;
     }
 }
+/* =========================================
+ CVEs — CARDS & BADGES
+ ========================================= */
+
+.cve-card {
+    border: 1px solid rgba(255, 79, 129, 0.3);
+}
+
+.cve-card:hover {
+    border-color: #ff4f81;
+    box-shadow: 0 0 40px rgba(255, 79, 129, 0.6);
+}
+
+/* Severidad badges */
+.machine-category.CRITICAL {
+    background: #ff0040 !important;
+    color: #fff !important;
+    box-shadow: 0 0 10px rgba(255, 0, 64, 0.7);
+}
+
+.machine-category.HIGH {
+    background: #ff6b35 !important;
+    color: #000 !important;
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
+}
+
+.machine-category.MEDIUM {
+    background: #fdcb6e !important;
+    color: #000 !important;
+    box-shadow: 0 0 10px rgba(253, 203, 110, 0.5);
+}
+
+.machine-category.LOW {
+    background: #00b894 !important;
+    color: #fff !important;
+    box-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
+}
+
+/* =========================================
+ CVE DETAIL PAGE
+ ========================================= */
+
+.cve-detail-header {
+    margin-bottom: 30px;
+}
+
+.cve-detail-card {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 79, 129, 0.3);
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 8px 32px rgba(255, 79, 129, 0.15);
+}
+
+.cve-detail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.cve-detail-id {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff4f81;
+    text-shadow: 0 0 15px rgba(255, 79, 129, 0.5);
+    letter-spacing: 1px;
+}
+
+.cve-severity-badge {
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cve-severity-badge.critical {
+    background: #ff0040;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 64, 0.6);
+}
+
+.cve-severity-badge.high {
+    background: #ff6b35;
+    color: #000;
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+}
+
+.cve-severity-badge.medium {
+    background: #fdcb6e;
+    color: #000;
+    box-shadow: 0 0 15px rgba(253, 203, 110, 0.4);
+}
+
+.cve-severity-badge.low {
+    background: #00b894;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0, 184, 148, 0.4);
+}
+
+.cve-detail-title {
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 0 0 20px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
+
+.cve-detail-meta {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cve-detail-meta span i {
+    color: #ff4f81;
+    margin-right: 6px;
+}
+
+.cve-detail-desc {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    font-size: 1rem;
+    border-left: 3px solid #ff4f81;
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* =========================================
+ MARKDOWN CONTENT STYLES
+ ========================================= */
+
+.cve-detail-content {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 79, 129, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+    color: #e2e8f0;
+    font-family: 'Courier New', monospace;
+    line-height: 1.8;
+}
+
+.cve-detail-content h1 {
+    font-size: 1.8rem;
+    color: #ff4f81;
+    border-bottom: 2px solid rgba(255, 79, 129, 0.3);
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(255, 79, 129, 0.3);
+}
+
+.cve-detail-content h2 {
+    font-size: 1.4rem;
+    color: #00f5ff;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+}
+
+.cve-detail-content h3 {
+    font-size: 1.1rem;
+    color: #ffaa00;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.cve-detail-content p {
+    margin-bottom: 20px;
+}
+
+.cve-detail-content ul, .cve-detail-content ol {
+    margin-bottom: 20px;
+    padding-left: 25px;
+}
+
+.cve-detail-content li {
+    margin-bottom: 8px;
+}
+
+.cve-detail-content a {
+    color: #00f5ff;
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 245, 255, 0.4);
+}
+
+.cve-detail-content a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
+}
+
+.cve-detail-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cve-detail-content th {
+    background: rgba(255, 79, 129, 0.2);
+    color: #ff4f81;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.cve-detail-content td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 79, 129, 0.1);
+    color: #e2e8f0;
+}
+
+.cve-detail-content tr:hover {
+    background: rgba(255, 79, 129, 0.05);
+}
+
+.cve-detail-content hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 79, 129, 0.5), transparent);
+    margin: 40px 0;
+}
+
+.cve-detail-content blockquote {
+    border-left: 4px solid #ff4f81;
+    margin: 20px 0;
+    padding: 15px 20px;
+    background: rgba(255, 79, 129, 0.05);
+    border-radius: 0 8px 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cve-detail-content strong {
+    color: #ff95e8;
+}
+
+.cve-detail-content code:not(.hljs) {
+    background: rgba(255, 79, 129, 0.15);
+    color: #ff95e8;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid rgba(255, 79, 129, 0.2);
+}
+
+/* =========================================
+ CODE BLOCKS — COLLAPSIBLE + LINE NUMBERS
+ ========================================= */
+
+.code-block-wrapper {
+    margin: 25px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 79, 129, 0.3);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    background: rgba(10, 10, 15, 0.95);
+}
+
+.code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: linear-gradient(90deg, rgba(255, 79, 129, 0.15), rgba(255, 0, 110, 0.1));
+    border-bottom: 1px solid rgba(255, 79, 129, 0.2);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+}
+
+.code-lang {
+    color: #ff4f81;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.code-lang i {
+    font-size: 0.9rem;
+}
+
+.code-lines {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+}
+
+.code-toggle {
+    background: rgba(255, 79, 129, 0.15);
+    border: 1px solid rgba(255, 79, 129, 0.3);
+    color: #ff4f81;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.code-toggle:hover {
+    background: rgba(255, 79, 129, 0.3);
+    box-shadow: 0 0 15px rgba(255, 79, 129, 0.4);
+    transform: scale(1.1);
+}
+
+.code-body {
+    display: flex;
+    overflow: hidden;
+}
+
+.line-numbers {
+    background: rgba(0, 0, 0, 0.4);
+    border-right: 1px solid rgba(255, 79, 129, 0.15);
+    padding: 15px 12px;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: rgba(255, 79, 129, 0.5);
+    user-select: none;
+    min-width: 45px;
+    flex-shrink: 0;
+}
+
+.line-numbers span {
+    display: block;
+}
+
+.code-content {
+    flex: 1;
+    overflow-x: auto;
+    padding: 15px;
+    /* 🔴 ESTO ES LO CRÍTICO: preserva saltos de línea e indentación */
+    white-space: pre;
+}
+
+.code-content pre {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    white-space: pre;
+}
+
+.code-content code.hljs {
+    display: block;
+    background: transparent !important;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 0;
+    white-space: pre;
+}
+
+/* Scrollbar del código */
+.code-content::-webkit-scrollbar {
+    height: 6px;
+}
+
+.code-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 79, 129, 0.4);
+    border-radius: 3px;
+}
+
+.code-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* =========================================
+ RESPONSIVE — CVE DETAIL
+ ========================================= */
+
+@media (max-width: 768px) {
+    .cve-detail-card {
+        padding: 20px;
+    }
+
+    .cve-detail-id {
+        font-size: 1.1rem;
+    }
+
+    .cve-detail-title {
+        font-size: 1.3rem;
+    }
+
+    .cve-detail-meta {
+        font-size: 0.85rem;
+        gap: 15px;
+    }
+
+    .cve-detail-content {
+        padding: 20px;
+    }
+
+    .cve-detail-content h1 {
+        font-size: 1.4rem;
+    }
+
+    .cve-detail-content h2 {
+        font-size: 1.2rem;
+    }
+
+    .cve-detail-content table {
+        font-size: 0.85rem;
+    }
+
+    .line-numbers {
+        min-width: 35px;
+        padding: 10px 8px;
+        font-size: 0.7rem;
+    }
+
+    .code-content {
+        padding: 10px;
+    }
+
+    .code-content code.hljs {
+        font-size: 0.75rem;
+    }
+}
+/* =========================================
+ HIGHLIGHT.JS — TEMA CUSTOM CYBERPUNK
+ ========================================= */
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+    background: transparent;
+    color: #e2e8f0;
+    font-family: 'Courier New', 'Fira Code', 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+/* Comentarios */
+.hljs-comment,
+.hljs-quote,
+.hljs-doctag {
+    color: #64748b;
+    font-style: italic;
+}
+
+/* Keywords — if, def, import, return, etc. */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-link {
+    color: #ff4f81;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(255, 79, 129, 0.3);
+}
+
+/* Strings — "texto", 'texto' */
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute {
+    color: #00ff9d;
+    text-shadow: 0 0 8px rgba(0, 255, 157, 0.2);
+}
+
+/* Números — 123, 0xFF, 3.14 */
+.hljs-number,
+.hljs-bullet {
+    color: #ffaa00;
+    text-shadow: 0 0 8px rgba(255, 170, 0, 0.2);
+}
+
+/* Funciones — print(), requests.post() */
+.hljs-title,
+.hljs-function,
+.hljs-built_in,
+.hljs-class {
+    color: #00f5ff;
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+}
+
+/* Variables y parámetros */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-params,
+.hljs-attr {
+    color: #c084fc;
+}
+
+/* Operadores — +, -, =, ==, etc. */
+.hljs-operator,
+.hljs-meta {
+    color: #ff6b35;
+}
+
+/* Tags HTML/XML */
+.hljs-tag,
+.hljs-name {
+    color: #ff4f81;
+}
+
+/* Atributos HTML */
+.hljs-attr {
+    color: #ffaa00;
+}
+
+/* Propiedades CSS/JSON */
+.hljs-property {
+    color: #00f5ff;
+}
+
+/* Símbolos especiales */
+.hljs-symbol {
+    color: #ff4f81;
+}
+
+/* Emphasis */
+.hljs-emphasis {
+    font-style: italic;
+    color: #ff95e8;
+}
+
+/* Strong */
+.hljs-strong {
+    font-weight: 700;
+    color: #ff4f81;
+}
+
+/* Diferencias (diff) */
+.hljs-deletion {
+    color: #ff0040;
+    background: rgba(255, 0, 64, 0.1);
+}
+
+.hljs-addition {
+    color: #00ff9d;
+    background: rgba(0, 255, 157, 0.1);
+}
+
+/* Prompt de terminal ($, #, >) */
+.hljs-prompt {
+    color: #00f5ff;
+}
+
+/* Lenguajes específicos */
+
+/* Python — self, None, True, False */
+.python .hljs-keyword,
+.python .hljs-built_in {
+    color: #ff4f81;
+}
+
+/* Python — decoradores @ */
+.python .hljs-meta {
+    color: #ffaa00;
+}
+
+/* Bash — comandos */
+.bash .hljs-built_in,
+.sh .hljs-built_in {
+    color: #00f5ff;
+}
+
+/* JavaScript/TypeScript — this, null, undefined */
+.javascript .hljs-keyword,
+.typescript .hljs-keyword {
+    color: #ff4f81;
+}
+
+/* PHP — $variables */
+.php .hljs-variable {
+    color: #c084fc;
+}
+
+/* SQL — SELECT, INSERT, WHERE */
+.sql .hljs-keyword {
+    color: #ff4f81;
+}
+
+/* Go — package, func, var */
+.go .hljs-keyword {
+    color: #ff4f81;
+}
+
+/* Rust — fn, let, mut */
+.rust .hljs-keyword {
+    color: #ff4f81;
+}
+
+/* C/C++ — #include, #define */
+.c .hljs-meta,
+.cpp .hljs-meta {
+    color: #ff6b35;
+}
+
+/* Java — @Annotations */
+.java .hljs-meta {
+    color: #ffaa00;
+}
+
+/* Ruby — :symbols */
+.ruby .hljs-symbol {
+    color: #00ff9d;
+}
+
+/* PowerShell — cmdlets */
+.powershell .hljs-keyword {
+    color: #00f5ff;
+}
