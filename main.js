@@ -195,7 +195,7 @@ async function renderCVEs(cves) {
       <p class="machine-description">${c.vulnerability_name} — ${c.description}</p>
       <div class="machine-meta">
         <span class="machine-date">${formatDate(c.date)}</span>
-        <a href="cve-detail.html?cve=${c.cve_id}" class="machine-link">Ver PoC <i class="fas fa-external-link-alt"></i></a>
+        <a href="cve-detail.html?cve=${c.cve_id}" class="machine-link">View PoC <i class="fas fa-external-link-alt"></i></a>
       </div>
     </div>`;
 
@@ -295,7 +295,7 @@ function renderLatestCVEs(cves) {
       <p class="machine-description">${c.vulnerability_name} — ${c.description}</p>
       <div class="machine-meta">
         <span class="machine-date">${formatDate(c.date)}</span>
-        <a href="cve-detail.html?cve=${c.cve_id}" class="machine-link">Ver PoC <i class="fas fa-external-link-alt"></i></a>
+        <a href="cve-detail.html?cve=${c.cve_id}" class="machine-link">View PoC <i class="fas fa-external-link-alt"></i></a>
       </div>
     </div>`).join('');
 }
