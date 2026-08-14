@@ -701,7 +701,7 @@ a:hover {
 }
 
 .machine-unavailable:hover::after {
-    content: "Prohibido writeup de máquinas activas.";
+    content: "Writeup of active machines is prohibited.";
     position: absolute;
     bottom: 100%;
     left: -20%;
