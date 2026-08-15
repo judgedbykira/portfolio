@@ -11,5 +11,18 @@
     "status": "Published",
     "url": "./CVEs/cve-2026-25938.md",
     "icon": "./assets/CVEs/fuxa.png"
+  },
+  {
+    "cve_id": "CVE-2026-20896",
+    "vulnerability_name": "Authentication Bypass in Gitea",
+    "technology": "Gitea",
+    "version": "≤ 1.26.2",
+    "severity": "Critical",
+    "cvss_score": 9.8,
+    "date": "2026-08-15",
+    "description": "Authentication bypass in Gitea allows attackers to gain unauthorized access to user accounts due to improper validation of a reverse proxy header.",
+    "status": "Published",
+    "url": "./CVEs/cve-2026-20896.md",
+    "icon": "./assets/CVEs/gitea.png"
   }
 ]
