@@ -1377,5 +1377,18 @@
     "date": "2026-02-14",
     "url": "writeups/manager/index.html",
     "icon": "assets/icons/manager.png"
+  },
+  {
+    "id": 108,
+    "name": "PinBreaker",
+    "platform": "TheHackersLabs",
+    "platformIcon": "assets/platforms/thehackerslabs.png",
+    "categories": ["ANDROID", "BINARY"],
+    "difficulty": "Easy",
+    "description": "Reverse Engineering an Android APK to find a Hardcoded PIN.",
+    "status": "Retired",
+    "date": "2026-08-28",
+    "url": "writeups/pinbreaker/index.html",
+    "icon": "assets/icons/pinbreaker.png"
   }
 ]
