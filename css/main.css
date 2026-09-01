@@ -166,7 +166,7 @@ a:hover {
 .certifications {
   display: flex;                 
   width: 900px;           
-  height: 300px;                 
+  height: 450px;                 
   padding: 50px;
   color: #fff;
   background: rgba(75, 69, 69, 0.3);
@@ -232,6 +232,202 @@ a:hover {
     transform: rotate(5deg) scale(1.05);
     box-shadow: 0 0 30px rgba(255, 79, 129, 0.8);
 }
+
+/* =========================================
+   CERTS - certifications.html
+   ========================================= */
+
+.certs-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 30px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Cabecera */
+.certs-headers {
+    display: grid;
+    grid-template-columns:
+        180px
+        minmax(150px, 1fr)
+        minmax(150px, 1fr)
+        minmax(120px, 1fr)
+        300px
+        320px;
+
+    align-items: center;
+    border-bottom: 4px solid #1c1f22;
+}
+
+.certs-headers p {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Contenedor de certificaciones */
+.certs-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Cada certificación */
+.certs-item {
+    display: grid;
+    grid-template-columns:
+        180px
+        minmax(150px, 1fr)
+        minmax(150px, 1fr)
+        minmax(120px, 1fr)
+        320px
+        300px;
+
+    align-items: center;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 15px 0;
+
+    border-bottom: 4px solid #1c1f22;
+
+    transition: all 0.3s ease;
+}
+
+/* Hover opcional */
+.certs-item:hover {
+    background: rgba(255, 79, 129, 0.05);
+}
+
+/* Logo */
+.certs-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.certs-logo {
+    width: 130px;
+    height: 65px;
+
+    object-fit: contain;
+
+    border: 4px solid #1c1f22;
+
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+}
+
+/* Información */
+.certs-name, .certs-date{
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.certs-details {
+    margin: 0;
+    padding: 20px;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+/* Skills */
+.certs-skills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+
+    padding: 5px;
+    
+}
+
+.skill {
+    border: 4px solid #1c1f22;
+    padding: 2px 5px;
+
+    text-align: center;
+
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Imagen / certificado */
+.certs-certificate {
+    display: flex;
+    justify-content: center;
+    align-items:   center
+}
+
+.certificate-photo {
+    width: 380px;
+    height: 200px;
+    object-fit: cover;
+
+    border: 4px solid #1c1f22;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 1100px) {
+
+    .certs-headers {
+        display: none;
+    }
+
+    .certs-item {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+
+        padding: 25px 15px;
+    }
+
+    .certs-logo-container,
+    .certs-certificate {
+        grid-column: span 2;
+    }
+
+    .certs-name,
+    .certs-date,
+    .certs-details {
+        padding: 10px;
+    }
+
+    .certs-skills {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .certs-item {
+        grid-template-columns: 1fr;
+    }
+
+    .certs-logo-container,
+    .certs-certificate {
+        grid-column: span 1;
+    }
+
+    .certs-skills {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .certificate-photo {
+        width: 90%;
+        height: auto;
+        min-height: 120px;
+    }
+}
+
+
 
 /* =========================================
    SKILLS - COMPACT MODE
