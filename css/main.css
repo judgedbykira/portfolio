@@ -857,6 +857,24 @@ a:hover {
     align-items: center;
 }
 
+.machine-completion {
+    display: flex;
+    align-items: center;
+    color: green;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    a {
+        color: #00ff9d;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    a:hover {
+        color: #66ff00;
+        text-shadow: 0 0 10px rgba(0, 255, 157, 0.8);
+    }
+}
+
 .machine-date {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.6);

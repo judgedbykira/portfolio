@@ -10,7 +10,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/forest/index.html",
-    "icon": "assets/icons/forest.png"
+    "icon": "assets/icons/forest.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/212"
   },
   {
     "id": 2,
@@ -23,7 +24,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/active/index.html",
-    "icon": "assets/icons/active.png"
+    "icon": "assets/icons/active.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/148"
   },
   {
     "id": 4,
@@ -36,7 +38,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/mantis/index.html",
-    "icon": "assets/icons/mantis.png"
+    "icon": "assets/icons/mantis.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/98"
   },
   {
     "id": 5,
@@ -49,7 +52,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/blackfield/index.html",
-    "icon": "assets/icons/blackfield.png"
+    "icon": "assets/icons/blackfield.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/255"
   },
   {
     "id": 6,
@@ -62,7 +66,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/monteverde/index.html",
-    "icon": "assets/icons/monteverde.png"
+    "icon": "assets/icons/monteverde.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/223"
   },
   {
     "id": 7,
@@ -75,7 +80,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/hospital/index.html",
-    "icon": "assets/icons/hospital.png"
+    "icon": "assets/icons/hospital.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/576"
   },
   {
     "id": 8,
@@ -88,7 +94,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/cap/index.html",
-    "icon": "assets/icons/cap.png"
+    "icon": "assets/icons/cap.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/351"
   },
   {
     "id": 9,
@@ -101,7 +108,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/administrator/index.html",
-    "icon": "assets/icons/administrator.png"
+    "icon": "assets/icons/administrator.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/634"
   },
   {
     "id": 10,
@@ -114,7 +122,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/vintage/index.html",
-    "icon": "assets/icons/vintage.png"
+    "icon": "assets/icons/vintage.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/637"
   },
   {
     "id": 11,
@@ -127,7 +136,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/seal/index.html",
-    "icon": "assets/icons/seal.png"
+    "icon": "assets/icons/seal.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/358"
   },
   {
     "id": 12,
@@ -140,7 +150,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/nibbles/index.html",
-    "icon": "assets/icons/nibbles.png"
+    "icon": "assets/icons/nibbles.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/121"
   },
   {
     "id": 13,
@@ -153,7 +164,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/support/index.html",
-    "icon": "assets/icons/support.png"
+    "icon": "assets/icons/support.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/484"
   },
   {
     "id": 14,
@@ -166,7 +178,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/intelligence/index.html",
-    "icon": "assets/icons/intelligence.png"
+    "icon": "assets/icons/intelligence.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/357"
   },
   {
     "id": 15,
@@ -179,7 +192,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/escapetwo/index.html",
-    "icon": "assets/icons/escapetwo.png"
+    "icon": "assets/icons/escapetwo.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/642"
   },
   {
     "id": 16,
@@ -192,7 +206,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/escape/index.html",
-    "icon": "assets/icons/escape.png"
+    "icon": "assets/icons/escape.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/531"
   },
   {
     "id": 17,
@@ -205,7 +220,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/sauna/index.html",
-    "icon": "assets/icons/sauna.png"
+    "icon": "assets/icons/sauna.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/229"
   },
   {
     "id": 18,
@@ -218,7 +234,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/authority/index.html",
-    "icon": "assets/icons/authority.png"
+    "icon": "assets/icons/authority.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/553"
   },
   {
     "id": 19,
@@ -231,7 +248,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/fluffy/index.html",
-    "icon": "assets/icons/fluffy.png"
+    "icon": "assets/icons/fluffy.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/662"
   },
   {
     "id": 20,
@@ -244,7 +262,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/tombwatcher/index.html",
-    "icon": "assets/icons/tombwatcher.png"
+    "icon": "assets/icons/tombwatcher.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/664"
   },
   {
     "id": 21,
@@ -257,7 +276,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/expressway/index.html",
-    "icon": "assets/icons/expressway.png"
+    "icon": "assets/icons/expressway.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/736"
   },
   {
     "id": 22,
@@ -270,7 +290,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/artificial/index.html",
-    "icon": "assets/icons/artificial.png"
+    "icon": "assets/icons/artificial.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/668"
   },
   {
     "id": 23,
@@ -283,7 +304,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/voleur/index.html",
-    "icon": "assets/icons/voleur.png"
+    "icon": "assets/icons/voleur.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/670"
   },
   {
     "id": 24,
@@ -296,7 +318,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/signed/index.html",
-    "icon": "assets/icons/signed.png"
+    "icon": "assets/icons/signed.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/775"
   },
   {
     "id": 25,
@@ -309,7 +332,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/editor/index.html",
-    "icon": "assets/icons/editor.png"
+    "icon": "assets/icons/editor.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/684"
   },
   {
     "id": 26,
@@ -322,7 +346,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/rustykey/index.html",
-    "icon": "assets/icons/rustykey.png"
+    "icon": "assets/icons/rustykey.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/669"
   },
   {
     "id": 27,
@@ -335,7 +360,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/soulmate/index.html",
-    "icon": "assets/icons/soulmate.png"
+    "icon": "assets/icons/soulmate.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/721"
   },
   {
     "id": 28,
@@ -348,7 +374,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/hercules/index.html",
-    "icon": "assets/icons/hercules.png"
+    "icon": "assets/icons/hercules.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/778"
   },
   {
     "id": 29,
@@ -361,7 +388,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/conversor/index.html",
-    "icon": "assets/icons/conversor.png"
+    "icon": "assets/icons/conversor.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/787"
   },
   {
     "id": 30,
@@ -374,7 +402,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/previous/index.html",
-    "icon": "assets/icons/previous.png"
+    "icon": "assets/icons/previous.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/701"
   },
   {
     "id": 31,
@@ -387,7 +416,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/imagery/index.html",
-    "icon": "assets/icons/imagery.png"
+    "icon": "assets/icons/imagery.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/751"
   },
   {
     "id": 32,
@@ -400,7 +430,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/cobblestone/index.html",
-    "icon": "assets/icons/cobblestone.png"
+    "icon": "assets/icons/cobblestone.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/691"
   },
   {
     "id": 33,
@@ -413,7 +444,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/giveback/index.html",
-    "icon": "assets/icons/giveback.png"
+    "icon": "assets/icons/giveback.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/796"
   },
   {
     "id": 34,
@@ -426,7 +458,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/outbound/index.html",
-    "icon": "assets/icons/outbound.png"
+    "icon": "assets/icons/outbound.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/672"
   },
   {
     "id": 35,
@@ -439,7 +472,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/era/index.html",
-    "icon": "assets/icons/era.png"
+    "icon": "assets/icons/era.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/683"
   },
   {
     "id": 36,
@@ -452,7 +486,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/nanocorp/index.html",
-    "icon": "assets/icons/nanocorp.png"
+    "icon": "assets/icons/nanocorp.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/802"
   },
   {
     "id": 37,
@@ -465,7 +500,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/codeparttwo/index.html",
-    "icon": "assets/icons/codeparttwo.png"
+    "icon": "assets/icons/codeparttwo.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/692"
   },
   {
     "id": 38,
@@ -478,7 +514,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/hacknet/index.html",
-    "icon": "assets/icons/hacknet.png"
+    "icon": "assets/icons/hacknet.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/727"
   },
   {
     "id": 39,
@@ -491,7 +528,8 @@
     "status": "Active",
     "date": "2025-12-01",
     "url": "writeups/eighteen/index.html",
-    "icon": "assets/icons/eighteen.png"
+    "icon": "assets/icons/eighteen.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/805"
   },
   {
     "id": 40,
@@ -504,7 +542,8 @@
     "status": "Retired",
     "date": "2025-12-02",
     "url": "writeups/whiterabbit/index.html",
-    "icon": "assets/icons/whiterabbit.png"
+    "icon": "assets/icons/whiterabbit.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/655"
   },
   {
     "id": 41,
@@ -517,7 +556,8 @@
     "status": "Active",
     "date": "2025-12-02",
     "url": "writeups/fries/index.html",
-    "icon": "assets/icons/fries.png"
+    "icon": "assets/icons/fries.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/808"
   },
   {
     "id": 42,
@@ -530,7 +570,8 @@
     "status": "Active",
     "date": "2025-12-02",
     "url": "writeups/gavel/index.html",
-    "icon": "assets/icons/gavel.png"
+    "icon": "assets/icons/gavel.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/811"
   },
   {
     "id": 43,
@@ -543,7 +584,8 @@
     "status": "Active",
     "date": "2025-12-02",
     "url": "writeups/darkzero/index.html",
-    "icon": "assets/icons/darkzero.png"
+    "icon": "assets/icons/darkzero.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/754"
   },
   {
     "id": 44,
@@ -556,7 +598,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/boardlight/index.html",
-    "icon": "assets/icons/boardlight.png"
+    "icon": "assets/icons/boardlight.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/603"
   },
   {
     "id": 45,
@@ -569,7 +612,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/greenhorn/index.html",
-    "icon": "assets/icons/greenhorn.png"
+    "icon": "assets/icons/greenhorn.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/617"
   },
   {
     "id": 46,
@@ -582,7 +626,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/jerry/index.html",
-    "icon": "assets/icons/jerry.png"
+    "icon": "assets/icons/jerry.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/144"
   },
   {
     "id": 47,
@@ -595,7 +640,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/love/index.html",
-    "icon": "assets/icons/love.png"
+    "icon": "assets/icons/love.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/344"
   },
   {
     "id": 48,
@@ -608,7 +654,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/nodeblog/index.html",
-    "icon": "assets/icons/nodeblog.png"
+    "icon": "assets/icons/nodeblog.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/430"
   },
   {
     "id": 49,
@@ -621,7 +668,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/validation/index.html",
-    "icon": "assets/icons/validation.png"
+    "icon": "assets/icons/validation.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/382"
   },
   {
     "id": 50,
@@ -634,7 +682,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/jeeves/index.html",
-    "icon": "assets/icons/jeeves.png"
+    "icon": "assets/icons/jeeves.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/114"
   },
   {
     "id": 51,
@@ -647,7 +696,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/fulcrum/index.html",
-    "icon": "assets/icons/fulcrum.png"
+    "icon": "assets/icons/fulcrum.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/116"
   },
   {
     "id": 52,
@@ -660,7 +710,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/resolute/index.html",
-    "icon": "assets/icons/resolute.png"
+    "icon": "assets/icons/resolute.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/220"
   },
   {
     "id": 53,
@@ -673,7 +724,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/hawk/index.html",
-    "icon": "assets/icons/hawk.png"
+    "icon": "assets/icons/hawk.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/146"
   },
   {
     "id": 54,
@@ -686,7 +738,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/timelapse/index.html",
-    "icon": "assets/icons/timelapse.png"
+    "icon": "assets/icons/timelapse.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/452"
   },
   {
     "id": 55,
@@ -699,7 +752,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/return/index.html",
-    "icon": "assets/icons/return.png"
+    "icon": "assets/icons/return.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/401"
   },
   {
     "id": 56,
@@ -712,7 +766,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/cascade/index.html",
-    "icon": "assets/icons/cascade.png"
+    "icon": "assets/icons/cascade.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/235"
   },
   {
     "id": 57,
@@ -725,7 +780,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/lame/index.html",
-    "icon": "assets/icons/lame.png"
+    "icon": "assets/icons/lame.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/1"
   },
   {
     "id": 58,
@@ -738,7 +794,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/busqueda/index.html",
-    "icon": "assets/icons/busqueda.png"
+    "icon": "assets/icons/busqueda.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/537"
   },
   {
     "id": 59,
@@ -751,7 +808,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/pandora/index.html",
-    "icon": "assets/icons/pandora.png"
+    "icon": "assets/icons/pandora.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/423"
   },
   {
     "id": 60,
@@ -764,7 +822,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/horizontall/index.html",
-    "icon": "assets/icons/horizontall.png"
+    "icon": "assets/icons/horizontall.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/374"
   },
   {
     "id": 61,
@@ -777,7 +836,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/static/index.html",
-    "icon": "assets/icons/static.png"
+    "icon": "assets/icons/static.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/355"
   },
   {
     "id": 62,
@@ -790,7 +850,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/goodgames/index.html",
-    "icon": "assets/icons/goodgames.png"
+    "icon": "assets/icons/goodgames.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/446"
   },
   {
     "id": 63,
@@ -803,7 +864,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/antique/index.html",
-    "icon": "assets/icons/antique.png"
+    "icon": "assets/icons/antique.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/400"
   },
   {
     "id": 64,
@@ -816,7 +878,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/shocker/index.html",
-    "icon": "assets/icons/shocker.png"
+    "icon": "assets/icons/shocker.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/108"
   },
   {
     "id": 65,
@@ -829,7 +892,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/granny/index.html",
-    "icon": "assets/icons/granny.png"
+    "icon": "assets/icons/granny.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/14"
   },
   {
     "id": 66,
@@ -842,7 +906,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/grandpa/index.html",
-    "icon": "assets/icons/grandpa.png"
+    "icon": "assets/icons/grandpa.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/13"
   },
   {
     "id": 67,
@@ -855,7 +920,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/union/index.html",
-    "icon": "assets/icons/union.png"
+    "icon": "assets/icons/union.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/418"
   },
   {
     "id": 68,
@@ -868,7 +934,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/book/index.html",
-    "icon": "assets/icons/book.png"
+    "icon": "assets/icons/book.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/230"
   },
   {
     "id": 69,
@@ -881,7 +948,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/teacher/index.html",
-    "icon": "assets/icons/teacher.png"
+    "icon": "assets/icons/teacher.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/165"
   },
   {
     "id": 70,
@@ -894,7 +962,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/blue/index.html",
-    "icon": "assets/icons/blue.png"
+    "icon": "assets/icons/blue.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/51"
   },
   {
     "id": 71,
@@ -907,7 +976,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/Kioptrix Level 1/index.html",
-    "icon": "assets/icons/vulnhub.png"
+    "icon": "assets/icons/vulnhub.png",
+    "completion": "completion.html"
   },
   {
     "id": 72,
@@ -920,7 +990,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/athena/index.html",
-    "icon": "assets/icons/athena.png"
+    "icon": "assets/icons/athena.png",
+    "completion": "completion.html"
   },
   {
     "id": 73,
@@ -933,7 +1004,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/blog/index.html",
-    "icon": "assets/icons/blog.png"
+    "icon": "assets/icons/blog.png",
+    "completion": "completion.html"
   },
   {
     "id": 74,
@@ -946,7 +1018,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/brainpan 1/index.html",
-    "icon": "assets/icons/brainpan1.png"
+    "icon": "assets/icons/brainpan1.png",
+    "completion": "completion.html"
   },
   {
     "id": 75,
@@ -959,7 +1032,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/catpictures2/index.html",
-    "icon": "assets/icons/catpictures2.png"
+    "icon": "assets/icons/catpictures2.png",
+    "completion": "completion.html"
   },
   {
     "id": 76,
@@ -972,7 +1046,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/ice/index.html",
-    "icon": "assets/icons/ice.png"
+    "icon": "assets/icons/ice.png",
+    "completion": "completion.html"
   },
   {
     "id": 77,
@@ -985,7 +1060,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/rootme/index.html",
-    "icon": "assets/icons/rootme.png"
+    "icon": "assets/icons/rootme.png",
+    "completion": "completion.html"
   },
   {
     "id": 78,
@@ -998,7 +1074,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/aguademayo/index.html",
-    "icon": "assets/icons/dockerlabs.png"
+    "icon": "assets/icons/dockerlabs.png",
+    "completion": "completion.html"
   },
   {
     "id": 79,
@@ -1011,7 +1088,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/amor/index.html",
-    "icon": "assets/icons/dockerlabs.png"
+    "icon": "assets/icons/dockerlabs.png",
+    "completion": "completion.html"
   },
   {
     "id": 80,
@@ -1024,7 +1102,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/bashpariencias/index.html",
-    "icon": "assets/icons/dockerlabs.png"
+    "icon": "assets/icons/dockerlabs.png",
+    "completion": "completion.html"
   },
   {
     "id": 81,
@@ -1037,7 +1116,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/littlepivoting/index.html",
-    "icon": "assets/icons/dockerlabs.png"
+    "icon": "assets/icons/dockerlabs.png",
+    "completion": "completion.html"
   },
   {
     "id": 82,
@@ -1050,7 +1130,8 @@
     "status": "Retired",
     "date": "2025-12-01",
     "url": "writeups/ellingson/index.html",
-    "icon": "assets/icons/ellingson.png"
+    "icon": "assets/icons/ellingson.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/189"
   }
   ,
   {
@@ -1064,7 +1145,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/mirage/index.html",
-    "icon": "assets/icons/mirage.png"
+    "icon": "assets/icons/mirage.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/682"
   },
   {
     "id": 84,
@@ -1077,7 +1159,8 @@
     "status": "Active",
     "date": "2026-01-08",
     "url": "writeups/monitorsfour/index.html",
-    "icon": "assets/icons/monitorsfour.png"
+    "icon": "assets/icons/monitorsfour.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/814"
   },
   {
     "id": 85,
@@ -1090,7 +1173,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/breach/index.html",
-    "icon": "assets/icons/breach.png"
+    "icon": "assets/icons/breach.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/766"
   },
   {
     "id": 86,
@@ -1103,7 +1187,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/retro/index.html",
-    "icon": "assets/icons/retro.png"
+    "icon": "assets/icons/retro.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/671"
   },
   {
     "id": 87,
@@ -1116,7 +1201,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/sendai/index.html",
-    "icon": "assets/icons/sendai.png"
+    "icon": "assets/icons/sendai.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/712"
   },
   {
     "id": 88,
@@ -1129,7 +1215,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/delegate/index.html",
-    "icon": "assets/icons/delegate.png"
+    "icon": "assets/icons/delegate.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/724"
   },
   {
     "id": 89,
@@ -1142,7 +1229,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/job/index.html",
-    "icon": "assets/icons/job.png"
+    "icon": "assets/icons/job.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/757"
   },
   {
     "id": 90,
@@ -1155,7 +1243,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/baby/index.html",
-    "icon": "assets/icons/baby.png"
+    "icon": "assets/icons/baby.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/739"
   },
   {
     "id": 91,
@@ -1168,7 +1257,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/anubis/index.html",
-    "icon": "assets/icons/anubis.png"
+    "icon": "assets/icons/anubis.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/371"
   },
   {
     "id": 92,
@@ -1181,7 +1271,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/bankrobber/index.html",
-    "icon": "assets/icons/bankrobber.png"
+    "icon": "assets/icons/bankrobber.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/209"
   },
   {
     "id": 93,
@@ -1194,7 +1285,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/infiltrator/index.html",
-    "icon": "assets/icons/infiltrator.png"
+    "icon": "assets/icons/infiltrator.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/623"
   },
   {
     "id": 94,
@@ -1207,7 +1299,8 @@
     "status": "Retired",
     "date": "2026-01-09",
     "url": "writeups/apt/index.html",
-    "icon": "assets/icons/apt.png"
+    "icon": "assets/icons/apt.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/296"  
   },
   {
     "id": 95,
@@ -1220,7 +1313,8 @@
     "status": "Retired",
     "date": "2026-01-08",
     "url": "writeups/brainfuck/index.html",
-    "icon": "assets/icons/brainfuck.png"
+    "icon": "assets/icons/brainfuck.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/17"
   },
   {
     "id": 96,
@@ -1233,7 +1327,8 @@
     "status": "Retired",
     "date": "2026-02-09",
     "url": "writeups/fortune/index.html",
-    "icon": "assets/icons/fortune.png"
+    "icon": "assets/icons/fortune.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/178"
   },
   {
     "id": 97,
@@ -1246,7 +1341,8 @@
     "status": "Active",
     "date": "2026-01-13",
     "url": "writeups/browsed/index.html",
-    "icon": "assets/icons/browsed.png"
+    "icon": "assets/icons/browsed.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/820"
   },
   {
     "id": 98,
@@ -1259,7 +1355,8 @@
     "status": "Retired",
     "date": "2026-01-13",
     "url": "writeups/babytwo/index.html",
-    "icon": "assets/icons/babytwo.png"
+    "icon": "assets/icons/babytwo.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/746"
   },
   {
     "id": 99,
@@ -1272,7 +1369,8 @@
     "status": "Retired",
     "date": "2026-01-14",
     "url": "writeups/retrotwo/index.html",
-    "icon": "assets/icons/retrotwo.png"
+    "icon": "assets/icons/retrotwo.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/685"
   },
   {
     "id": 100,
@@ -1285,7 +1383,8 @@
     "status": "Retired",
     "date": "2026-01-17",
     "url": "writeups/wifinetic/index.html",
-    "icon": "assets/icons/wifinetic.png"
+    "icon": "assets/icons/wifinetic.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/563"
   },
   {
     "id": 101,
@@ -1298,7 +1397,8 @@
     "status": "Retired",
     "date": "2026-01-17",
     "url": "writeups/sweep/index.html",
-    "icon": "assets/icons/sweep.png"
+    "icon": "assets/icons/sweep.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/695"
   },
   {
     "id": 102,
@@ -1311,7 +1411,8 @@
     "status": "Active",
     "date": "2026-01-26",
     "url": "#",
-    "icon": "assets/icons/overwatch.png"
+    "icon": "assets/icons/overwatch.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/826"
   },
   {
     "id": 103,
@@ -1324,7 +1425,8 @@
     "status": "Active",
     "date": "2026-02-08",
     "url": "#",
-    "icon": "assets/icons/facts.png"
+    "icon": "assets/icons/facts.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/829"
   },
   {
     "id": 104,
@@ -1337,7 +1439,8 @@
     "status": "Retired",
     "date": "2026-01-09",
     "url": "writeups/slonik/index.html",
-    "icon": "assets/icons/slonik.png"
+    "icon": "assets/icons/slonik.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/769"
   },
   {
     "id": 105,
@@ -1350,7 +1453,8 @@
     "status": "Active",
     "date": "2026-02-09",
     "url": "#",
-    "icon": "assets/icons/pterodactyl.png"
+    "icon": "assets/icons/pterodactyl.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/832"
   },
   {
     "id": 106,
@@ -1363,7 +1467,8 @@
     "status": "Retired",
     "date": "2026-02-14",
     "url": "writeups/explore/index.html",
-    "icon": "assets/icons/explore.png"
+    "icon": "assets/icons/explore.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/356"
   },
   {
     "id": 107,
@@ -1376,7 +1481,8 @@
     "status": "Retired",
     "date": "2026-02-14",
     "url": "writeups/manager/index.html",
-    "icon": "assets/icons/manager.png"
+    "icon": "assets/icons/manager.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/572"
   },
   {
     "id": 108,
@@ -1389,6 +1495,91 @@
     "status": "Retired",
     "date": "2026-08-28",
     "url": "writeups/pinbreaker/index.html",
-    "icon": "assets/icons/pinbreaker.png"
+    "icon": "assets/icons/pinbreaker.png",
+    "completion": "http://labs.thehackerslabs.com/machines/share/yzfmLNR0uHT48-0K_pCEVSrCQJkG1E6_Nfx8QCS7xLs"
+  },
+  {
+    "id": 109,
+    "name": "Absolute",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["WINDOWS", "AD"],
+    "difficulty": "Insane",
+    "description": "Enumerating AD Users from Images Metadata, AS-REP Roasting, Bypassing STATUS_ACCOUNT_RESTRICTION flag, Credentials on User's LDAP Description, Dynamic Analysis of a Windows PE, Forwarding VPN Connection to Windows VM using Iptables, Finding LDAP Credentials from the PE on Network Traffic using Wireshark, Password Spray, WriteOwner ACE Abuse over a Group, Shadow Credentials Attack, Abusing KrbRelay to Add Ourself to Administrators Group [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-08-27",
+    "url": "writeups/absolute/index.html",
+    "icon": "assets/icons/absolute.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/498"
+  },
+  {
+    "id": 110,
+    "name": "WingData",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX", "WEB"],
+    "difficulty": "Easy",
+    "description": "Wing FTP Server v7.4.3 Unauthenticated RCE (CVE-2025-47812), Cracking Salted SHA256 Hash, Abusing Python Tarfile Path Traversal (CVE-2025-4517) on a backup script with Sudo Permissions [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-08-26",
+    "url": "writeups/wingdata/index.html",
+    "icon": "assets/icons/wingdata.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/835"
+  },
+  {
+    "id": 111,
+    "name": "Interpreter",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX", "WEB"],
+    "difficulty": "Medium",
+    "description": "Mirth Connect Unauthenticated Remote Code Execution (CVE-2023-43208), Credentials Harvesting, Abusing Flask Template Injection in Internal Python Script [Privilege Escalation]",
+    "status": "Retired",
+    "date": "2026-08-26",
+    "url": "writeups/interpreter/index.html",
+    "icon": "assets/icons/interpreter.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/841"
+  },
+  {
+    "id": 112,
+    "name": "Garfield",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["AD", "WINDOWS"],
+    "difficulty": "Hard",
+    "description": "RID-Bruteforce, Abusing Writable ScriptPath Attribute, Abusing ForceChangePassword ACE, Abusing AddSelf ACE, Resource Based Constrained Delegation, Pivoting, Golden Ticket Forgery [Privilege Escalation] ",
+    "status": "Active",
+    "date": "2026-08-27",
+    "url": "writeups/garfield/index.html",
+    "icon": "assets/icons/garfield.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/862"
+  },
+  {
+    "id": 113,
+    "name": "CCTV",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX", "WEB"],
+    "difficulty": "Easy",
+    "description": "Default Credentials Abuse, ZoneMinder Blind SQL Injection (CVE-2024-51482), Port Forwarding, MotionEye RCE Improper Client Side Verification (CVE-2025-60787) [Privilege Escalation] ",
+    "status": "Active",
+    "date": "2026-08-26",
+    "url": "writeups/cctv/index.html",
+    "icon": "assets/icons/cctv.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/847"
+  },
+  {
+    "id": 114,
+    "name": "Helix",
+    "platform": "HackTheBox",
+    "platformIcon": "assets/platforms/htb.png",
+    "categories": ["LINUX", "WEB"],
+    "difficulty": "Medium",
+    "description": "Remote Code Execution via H2 Database RUNSCRIPT in Apache NiFi <= 1.21.0 (CVE-2023-34468), Situational Awareness, Password Protected PDF Cracking, Port Forwarding, Abusing Op-cua to Unlock Privileged Maintenance Window on Reactor HMI, Abusing Sudo Permissions in Custom Binary [Privilege Escalation]",
+    "status": "Active",
+    "date": "2026-08-27",
+    "url": "writeups/helix/index.html",
+    "icon": "assets/icons/helix.png",
+    "completion": "https://labs.hackthebox.com/achievement/machine/1917008/894"
   }
 ]

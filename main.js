@@ -35,6 +35,9 @@ async function renderMachines(machines) {
       </div>
       <h3 class="machine-title">${m.name}</h3>
       <p class="machine-description">${m.description}</p>
+      <p class="machine-completion">
+        <a href="${m.completion || '#'}" target="_blank">Completion Link</a>
+      </p>
       <div class="machine-meta">
         <span class="machine-date">${formatDate(m.date)}</span>
         ${m.status === 'Active'
@@ -137,6 +140,9 @@ function renderLatest(machines) {
       </div>
       <h3 class="machine-title">${m.name}</h3>
       <p class="machine-description">${m.description}</p>
+      <p class="machine-completion">
+        <a href="${m.completion || '#'}" target="_blank">Completion Link</a>
+      </p>
       <div class="machine-meta">
         <span class="machine-date">${formatDate(m.date)}</span>
         ${m.status === 'Active'
